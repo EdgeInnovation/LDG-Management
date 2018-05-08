@@ -1,0 +1,77 @@
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe.config
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\bin\Debug\DataExtraction.pdb
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\obj\Debug\DataExtraction.Form1.resources
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\obj\Debug\DataExtraction.Properties.Resources.resources
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.GenerateResource.Cache
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.CoreCompileInputs.cache
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\obj\Debug\DataExtraction.exe
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\obj\Debug\DataExtraction.pdb
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\obj\Debug\DataExtraction.Form2.resources
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.Design.dll
+C:\Users\FLE\Source\Repos\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csprojResolveAssemblyReference.cache
+F:\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe.config
+F:\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe
+F:\DataExtraction\DataExtraction\bin\Debug\DataExtraction.pdb
+F:\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.Properties.Resources.resources
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.GenerateResource.cache
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.CoreCompileInputs.cache
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.CopyComplete
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.exe
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.pdb
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe.config
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\bin\Debug\DataExtraction.pdb
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.Properties.Resources.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.GenerateResource.cache
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.CoreCompileInputs.cache
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.CopyComplete
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.exe
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.pdb
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.MainGUI.resources
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe.config
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\bin\Debug\DataExtraction.pdb
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csprojResolveAssemblyReference.cache
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.MainGUI.resources
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.BNAUConfig.resources
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.Properties.Resources.resources
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.GenerateResource.cache
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.CoreCompileInputs.cache
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.CopyComplete
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.exe
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.pdb
+C:\Users\Mike\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.ExternalConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.DMZConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.ExternalConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.InternalConfig.resources
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe.config
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\bin\Debug\DataExtraction.exe
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\bin\Debug\DataExtraction.pdb
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csprojResolveAssemblyReference.cache
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.DMZConfig.resources
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.ExternalConfig.resources
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.MainGUI.resources
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.InternalConfig.resources
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.Properties.Resources.resources
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.GenerateResource.cache
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.CoreCompileInputs.cache
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csproj.CopyComplete
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.exe
+D:\FLE User Data\Desktop\DataExtraction\DataExtraction\obj\Debug\DataExtraction.pdb
+F:\DataExtraction\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.DMZConfig.resources
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.ExternalConfig.resources
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.MainGUI.resources
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.InternalConfig.resources
+F:\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csprojResolveAssemblyReference.cache
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.ServiceConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.csprojResolveAssemblyReference.cache
