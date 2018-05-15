@@ -103,7 +103,7 @@ namespace DataExtraction
             {
                 DialogResult dialogBox = MessageBox.Show("Have you initialised the virtual machines you wish to configure?" 
                     + System.Environment.NewLine + "Press Yes to continue with service configuration or No to cancel and initialise the VM's." 
-                    + System.Environment.NewLine + "The plan files are copied to the shared virtual disk (E:) as part of the internal configuration",
+                    + System.Environment.NewLine + "The plan files are copied to the shared virtual disk (E:) as part of the DMZ configuration",
                     "Initialise Virtual Machines Before Continuing", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
                 if (dialogBox == DialogResult.Yes)
@@ -145,21 +145,21 @@ namespace DataExtraction
         //timer that is set up in design time to ping
         public void pingTimer_Tick(object sender, EventArgs e)
         {
+            //get the BNAUIP from the subnet
             string BNAUSubnetIP = MonitorBNAUSubnetBox.Text;
+            string BNAUIPAddress = BNAUSubnetIP + ".1";
+            string BNAUFWAddress = BNAUSubnetIP + ".17";
+
             if (BNAUSubnetIP == "")
             {
                 pingTimer.Stop();
                 MessageBox.Show("Please enter the BNAU subnet IP Address to Monitor", "Error");                
                 return;
             }
-            
+            //call the ping class, passing in the BNAU IP and then get result
             Ping_ pingOnTime = new Ping_();
-            //call the ping class, passing in the subnet
-            pingOnTime.Ping_BNAU(BNAUSubnetIP, false);
-
-            //get the results from the ping class
-            bool pingBNAUResult = Ping_.BNAUPingable;
-            bool pingFirewallResult = Ping_.firewallPingable;
+            pingOnTime.Ping_From_FW(BNAUIPAddress);
+            bool pingBNAUResult = Ping_.pingResult;
 
             //change BNAU Ping button
             if (pingBNAUResult == true)
@@ -171,8 +171,11 @@ namespace DataExtraction
                 BNAUPingControl.FillColor = Color.Red;
             }
 
+            //call the ping class, passing in the BNAU IP and then get result
+            pingOnTime.Ping_From_FW(BNAUFWAddress);
+            bool pingFWResult = Ping_.pingResult;
             //change firewall ping button
-            if (pingFirewallResult == true)
+            if (pingFWResult == true)
             {
                 firewallPingControl.FillColor = Color.Green;
             }
@@ -185,7 +188,7 @@ namespace DataExtraction
             pingTimer.Stop();
 
             //standard error:
-            if (pingBNAUResult == false || pingFirewallResult == false)
+            if (pingBNAUResult == false || pingFWResult == false)
             {
                 MainGUI error = new MainGUI();
                 error.errorDialog(true);

@@ -45,11 +45,9 @@
             this.networkTest = new System.Windows.Forms.TabPage();
             this.returnOSPF = new System.Windows.Forms.Button();
             this.testButton = new System.Windows.Forms.Button();
-            this.BNAUPing = new System.Windows.Forms.Label();
             this.BNAUInterface = new System.Windows.Forms.Label();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.DMZInterfaceSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
-            this.DMZPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.DMZWizard.SuspendLayout();
             this.NetworkConfig.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -191,7 +189,6 @@
             // 
             this.networkTest.Controls.Add(this.returnOSPF);
             this.networkTest.Controls.Add(this.testButton);
-            this.networkTest.Controls.Add(this.BNAUPing);
             this.networkTest.Controls.Add(this.BNAUInterface);
             this.networkTest.Controls.Add(this.shapeContainer1);
             this.networkTest.Location = new System.Drawing.Point(4, 22);
@@ -222,19 +219,10 @@
             this.testButton.UseVisualStyleBackColor = true;
             this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
-            // BNAUPing
-            // 
-            this.BNAUPing.AutoSize = true;
-            this.BNAUPing.Location = new System.Drawing.Point(111, 135);
-            this.BNAUPing.Name = "BNAUPing";
-            this.BNAUPing.Size = new System.Drawing.Size(75, 13);
-            this.BNAUPing.TabIndex = 8;
-            this.BNAUPing.Text = "DMZ Pingable";
-            // 
             // BNAUInterface
             // 
             this.BNAUInterface.AutoSize = true;
-            this.BNAUInterface.Location = new System.Drawing.Point(111, 97);
+            this.BNAUInterface.Location = new System.Drawing.Point(121, 118);
             this.BNAUInterface.Name = "BNAUInterface";
             this.BNAUInterface.Size = new System.Drawing.Size(86, 13);
             this.BNAUInterface.TabIndex = 7;
@@ -246,8 +234,7 @@
             this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.shapeContainer1.Name = "shapeContainer1";
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.DMZInterfaceSignal,
-            this.DMZPingSignal});
+            this.DMZInterfaceSignal});
             this.shapeContainer1.Size = new System.Drawing.Size(322, 283);
             this.shapeContainer1.TabIndex = 0;
             this.shapeContainer1.TabStop = false;
@@ -257,18 +244,9 @@
             this.DMZInterfaceSignal.BackColor = System.Drawing.Color.DarkGray;
             this.DMZInterfaceSignal.FillColor = System.Drawing.SystemColors.ControlDark;
             this.DMZInterfaceSignal.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.DMZInterfaceSignal.Location = new System.Drawing.Point(68, 84);
+            this.DMZInterfaceSignal.Location = new System.Drawing.Point(73, 109);
             this.DMZInterfaceSignal.Name = "DMZInterfaceSignal";
             this.DMZInterfaceSignal.Size = new System.Drawing.Size(24, 22);
-            // 
-            // DMZPingSignal
-            // 
-            this.DMZPingSignal.BackColor = System.Drawing.Color.DarkGray;
-            this.DMZPingSignal.FillColor = System.Drawing.SystemColors.ButtonShadow;
-            this.DMZPingSignal.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.DMZPingSignal.Location = new System.Drawing.Point(67, 122);
-            this.DMZPingSignal.Name = "DMZPingSignal";
-            this.DMZPingSignal.Size = new System.Drawing.Size(24, 22);
             // 
             // DMZConfig
             // 
@@ -306,8 +284,6 @@
         private System.Windows.Forms.Button returnNetworkConfig;
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
         private Microsoft.VisualBasic.PowerPacks.OvalShape DMZInterfaceSignal;
-        private Microsoft.VisualBasic.PowerPacks.OvalShape DMZPingSignal;
-        private System.Windows.Forms.Label BNAUPing;
         private System.Windows.Forms.Label BNAUInterface;
         private System.Windows.Forms.Button returnOSPF;
         private System.Windows.Forms.Button testButton;

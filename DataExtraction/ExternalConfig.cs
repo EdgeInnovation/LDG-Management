@@ -14,8 +14,9 @@ namespace DataExtraction
             InitializeComponent();
             externalWizard.TabPages.Remove(testNetwork);
         }
-        string extFWIP, extRouterIP, username, password, extFWMask, extRouterMask;
-        public static bool extFirewallPingable, extRouterPingable, configSuccess;
+        string extFWIP, extRouterIP, username, password, extFWMask, extRouterMask, consoleOutput;
+        public static bool  extRouterPingable, configSuccess;
+        bool extPlugged, pingRouterResult;
 
         //updates the second mask box to be the same as the first
         private void UpdateMaskBox(object sender, EventArgs e)
@@ -84,7 +85,7 @@ namespace DataExtraction
             StreamReader errorReader = plinkProcess.StandardError;
 
             //command to log in to the firewall
-            inputWriter.WriteLine(@" ""C:\Program FIles (x86) (x86) (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
+            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
             Thread.Sleep(2000);
 
             //give admin rights
@@ -96,7 +97,15 @@ namespace DataExtraction
             inputWriter.WriteLine("cf interface modify name=\"External System 1\" addresses=" + extFWIP + "/" + extFWMask);
             progressExtNetwork.Value = 50;
             Thread.Sleep(1000);
-            
+
+            //ping router for 3 counts
+            inputWriter.WriteLine("ping -c 2 " + extRouterIP);
+            Thread.Sleep(3000);
+
+            //check if interface is up, search for "status: active" 
+            inputWriter.WriteLine("ifconfig 2-0");
+            Thread.Sleep(1000);
+
             progressExtNetwork.Value = 90;
             //exit
             inputWriter.WriteLine("exit");
@@ -108,7 +117,8 @@ namespace DataExtraction
                 //do not add any non-putty code in before killing the process, it will crash
                 plinkProcess.Kill();
                 string loginError = errorReader.ReadToEnd().ToString();
-                
+                consoleOutput = outputReader.ReadToEnd().ToString();
+
                 //access denied will pop up if connected to the firewall and wrong username/pw info. FATAL ERROR is if not connected to firewall
                 if (loginError.Contains("Access denied") || loginError.Contains("FATAL ERROR"))
                 {
@@ -120,7 +130,7 @@ namespace DataExtraction
                 {
                     //Confirmation 
                     progressExtNetwork.Value = 100;
-                    MessageBox.Show("Interface and Network Objects configured for External System", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Interface configured for External 1 System", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     configSuccess = true;
                     externalWizard.TabPages.Remove(inputInfo);
                     externalWizard.TabPages.Add(testNetwork);
@@ -131,7 +141,26 @@ namespace DataExtraction
                 //error message
                 MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 progressExtNetwork.Value = 0;
-                return;
+            }
+
+            //get the ping success result
+            if (consoleOutput.Contains("bytes from " + extRouterIP))
+            {
+                pingRouterResult = true;
+            }
+            else
+            {
+                pingRouterResult = false;
+            }
+
+            //determine whether cable is connected from ifconfig status
+            if (consoleOutput.Contains("status: active"))
+            {
+                extPlugged = true;
+            }
+            else
+            {
+                extPlugged = false;
             }
         }
 
@@ -144,25 +173,14 @@ namespace DataExtraction
 
         private void testButton_Click(object sender, EventArgs e)
         {
-            //Ping the internal tracks server
-            Ping_ pingFW = new Ping_();
-            pingFW.Ping_External(extFWIP);
-            bool pingFWResult = Ping_.externalPingable;
-
-            if (pingFWResult == true)
+            if (extPlugged == true)
             {
-                ExtFWPingSignal.FillColor = Color.Green;
-                extFirewallPingable = true;
+                ExtInterfaceSignal.FillColor = Color.Green;
             }
             else
             {
-                ExtFWPingSignal.FillColor = Color.Red;
+                ExtInterfaceSignal.FillColor = Color.Red;
             }
-
-            //Ping the ext tracks server
-            Ping_ pingRouter = new Ping_();
-            pingRouter.Ping_External(extRouterIP);
-            bool pingRouterResult = Ping_.externalPingable;
 
             //change BNAU Ping button
             if (pingRouterResult == true)
@@ -175,12 +193,18 @@ namespace DataExtraction
                 ExtRouterPingSignal.FillColor = Color.Red;
             }
 
-            //call universal error
-            if (pingRouterResult == false || pingFWResult == false)
+            //universal error messages:
+            //first check connection is present
+            if (extPlugged == false)
+            {
+                MainGUI error = new MainGUI();
+                error.errorDialog(false);
+                return;
+            }
+            else if (pingRouterResult == false)
             {
                 MainGUI error = new MainGUI();
                 error.errorDialog(true);
-                return;
             }
         }            
     }    

@@ -37,14 +37,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ConfigBNAUSubnetBox = new System.Windows.Forms.TextBox();
             this.networkTest = new System.Windows.Forms.TabPage();
-            this.FirewallPing = new System.Windows.Forms.Label();
             this.BNAUPing = new System.Windows.Forms.Label();
             this.BNAUInterface = new System.Windows.Forms.Label();
             this.returnConfig = new System.Windows.Forms.Button();
             this.testButton = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.BNAUPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
-            this.FirewallPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.BNAUInterfaceSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.OSPF = new System.Windows.Forms.TabPage();
             this.internalOSPFStatusStrip = new System.Windows.Forms.StatusStrip();
@@ -136,7 +134,6 @@
             // 
             // networkTest
             // 
-            this.networkTest.Controls.Add(this.FirewallPing);
             this.networkTest.Controls.Add(this.BNAUPing);
             this.networkTest.Controls.Add(this.BNAUInterface);
             this.networkTest.Controls.Add(this.returnConfig);
@@ -149,15 +146,6 @@
             this.networkTest.TabIndex = 2;
             this.networkTest.Text = "Network Test";
             this.networkTest.UseVisualStyleBackColor = true;
-            // 
-            // FirewallPing
-            // 
-            this.FirewallPing.AutoSize = true;
-            this.FirewallPing.Location = new System.Drawing.Point(124, 165);
-            this.FirewallPing.Name = "FirewallPing";
-            this.FirewallPing.Size = new System.Drawing.Size(131, 13);
-            this.FirewallPing.TabIndex = 6;
-            this.FirewallPing.Text = "Firewall Interface Pingable";
             // 
             // BNAUPing
             // 
@@ -179,7 +167,7 @@
             // 
             // returnConfig
             // 
-            this.returnConfig.Location = new System.Drawing.Point(15, 239);
+            this.returnConfig.Location = new System.Drawing.Point(6, 244);
             this.returnConfig.Name = "returnConfig";
             this.returnConfig.Size = new System.Drawing.Size(93, 39);
             this.returnConfig.TabIndex = 1;
@@ -189,7 +177,7 @@
             // 
             // testButton
             // 
-            this.testButton.Location = new System.Drawing.Point(207, 238);
+            this.testButton.Location = new System.Drawing.Point(217, 243);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(105, 40);
             this.testButton.TabIndex = 0;
@@ -204,7 +192,6 @@
             this.shapeContainer1.Name = "shapeContainer1";
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.BNAUPingSignal,
-            this.FirewallPingSignal,
             this.BNAUInterfaceSignal});
             this.shapeContainer1.Size = new System.Drawing.Size(322, 283);
             this.shapeContainer1.TabIndex = 2;
@@ -218,15 +205,6 @@
             this.BNAUPingSignal.Location = new System.Drawing.Point(45, 115);
             this.BNAUPingSignal.Name = "BNAUPingSignal";
             this.BNAUPingSignal.Size = new System.Drawing.Size(24, 22);
-            // 
-            // FirewallPingSignal
-            // 
-            this.FirewallPingSignal.BackColor = System.Drawing.Color.DarkGray;
-            this.FirewallPingSignal.FillColor = System.Drawing.SystemColors.ButtonShadow;
-            this.FirewallPingSignal.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.FirewallPingSignal.Location = new System.Drawing.Point(45, 152);
-            this.FirewallPingSignal.Name = "FirewallPingSignal";
-            this.FirewallPingSignal.Size = new System.Drawing.Size(24, 22);
             // 
             // BNAUInterfaceSignal
             // 
@@ -288,7 +266,7 @@
             this.returnNetworkTest.Name = "returnNetworkTest";
             this.returnNetworkTest.Size = new System.Drawing.Size(93, 39);
             this.returnNetworkTest.TabIndex = 2;
-            this.returnNetworkTest.Text = "Return to Network Test";
+            this.returnNetworkTest.Text = "Return to Network Config";
             this.returnNetworkTest.UseVisualStyleBackColor = true;
             this.returnNetworkTest.Click += new System.EventHandler(this.returnNetworkTest_Click);
             // 
@@ -328,10 +306,8 @@
         private System.Windows.Forms.Button returnConfig;
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
         private Microsoft.VisualBasic.PowerPacks.OvalShape BNAUPingSignal;
-        private Microsoft.VisualBasic.PowerPacks.OvalShape FirewallPingSignal;
         private Microsoft.VisualBasic.PowerPacks.OvalShape BNAUInterfaceSignal;
         private System.Windows.Forms.Label BNAUInterface;
-        private System.Windows.Forms.Label FirewallPing;
         private System.Windows.Forms.Label BNAUPing;
         private System.Windows.Forms.Button returnNetworkTest;
         private System.Windows.Forms.Button OSPFConfig;

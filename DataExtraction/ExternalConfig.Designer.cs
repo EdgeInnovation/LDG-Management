@@ -48,7 +48,7 @@
             this.testButton = new System.Windows.Forms.Button();
             this.backToStart = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.ExtFWPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.ExtInterfaceSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.ExtRouterPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.externalWizard.SuspendLayout();
             this.inputInfo.SuspendLayout();
@@ -89,6 +89,7 @@
             // extRouterMaskBox
             // 
             this.extRouterMaskBox.Location = new System.Drawing.Point(274, 121);
+            this.extRouterMaskBox.MaxLength = 2;
             this.extRouterMaskBox.Name = "extRouterMaskBox";
             this.extRouterMaskBox.Size = new System.Drawing.Size(19, 20);
             this.extRouterMaskBox.TabIndex = 9;
@@ -96,6 +97,7 @@
             // extFirewallMaskBox
             // 
             this.extFirewallMaskBox.Location = new System.Drawing.Point(274, 98);
+            this.extFirewallMaskBox.MaxLength = 2;
             this.extFirewallMaskBox.Name = "extFirewallMaskBox";
             this.extFirewallMaskBox.Size = new System.Drawing.Size(19, 20);
             this.extFirewallMaskBox.TabIndex = 8;
@@ -203,9 +205,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(115, 76);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(134, 13);
+            this.label2.Size = new System.Drawing.Size(145, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "External Interface Pingable";
+            this.label2.Text = "External Interface Connected";
             // 
             // label1
             // 
@@ -242,20 +244,20 @@
             this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.shapeContainer1.Name = "shapeContainer1";
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.ExtFWPingSignal,
+            this.ExtInterfaceSignal,
             this.ExtRouterPingSignal});
             this.shapeContainer1.Size = new System.Drawing.Size(321, 281);
             this.shapeContainer1.TabIndex = 2;
             this.shapeContainer1.TabStop = false;
             // 
-            // ExtFWPingSignal
+            // ExtInterfaceSignal
             // 
-            this.ExtFWPingSignal.BackColor = System.Drawing.Color.DarkGray;
-            this.ExtFWPingSignal.FillColor = System.Drawing.SystemColors.ControlDark;
-            this.ExtFWPingSignal.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.ExtFWPingSignal.Location = new System.Drawing.Point(53, 66);
-            this.ExtFWPingSignal.Name = "ExtFWPingSignal";
-            this.ExtFWPingSignal.Size = new System.Drawing.Size(24, 22);
+            this.ExtInterfaceSignal.BackColor = System.Drawing.Color.DarkGray;
+            this.ExtInterfaceSignal.FillColor = System.Drawing.SystemColors.ControlDark;
+            this.ExtInterfaceSignal.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.ExtInterfaceSignal.Location = new System.Drawing.Point(53, 66);
+            this.ExtInterfaceSignal.Name = "ExtInterfaceSignal";
+            this.ExtInterfaceSignal.Size = new System.Drawing.Size(24, 22);
             // 
             // ExtRouterPingSignal
             // 
@@ -296,7 +298,7 @@
         private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.Button nextButton;
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private Microsoft.VisualBasic.PowerPacks.OvalShape ExtFWPingSignal;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape ExtInterfaceSignal;
         private Microsoft.VisualBasic.PowerPacks.OvalShape ExtRouterPingSignal;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;

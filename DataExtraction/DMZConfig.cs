@@ -17,25 +17,69 @@ namespace DataExtraction
             DMZWizard.TabPages.Remove(networkTest);
         }
         
-        string username, password, DMZIPAddr, chatGWSubnet, errorOutput, logPath, DMZchatGW, DMZBQSIP, DMZFirewallExt, DMZFirewallExtWMS, DMZFirewallMIP;
-        public static bool DMZPingable;
+        string username, password, DMZIPAddr, consoleOutput, chatGWSubnet, errorOutput, logPath, DMZchatGW, DMZBQSIP, DMZFirewallExt, DMZFirewallExtWMS, DMZFirewallMIP, planSourcePath, becFilePath;
+        public static bool DMZConnected;
         bool DMZPlugged, configSuccess;
 
         private void ConfigureButton_Click(object sender, EventArgs e)
         {
             progressDMZNetwork.Value = 3;
-            //call the extract data class, saying that this isn't the LDG plana and get the list 
+            //call the extract data class, saying that this is the LDG plan and get the list 
             ExtractData extractDMZData = new ExtractData();
-            extractDMZData.Extract_Data(true);
-            List<string> internalExtractedData = extractDMZData.GetLDGList();
-            string path = ExtractData.DMZBecFilePath;
-            if (path == null)
+            extractDMZData.Extract_LDG_Data();
+            List<string> externalExtractedData = extractDMZData.GetLDGList();
+            becFilePath = ExtractData.DMZBecFilePath;
+            if (becFilePath == null)
             {
                 return;
             }
 
+            //Share plan to virtual disk
+            string sharedFolderPath = @"E:\Plan Files"; //@"E:\Plan Files";
+
+            //check if shared disk exists
+            if (Directory.Exists(@"E:\"))
+            {
+                //get the directory of the plan from the becfilepath
+                string[] becFilePathArray = becFilePath.Split('\\');
+                Array.Resize(ref becFilePathArray, becFilePathArray.Length - 3);
+                planSourcePath = String.Join("\\", becFilePathArray);
+
+                //if folder doesn't exist create it
+                if (!Directory.Exists(sharedFolderPath))
+                {
+                    Directory.CreateDirectory(sharedFolderPath);
+                }
+
+                //copy the files from plan to shared folder
+                try
+                {
+                    //create the folders
+                    foreach (string dirPath in Directory.GetDirectories(planSourcePath, "*", SearchOption.AllDirectories))
+                    {
+                        Directory.CreateDirectory(dirPath.Replace(planSourcePath, sharedFolderPath));
+                    }
+                    //copy all files and replace any withsame name
+                    foreach (string newPath in Directory.GetFiles(planSourcePath, "*.*", SearchOption.AllDirectories))
+                    {
+;                        File.Copy(newPath, newPath.Replace(planSourcePath, sharedFolderPath), true);
+                    }
+                    MessageBox.Show("Plan successfully copied to shared disk: " + Environment.NewLine + sharedFolderPath, "Plan Copied to Shared Disk", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Error copying file to " + sharedFolderPath + ". Plan not copied to shared Disk.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Shared Disk not found, Plan not copied to shared Disk.", "Shared Disk not present", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+            progressDMZNetwork.Value = 8;
+
             //produce the subnet IP & the firewall IP from the internal IP
-            DMZchatGW = internalExtractedData[2];
+            DMZchatGW = externalExtractedData[2];
             string[] chatGWArray = DMZchatGW.Split('.');
             chatGWSubnet = chatGWArray[0] + "." + chatGWArray[1] + "." + chatGWArray[2];
             ConfigDMZSubnetBox.Text = chatGWSubnet;
@@ -47,19 +91,18 @@ namespace DataExtraction
             DMZFirewallMIP = chatGWSubnet + ".100";
             DMZFirewallExtWMS = chatGWSubnet + ".18";
 
-            //commands to modify network objects
+            // create commands to modify network objects
             string DMZNetObjChatGW = ("cf ipaddr modify name=\"DMZ BCIP Chat Gateway\" ipaddr=" + DMZchatGW);
             string DMZNetObjFWBqs = ("cf ipaddr modify name=\"DMZ BCIP Firewall BQS\" ipaddr=" + DMZBQSIP);
             string DMZNetObjFWExt1 = ("cf ipaddr modify name=\"DMZ BCIP Firewall External 1\" ipaddr=" + DMZFirewallExt);
             string DMZNetObjFWMip = ("cf ipaddr modify name=\"DMZ BCIP Firewall MIP\" ipaddr=" + DMZFirewallMIP);
             //NOT COMMONLY USED BUT IN USER GUIDE:
             //string DMZNetObjFWExtWMS = ("cf ipaddr modify name=\"DMZ BCIP Firewall External WMS\" ipaddr=" + DMZFirewallExtWMS);
-
-
+            
             //retrieve information from userinput
             username = MainGUI.username;
             password = MainGUI.password;
-            progressDMZNetwork.Value = 8;
+            progressDMZNetwork.Value = 13;
             
             //start the command line process
             ProcessStartInfo psi = new ProcessStartInfo(@"C:\Windows\System32\cmd");
@@ -82,7 +125,7 @@ namespace DataExtraction
             StreamReader errorReader = plinkProcess.StandardError;
 
             //command to log in to the firewall
-            inputWriter.WriteLine(@" ""C:\Program FIles (x86) (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
+            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
             Thread.Sleep(1000);
 
             //give admin rights
@@ -90,20 +133,20 @@ namespace DataExtraction
             progressDMZNetwork.Value = 20;
             Thread.Sleep(1000);
 
-            //See if interfaces are connected. Dont think this checks if cable is plugged
-            inputWriter.WriteLine("cf interface status name=\"DMZ BCIP\"");
-            progressDMZNetwork.Value = 30;
-
             //Modify the network interface
             inputWriter.WriteLine("cf interface modify name=\"DMZ BCIP\" addresses=" + DMZBQSIP + "/24," + DMZFirewallExt + "/24," + DMZFirewallExtWMS + "/24," + DMZFirewallMIP + "/24");
-            progressDMZNetwork.Value = 50;
+            progressDMZNetwork.Value = 30;
             Thread.Sleep(3000);
 
             //modify network objects for DMZ
             //Best to put them all in one command to minimise the amount of thread.sleeps
-            progressDMZNetwork.Value = 70;
+            progressDMZNetwork.Value = 50;
             inputWriter.WriteLine(DMZNetObjChatGW + " & " + DMZNetObjFWBqs + " & " + DMZNetObjFWExt1 + " & " + DMZNetObjFWMip);
             Thread.Sleep(3000);
+
+            //check if interface is up, search for "status: active" 
+            inputWriter.WriteLine("ifconfig 1-1");
+            Thread.Sleep(1000);
 
             //exit
             inputWriter.WriteLine("exit");
@@ -117,7 +160,7 @@ namespace DataExtraction
             {
                 //do not add any non-putty code in before killing the process, it will crash
                 plinkProcess.Kill();
-
+                consoleOutput = outputReader.ReadToEnd().ToString();
                 string loginError = errorReader.ReadToEnd().ToString();
                 errorOutput = DateTime.Now.ToString() + System.Environment.NewLine + " Error Output:  " + System.Environment.NewLine + loginError;
 
@@ -142,9 +185,9 @@ namespace DataExtraction
                 MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 progressDMZNetwork.Value = 0;
             }
-
-            string internalBNAUStatus = outputReader.ToString();
-            if (internalBNAUStatus.Contains("Conn"))
+                        
+            //determine whether cable is connected from ifconfig status
+            if (consoleOutput.Contains("status: active"))
             {
                 DMZPlugged = true;
             }
@@ -155,7 +198,7 @@ namespace DataExtraction
 
             //write error output to add to log file
             string lineBreak = "\n" + "------------------------------------------------------------";
-            logPath = @"C:\Program FIles (x86) (x86)\General Dynamics UK\LDG Management Application\LMA_DMZConfig_Log.txt";
+            logPath = @"C:\Program Files\General Dynamics UK\LDG Management Application\LMA_DMZConfig_Log.txt";
 
             try
             {
@@ -234,7 +277,7 @@ namespace DataExtraction
             StreamReader errorReader = plinkOSPFProcess.StandardError;
 
             //this is the command to log in to the firewall
-            inputWriter.WriteLine(@" ""C:\Program FIles (x86) (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
+            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
             Thread.Sleep(1000);
             progressDMZOSPF.Value = 10;
 
@@ -320,37 +363,18 @@ namespace DataExtraction
         //
         private void returnOSPF_Click(object sender, EventArgs e)
         {
-            //Show next tab
-            
+            //Show next tab            
             DMZWizard.TabPages.Add(OSPF);
             DMZWizard.TabPages.Remove(networkTest);
             DMZWizard.TabPages.Remove(NetworkConfig);
         }
         private void testButton_Click(object sender, EventArgs e)
         {
-            Ping_ pingOnTime = new Ping_();
-            //call the ping class, passing in the subnet
-            pingOnTime.Ping_BNAU(chatGWSubnet, true);
-
-            //get the results from the ping class
-            Ping_ result_ = new Ping_();
-            bool pingDMZResult = Ping_.BNAUPingable;
-
-            //change BNAU Ping button
-            if (pingDMZResult == true)
-            {
-                DMZPingSignal.FillColor = Color.Green;
-                DMZPingable = true;
-            }
-            else
-            {
-                DMZPingSignal.FillColor = Color.Red;
-            }
-
             //if BNAU is unplugged put color red
             if (DMZPlugged == true)
             {
                 DMZInterfaceSignal.FillColor = Color.Green;
+                DMZConnected = true;
             }
             else
             {
@@ -364,11 +388,6 @@ namespace DataExtraction
                 MainGUI error = new MainGUI();
                 error.errorDialog(false);
                 return;
-            }
-            else if (pingDMZResult == false)
-            {
-                MainGUI error = new MainGUI();
-                error.errorDialog(true);
             }
         }
     }

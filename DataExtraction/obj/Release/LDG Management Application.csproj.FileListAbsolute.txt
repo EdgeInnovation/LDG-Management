@@ -20,7 +20,6 @@ C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\D
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Release\DataExtraction.pdb
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Release\Microsoft.VisualBasic.PowerPacks.dll
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Release\Microsoft.VisualBasic.PowerPacks.xml
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csprojResolveAssemblyReference.cache
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\DataExtraction.DMZConfig.resources
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\DataExtraction.ServiceConfig.resources
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\DataExtraction.MainGUI.resources
@@ -32,3 +31,53 @@ C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\D
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csproj.CopyComplete
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\DataExtraction.exe
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\DataExtraction.pdb
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\bin\Release\DataExtraction.exe.config
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\bin\Release\DataExtraction.exe
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\bin\Release\DataExtraction.pdb
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\bin\Release\Microsoft.VisualBasic.PowerPacks.dll
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\bin\Release\Microsoft.VisualBasic.PowerPacks.xml
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\LDG Management Application.csprojResolveAssemblyReference.cache
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\DataExtraction.DMZConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\DataExtraction.ServiceConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\DataExtraction.MainGUI.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\DataExtraction.InternalConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\DataExtraction.Properties.Resources.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\DataExtraction.ExternalConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\LDG Management Application.csproj.GenerateResource.cache
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\LDG Management Application.csproj.CoreCompileInputs.cache
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\LDG Management Application.csproj.CopyComplete
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\DataExtraction.exe
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\obj\Release\DataExtraction.pdb
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\bin\Release\DataExtraction.exe.config
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\bin\Release\DataExtraction.exe
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\bin\Release\DataExtraction.pdb
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.DMZConfig.resources
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.ServiceConfig.resources
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.MainGUI.resources
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.InternalConfig.resources
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.Properties.Resources.resources
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.ExternalConfig.resources
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csproj.GenerateResource.cache
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csproj.CoreCompileInputs.cache
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csproj.CopyComplete
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.exe
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.pdb
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csprojResolveAssemblyReference.cache
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\bin\Release\DataExtraction.exe.config
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\bin\Release\DataExtraction.exe
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\bin\Release\DataExtraction.pdb
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\bin\Release\Microsoft.VisualBasic.PowerPacks.dll
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\bin\Release\Microsoft.VisualBasic.PowerPacks.xml
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csprojResolveAssemblyReference.cache
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.DMZConfig.resources
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.ServiceConfig.resources
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.MainGUI.resources
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.InternalConfig.resources
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.Properties.Resources.resources
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.ExternalConfig.resources
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csproj.GenerateResource.cache
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csproj.CoreCompileInputs.cache
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csproj.CopyComplete
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.exe
+F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\DataExtraction.pdb
+G:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csprojResolveAssemblyReference.cache

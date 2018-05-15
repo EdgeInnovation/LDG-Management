@@ -8,7 +8,6 @@ using System.IO;
 
 namespace DataExtraction
 {
-    //Change Program FIles (x86) to Program FIles (x86) (x86) for Putty if necessary (x4)
     public partial class InternalConfig : Form
     {
         public InternalConfig()
@@ -19,9 +18,9 @@ namespace DataExtraction
         }
 
         public static string BNAUSubnetIP;
-        public static bool intBNAUPingable, intFWPingable;
-        string username, password, errorOutput, logPath, firewallIPAddr, internalIPAddr, planPath, planName;
-        bool BNAUPlugged, configSuccess;
+        public static bool intBNAUPingable;
+        string username, password, errorLogOutput, logPath, firewallIPAddr, internalIPAddr, consoleOutput, errorOutput;
+        bool BNAUPlugged, configSuccess, pingBNAUResult;
 
         //
         //Internal Config
@@ -30,7 +29,7 @@ namespace DataExtraction
         {
             //call the extract data class, saying that this isn't the LDG plana and get the list 
             ExtractData extractInternalData = new ExtractData();
-            extractInternalData.Extract_Data(false);
+            extractInternalData.Extract_Internal_Data();
             List<string> internalExtractedData = extractInternalData.GetInternalList();
             string path = ExtractData.internalBecFilePath;
             if (path == null)
@@ -46,42 +45,6 @@ namespace DataExtraction
             ConfigBNAUSubnetBox.Text = BNAUSubnetIP;
 
             progressIntNetwork.Value = 10;
-
-            //Share plan to virtual disk
-            string becFilePath;
-            string sharedFolderPath = @"E:\\Plan Files";
-            becFilePath = ExtractData.internalBecFilePath;
-
-            //check if shared folder exists, will this exist if not connected to server? 
-            //If so then, find a way to see if folder is being shared
-            if (!Directory.Exists(sharedFolderPath))
-            {
-                MessageBox.Show("Shared Disk not found", "Shared Disk not present");
-            }
-
-            //get the directory of the plan from the becfilepath
-            string[] becFilePathArray = becFilePath.Split('\\');
-            Array.Resize(ref becFilePathArray, becFilePathArray.Length - 1);
-            planPath = String.Join("\\", becFilePathArray);
-            planName = becFilePathArray[becFilePathArray.Length - 1];
-
-            string sharedPlanPath = sharedFolderPath + "\\" + planName;
-           
-            //copy the files from plan to shared folder
-            try
-            {
-                foreach (string sourceFile in Directory.GetFiles(planPath, "*", SearchOption.AllDirectories))
-                {
-                    string destinationFile = sourceFile.Replace(planPath, sharedPlanPath);
-                    File.Copy(sourceFile, destinationFile, true);
-                }
-
-            }
-            catch (Exception)
-            {
-
-                MessageBox.Show("Access to " + sharedFolderPath + " denied. Plan file not copied to shared folder.", "Access Denied");
-            }
 
             //retrieve information from userinput
             username = MainGUI.username;
@@ -109,7 +72,7 @@ namespace DataExtraction
             StreamReader errorReader = plinkProcess.StandardError;
 
             //command to log in to the firewall
-            inputWriter.WriteLine(@" ""C:\Program FIles (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
+            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
             Thread.Sleep(2000);
 
             //give admin rights
@@ -119,34 +82,42 @@ namespace DataExtraction
             //Modify the network interfaces
             inputWriter.WriteLine("cf interface modify name=\"Internal BCIP\" addresses=" + firewallIPAddr + "/24");
             progressIntNetwork.Value = 30;
-            Thread.Sleep(1000);            
+            Thread.Sleep(2000);
 
             //modify network objects for BNAU and firewall
-            inputWriter.WriteLine("cf ipaddr modify name=\"Internal BCIP BNAU\" ipaddr=" + internalIPAddr + " & " + "cf ipaddr modify name=\"Internal BCIP Firewall\" ipaddr=" + firewallIPAddr);
-            progressIntNetwork.Value = 50;
-            Thread.Sleep(2000);            
-            
+            inputWriter.WriteLine("cf ipaddr modify name=\"Internal BCIP BNAU\" ipaddr=" + internalIPAddr);
+            Thread.Sleep(3000);
+            inputWriter.WriteLine("cf ipaddr modify name=\"Internal BCIP Firewall\" ipaddr=" + firewallIPAddr);
+            Thread.Sleep(3000);
+            progressIntNetwork.Value = 50;        
+           
             //NOTE: if user selects same plan as DMZ it will throw an error and not work, but it will look like it did
 
-            //See if interfaces are connected
-            inputWriter.WriteLine("cf interface status name=\"Internal BCIP\"");
+            //ping BNAU for 3 counts
+            inputWriter.WriteLine("ping -c 2 " + internalIPAddr);
+            Thread.Sleep(3000);
+
+            //check if interface is up, search for "status: active" 
+            inputWriter.WriteLine("ifconfig 1-6");
             Thread.Sleep(1000);
-             
+
             progressIntNetwork.Value = 90;
+
             //exit
             inputWriter.WriteLine("exit");
             inputWriter.WriteLine("exit");
-            
+
             //kill process;
             try
             {
                 //do not add any non-putty code in before killing the process, it will crash
                 plinkProcess.Kill();
-                string loginError = errorReader.ReadToEnd().ToString();
-                errorOutput = DateTime.Now.ToString() + System.Environment.NewLine + " Error Output:  " + System.Environment.NewLine + loginError;
+                consoleOutput = outputReader.ReadToEnd().ToString();
+                errorOutput = errorReader.ReadToEnd().ToString();
+                errorLogOutput = DateTime.Now.ToString() + System.Environment.NewLine + " Error Output:  " + System.Environment.NewLine + errorOutput;
 
                 //access denied will pop up if connected to the firewall and wrong username/pw info. FATAL ERROR is if not connected to firewall
-                if (loginError.Contains("Access denied") || loginError.Contains("FATAL ERROR"))
+                if (errorOutput.Contains("Access denied") || errorOutput.Contains("FATAL ERROR"))
                 {
                     //If Plink connection fails throw error and return
                     MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -168,9 +139,18 @@ namespace DataExtraction
                 return;
             }
 
-            //does this actually test the connection?
-            string internalBNAUStatus = outputReader.ToString();
-            if (internalBNAUStatus.Contains("Conn"))
+            //get the ping success result
+            if (consoleOutput.Contains("bytes from " + internalIPAddr))
+            {
+                pingBNAUResult = true;
+            }
+            else
+            {
+                pingBNAUResult = false;
+            }
+
+            //determine whether cable is connected from ifconfig status
+            if (consoleOutput.Contains("status: active"))
             {
                 BNAUPlugged = true;
             }
@@ -183,7 +163,7 @@ namespace DataExtraction
             string lineBreak = "\n" + "------------------------------------------------------------";
 
             //Log the output to a text file:
-            logPath = @"C:\Program FIles (x86)\General Dynamics UK\LDG Management Application\LMA_InternalConfig_Log.txt";
+            logPath = @"C:\Program Files\General Dynamics UK\LDG Management Application\LMA_InternalConfig_Log.txt";
             
             try
             {
@@ -193,7 +173,7 @@ namespace DataExtraction
                     File.Create(logPath).Dispose();
                     using (StreamWriter sw = File.CreateText(logPath))
                     {
-                        sw.Write(errorOutput + System.Environment.NewLine + lineBreak);
+                        sw.Write(errorLogOutput + System.Environment.NewLine + lineBreak);
                     }
                 }
                 //append to existing file
@@ -201,7 +181,7 @@ namespace DataExtraction
                 {
                     using (StreamWriter sw = File.AppendText(logPath))
                     {
-                        sw.Write(System.Environment.NewLine + errorOutput + System.Environment.NewLine + lineBreak);
+                        sw.Write(System.Environment.NewLine + errorLogOutput + System.Environment.NewLine + lineBreak);
                     }
                 }
             }
@@ -258,7 +238,7 @@ namespace DataExtraction
             StreamReader errorOSPFReader = plinkOSPFProcess.StandardError;
 
             //this is the command to log in to the firewall
-            inputOSPFWriter.WriteLine(@" ""C:\Program FIles (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
+            inputOSPFWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
             Thread.Sleep(2000);
 
             //If Plink connection fails throw error and return
@@ -373,15 +353,16 @@ namespace DataExtraction
             BNAUWizard.TabPages.Remove(OSPF);
         }
         private void testButton_Click(object sender, EventArgs e)
-        {      
-            Ping_ pingOnTime = new Ping_();
-            //call the ping class, passing in the subnet
-            pingOnTime.Ping_BNAU(BNAUSubnetIP, false);
-
-            //get the results from the ping class
-            Ping_ result_ = new Ping_();
-            bool pingBNAUResult = Ping_.BNAUPingable;
-            bool pingFirewallResult = Ping_.firewallPingable;
+        {
+           //if BNAU is unplugged put color red
+            if (BNAUPlugged == true)
+            {
+                BNAUInterfaceSignal.FillColor = Color.Green;
+            }
+            else if (BNAUPlugged == false)
+            {
+                BNAUInterfaceSignal.FillColor = Color.Red;
+            }
 
             //change BNAU Ping button
             if (pingBNAUResult == true)
@@ -394,26 +375,6 @@ namespace DataExtraction
                 BNAUPingSignal.FillColor = Color.Red;
             }
 
-            //change firewall ping button
-            if (pingFirewallResult == true)
-            {
-                FirewallPingSignal.FillColor = Color.Green;
-                intFWPingable = true;
-            }
-            else
-            {
-                FirewallPingSignal.FillColor = Color.Red;
-            }
-            //if BNAU is unplugged put color red
-            if (BNAUPlugged == true)
-            {
-                BNAUInterfaceSignal.FillColor = Color.Green;
-            }
-            else
-            {
-                BNAUInterfaceSignal.FillColor = Color.Red;
-            }
-
             //universal error messages:
             //first check if connection is present
             if (BNAUPlugged == false)
@@ -422,7 +383,7 @@ namespace DataExtraction
                 error.errorDialog(false);
                 return;
             }
-            else if (pingFirewallResult == false || pingBNAUResult == false)
+            else if (pingBNAUResult == false)
             {
                 MainGUI error = new MainGUI();
                 error.errorDialog(true);
