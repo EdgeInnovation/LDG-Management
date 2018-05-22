@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DataExtraction
+namespace LDGMangementApplication
 {
     public partial class Router : Form
     {
@@ -56,15 +56,14 @@ namespace DataExtraction
             //get status:
             inputWriter.WriteLine("sh diag");
 
-            //output to box
-            statusOutput = outputReader.ReadToEnd().ToString();
-            routerStatusBox.Text = statusOutput;
-
             //kill process
             try
             {
                 //do not add any non-putty code in before killing the process, it will crash
                 plinkProcess.Kill();
+                //output to box
+                statusOutput = outputReader.ReadToEnd().ToString();
+                routerStatusBox.Text = statusOutput;
             }
             catch
             {

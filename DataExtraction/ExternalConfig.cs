@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace DataExtraction
+namespace LDGMangementApplication
 {
     public partial class ExternalConfig : Form
     {
@@ -16,7 +16,6 @@ namespace DataExtraction
         }
         string extFWIP, extRouterIP, username, password, extFWMask, extRouterMask, consoleOutput;
         public static bool  extRouterPingable, configSuccess;
-        bool extPlugged, pingRouterResult;
 
         //updates the second mask box to be the same as the first
         private void UpdateMaskBox(object sender, EventArgs e)
@@ -33,6 +32,13 @@ namespace DataExtraction
             extFWMask = extFirewallMaskBox.Text;
             extRouterMask = extRouterMaskBox.Text;
 
+            //make sure boxes arent blank
+            if (externalFWBox.Text == "" || externalRouterBox.Text == "")
+            {
+                MessageBox.Show("Please enter both IP addresses", "Error inputting values", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             string[] extFWIPArray = extFWIP.Split('.');
             string[] extRouterIPArray = extRouterIP.Split('.');
 
@@ -45,17 +51,11 @@ namespace DataExtraction
             
             string extFWIPNet = extFWIPArray[0] + extFWIPArray[1] + extFWIPArray[2];
             string extRouterIPNet = extRouterIPArray[0] + extRouterIPArray[1] + extRouterIPArray[2];
+
             //make sure router and firewall both exist in same subnet
             if (extFWIPNet != extRouterIPNet)
             {
                 MessageBox.Show("Ensure the External Firewall IP and the External Router IP both exist on the same net", "Error entering IP Addresses", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            //make sure boxes arent blank
-            if (externalFWBox.Text == "" || externalRouterBox.Text == "")
-            {
-                MessageBox.Show("Please enter both IP addresses", "Error inputting values", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -146,45 +146,6 @@ namespace DataExtraction
             //get the ping success result
             if (consoleOutput.Contains("bytes from " + extRouterIP))
             {
-                pingRouterResult = true;
-            }
-            else
-            {
-                pingRouterResult = false;
-            }
-
-            //determine whether cable is connected from ifconfig status
-            if (consoleOutput.Contains("status: active"))
-            {
-                extPlugged = true;
-            }
-            else
-            {
-                extPlugged = false;
-            }
-        }
-
-        //back to start page from net test 
-        private void backToStart_Click(object sender, EventArgs e)
-        {
-            externalWizard.TabPages.Add(inputInfo);
-            externalWizard.TabPages.Remove(testNetwork);
-        }
-
-        private void testButton_Click(object sender, EventArgs e)
-        {
-            if (extPlugged == true)
-            {
-                ExtInterfaceSignal.FillColor = Color.Green;
-            }
-            else
-            {
-                ExtInterfaceSignal.FillColor = Color.Red;
-            }
-
-            //change BNAU Ping button
-            if (pingRouterResult == true)
-            {
                 ExtRouterPingSignal.FillColor = Color.Green;
                 extRouterPingable = true;
             }
@@ -193,19 +154,39 @@ namespace DataExtraction
                 ExtRouterPingSignal.FillColor = Color.Red;
             }
 
+            //determine whether cable is connected from ifconfig status
+            if (consoleOutput.Contains("status: active"))
+            {
+                ExtInterfaceSignal.FillColor = Color.Green;
+            }
+            else
+            {
+                ExtInterfaceSignal.FillColor = Color.Red;
+            }
+
+
             //universal error messages:
             //first check connection is present
-            if (extPlugged == false)
+            if (ExtInterfaceSignal.FillColor == Color.Red)
             {
                 MainGUI error = new MainGUI();
                 error.errorDialog(false);
                 return;
             }
-            else if (pingRouterResult == false)
+            else if (ExtRouterPingSignal.FillColor == Color.Red)
             {
                 MainGUI error = new MainGUI();
                 error.errorDialog(true);
             }
-        }            
+
+        }
+
+        //back to start page from net test 
+        private void backToStart_Click(object sender, EventArgs e)
+        {
+            externalWizard.TabPages.Add(inputInfo);
+            externalWizard.TabPages.Remove(testNetwork);
+        }
+           
     }    
 }

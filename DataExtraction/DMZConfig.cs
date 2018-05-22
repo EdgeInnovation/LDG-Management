@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.IO;
 
-namespace DataExtraction
+namespace LDGMangementApplication
 {
     public partial class DMZConfig : Form
     {
@@ -19,7 +19,7 @@ namespace DataExtraction
         
         string username, password, DMZIPAddr, consoleOutput, chatGWSubnet, errorOutput, logPath, DMZchatGW, DMZBQSIP, DMZFirewallExt, DMZFirewallExtWMS, DMZFirewallMIP, planSourcePath, becFilePath;
         public static bool DMZConnected;
-        bool DMZPlugged, configSuccess;
+        bool configSuccess;
 
         private void ConfigureButton_Click(object sender, EventArgs e)
         {
@@ -35,7 +35,7 @@ namespace DataExtraction
             }
 
             //Share plan to virtual disk
-            string sharedFolderPath = @"E:\Plan Files"; //@"E:\Plan Files";
+            string sharedFolderPath = @"E:\Plan Files";
 
             //check if shared disk exists
             if (Directory.Exists(@"E:\"))
@@ -131,12 +131,12 @@ namespace DataExtraction
             //give admin rights
             inputWriter.WriteLine("srole");
             progressDMZNetwork.Value = 20;
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
             //Modify the network interface
             inputWriter.WriteLine("cf interface modify name=\"DMZ BCIP\" addresses=" + DMZBQSIP + "/24," + DMZFirewallExt + "/24," + DMZFirewallExtWMS + "/24," + DMZFirewallMIP + "/24");
             progressDMZNetwork.Value = 30;
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);
 
             //modify network objects for DMZ
             //Best to put them all in one command to minimise the amount of thread.sleeps
@@ -185,17 +185,7 @@ namespace DataExtraction
                 MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 progressDMZNetwork.Value = 0;
             }
-                        
-            //determine whether cable is connected from ifconfig status
-            if (consoleOutput.Contains("status: active"))
-            {
-                DMZPlugged = true;
-            }
-            else
-            {
-                DMZPlugged = false;
-            }
-
+                       
             //write error output to add to log file
             string lineBreak = "\n" + "------------------------------------------------------------";
             logPath = @"C:\Program Files\General Dynamics UK\LDG Management Application\LMA_DMZConfig_Log.txt";
@@ -234,6 +224,17 @@ namespace DataExtraction
             else
             {
                 return;
+            }
+
+            //determine whether cable is connected from ifconfig status
+            if (consoleOutput.Contains("status: active"))
+            {
+                DMZInterfaceSignal.FillColor = Color.Green;
+                DMZConnected = true;
+            }
+            else
+            {
+                DMZInterfaceSignal.FillColor = Color.Red;
             }
         }
         
@@ -342,11 +343,18 @@ namespace DataExtraction
                 progressDMZOSPF.Value = 100;
                 MessageBox.Show("OSPF Routing configured for DMZ interface", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                //Show next tab
-                
+                //Show next tab                
                 DMZWizard.TabPages.Remove(OSPF);
                 DMZWizard.TabPages.Add(networkTest);
                 DMZWizard.TabPages.Remove(NetworkConfig);
+
+                //universal error messages:
+                //forst check connection is present
+                if (DMZInterfaceSignal.FillColor == Color.Red)
+                {
+                    MainGUI error = new MainGUI();
+                    error.errorDialog(false);
+                }
             }
             catch (Exception)
             {
@@ -367,28 +375,6 @@ namespace DataExtraction
             DMZWizard.TabPages.Add(OSPF);
             DMZWizard.TabPages.Remove(networkTest);
             DMZWizard.TabPages.Remove(NetworkConfig);
-        }
-        private void testButton_Click(object sender, EventArgs e)
-        {
-            //if BNAU is unplugged put color red
-            if (DMZPlugged == true)
-            {
-                DMZInterfaceSignal.FillColor = Color.Green;
-                DMZConnected = true;
-            }
-            else
-            {
-                DMZInterfaceSignal.FillColor = Color.Red;
-            }
-
-            //universal error messages:
-            //forst check connection is present
-            if (DMZPlugged == false)
-            {
-                MainGUI error = new MainGUI();
-                error.errorDialog(false);
-                return;
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DataExtraction
+﻿namespace LDGMangementApplication
 {
     partial class ExternalConfig
     {
@@ -45,7 +45,6 @@
             this.testNetwork = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.testButton = new System.Windows.Forms.Button();
             this.backToStart = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.ExtInterfaceSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
@@ -189,7 +188,6 @@
             // 
             this.testNetwork.Controls.Add(this.label2);
             this.testNetwork.Controls.Add(this.label1);
-            this.testNetwork.Controls.Add(this.testButton);
             this.testNetwork.Controls.Add(this.backToStart);
             this.testNetwork.Controls.Add(this.shapeContainer1);
             this.testNetwork.Location = new System.Drawing.Point(4, 22);
@@ -217,16 +215,6 @@
             this.label1.Size = new System.Drawing.Size(124, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "External Router Pingable";
-            // 
-            // testButton
-            // 
-            this.testButton.Location = new System.Drawing.Point(233, 250);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(88, 31);
-            this.testButton.TabIndex = 1;
-            this.testButton.Text = "Test";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // backToStart
             // 
@@ -295,7 +283,6 @@
         private System.Windows.Forms.Label externalFWLabel;
         private System.Windows.Forms.TextBox externalFWBox;
         private System.Windows.Forms.Button backToStart;
-        private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.Button nextButton;
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
         private Microsoft.VisualBasic.PowerPacks.OvalShape ExtInterfaceSignal;

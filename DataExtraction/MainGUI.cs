@@ -4,8 +4,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
-namespace DataExtraction
+namespace LDGMangementApplication
 {
     public partial class MainGUI : Form
     {
@@ -90,7 +91,6 @@ namespace DataExtraction
             }
 
         }
-
         private void serviceConfigButton_Click(object sender, EventArgs e)
         {
             //if username or password is empty dont continue
@@ -141,25 +141,39 @@ namespace DataExtraction
                     break;
             }
         }
-            
+
         //timer that is set up in design time to ping
         public void pingTimer_Tick(object sender, EventArgs e)
         {
+            pingTimer.Stop();
+            username = usernameBox.Text;
+            password = passwordBox.Text;
+
             //get the BNAUIP from the subnet
             string BNAUSubnetIP = MonitorBNAUSubnetBox.Text;
             string BNAUIPAddress = BNAUSubnetIP + ".1";
             string BNAUFWAddress = BNAUSubnetIP + ".17";
 
+            //if username or password hasnt been entered throw error
+            if ((username == null) || (password == null))
+            {
+                pingTimer.Stop();
+                MessageBox.Show("Please enter a username and password to monitor status of internal system", "No Username & Password entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //if no subnet IP is entered return
             if (BNAUSubnetIP == "")
             {
                 pingTimer.Stop();
-                MessageBox.Show("Please enter the BNAU subnet IP Address to Monitor", "Error");                
+                MessageBox.Show("Please enter the BNAU subnet IP Address to Monitor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             //call the ping class, passing in the BNAU IP and then get result
             Ping_ pingOnTime = new Ping_();
             pingOnTime.Ping_From_FW(BNAUIPAddress);
-            bool pingBNAUResult = Ping_.pingResult;
+            bool pingBNAUResult = Ping_.firewallPingResult;
 
             //change BNAU Ping button
             if (pingBNAUResult == true)
@@ -173,7 +187,8 @@ namespace DataExtraction
 
             //call the ping class, passing in the BNAU IP and then get result
             pingOnTime.Ping_From_FW(BNAUFWAddress);
-            bool pingFWResult = Ping_.pingResult;
+            bool pingFWResult = Ping_.firewallPingResult;
+
             //change firewall ping button
             if (pingFWResult == true)
             {
@@ -184,17 +199,13 @@ namespace DataExtraction
                 firewallPingControl.FillColor = Color.Red;
             }
 
-            //for demo just stop the timer to stop it lagging
-            pingTimer.Stop();
-
             //standard error:
             if (pingBNAUResult == false || pingFWResult == false)
             {
                 MainGUI error = new MainGUI();
                 error.errorDialog(true);
             }
+            pingTimer.Start();
         }
     }
 }
-
-

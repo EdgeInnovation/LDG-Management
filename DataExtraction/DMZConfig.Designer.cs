@@ -1,4 +1,4 @@
-﻿namespace DataExtraction
+﻿namespace LDGMangementApplication
 {
     partial class DMZConfig
     {
@@ -44,7 +44,6 @@
             this.returnNetworkConfig = new System.Windows.Forms.Button();
             this.networkTest = new System.Windows.Forms.TabPage();
             this.returnOSPF = new System.Windows.Forms.Button();
-            this.testButton = new System.Windows.Forms.Button();
             this.BNAUInterface = new System.Windows.Forms.Label();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.DMZInterfaceSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
@@ -188,7 +187,6 @@
             // networkTest
             // 
             this.networkTest.Controls.Add(this.returnOSPF);
-            this.networkTest.Controls.Add(this.testButton);
             this.networkTest.Controls.Add(this.BNAUInterface);
             this.networkTest.Controls.Add(this.shapeContainer1);
             this.networkTest.Location = new System.Drawing.Point(4, 22);
@@ -209,24 +207,14 @@
             this.returnOSPF.UseVisualStyleBackColor = true;
             this.returnOSPF.Click += new System.EventHandler(this.returnOSPF_Click);
             // 
-            // testButton
-            // 
-            this.testButton.Location = new System.Drawing.Point(217, 243);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(105, 40);
-            this.testButton.TabIndex = 9;
-            this.testButton.Text = "Test Connection";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.testButton_Click);
-            // 
             // BNAUInterface
             // 
             this.BNAUInterface.AutoSize = true;
             this.BNAUInterface.Location = new System.Drawing.Point(121, 118);
             this.BNAUInterface.Name = "BNAUInterface";
-            this.BNAUInterface.Size = new System.Drawing.Size(86, 13);
+            this.BNAUInterface.Size = new System.Drawing.Size(131, 13);
             this.BNAUInterface.TabIndex = 7;
-            this.BNAUInterface.Text = "DMZ Connected";
+            this.BNAUInterface.Text = "DMZ Interface Connected";
             // 
             // shapeContainer1
             // 
@@ -286,7 +274,6 @@
         private Microsoft.VisualBasic.PowerPacks.OvalShape DMZInterfaceSignal;
         private System.Windows.Forms.Label BNAUInterface;
         private System.Windows.Forms.Button returnOSPF;
-        private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel DMZTitleLabel;
         private System.Windows.Forms.ToolStripProgressBar progressDMZNetwork;

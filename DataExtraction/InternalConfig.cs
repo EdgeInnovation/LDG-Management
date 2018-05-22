@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.IO;
 
-namespace DataExtraction
+namespace LDGMangementApplication
 {
     public partial class InternalConfig : Form
     {
@@ -20,7 +20,7 @@ namespace DataExtraction
         public static string BNAUSubnetIP;
         public static bool intBNAUPingable;
         string username, password, errorLogOutput, logPath, firewallIPAddr, internalIPAddr, consoleOutput, errorOutput;
-        bool BNAUPlugged, configSuccess, pingBNAUResult;
+        bool configSuccess;
 
         //
         //Internal Config
@@ -139,26 +139,6 @@ namespace DataExtraction
                 return;
             }
 
-            //get the ping success result
-            if (consoleOutput.Contains("bytes from " + internalIPAddr))
-            {
-                pingBNAUResult = true;
-            }
-            else
-            {
-                pingBNAUResult = false;
-            }
-
-            //determine whether cable is connected from ifconfig status
-            if (consoleOutput.Contains("status: active"))
-            {
-                BNAUPlugged = true;
-            }
-            else
-            {
-                BNAUPlugged = false;
-            }
-
             //write error output to add to log file
             string lineBreak = "\n" + "------------------------------------------------------------";
 
@@ -195,20 +175,39 @@ namespace DataExtraction
             {
                 //Hide current tab and show next
                 BNAUWizard.TabPages.Remove(networkTest);
-                BNAUWizard.TabPages.Remove(Network);
-                
+                BNAUWizard.TabPages.Remove(Network);                
                 BNAUWizard.TabPages.Add(OSPF);
             }
             else
             {
                 return;
             }
+
+            //get the ping success result
+            if (consoleOutput.Contains("bytes from " + internalIPAddr))
+            {
+                BNAUPingSignal.FillColor = Color.Green;
+                intBNAUPingable = true;
+            }
+            else
+            {
+                BNAUPingSignal.FillColor = Color.Red;
+            }
+
+            //determine whether cable is connected from ifconfig status
+            if (consoleOutput.Contains("status: active"))
+            {
+                BNAUInterfaceSignal.FillColor = Color.Green;
+            }
+            else
+            {
+                BNAUInterfaceSignal.FillColor = Color.Red;
+            }
         }
 
         //
         //OSPF
         //
-
         private void OSPFConfig_Click(object sender, EventArgs e)
         {
             //retrieve information from userinput
@@ -323,6 +322,20 @@ namespace DataExtraction
                 BNAUWizard.TabPages.Remove(OSPF);
                 BNAUWizard.TabPages.Add(networkTest);
                 BNAUWizard.TabPages.Remove(Network);
+
+                //universal error messages:
+                //first check if connection is present
+                if (BNAUInterfaceSignal.FillColor == Color.Red)
+                {
+                    MainGUI error = new MainGUI();
+                    error.errorDialog(false);
+                    return;
+                }
+                else if (BNAUPingSignal.FillColor == Color.Red)
+                {
+                    MainGUI error = new MainGUI();
+                    error.errorDialog(true);
+                }
             }
             catch (Exception)
             {
@@ -337,8 +350,7 @@ namespace DataExtraction
         private void returnNetworkTest_Click(object sender, EventArgs e)
         {
             //Hide current tab and show next
-            BNAUWizard.TabPages.Remove(networkTest);
-            
+            BNAUWizard.TabPages.Remove(networkTest);            
             BNAUWizard.TabPages.Add(Network);
             BNAUWizard.TabPages.Remove(OSPF);
         }
@@ -348,46 +360,8 @@ namespace DataExtraction
         {
             //Hide current tab and show next
             BNAUWizard.TabPages.Remove(networkTest);
-
             BNAUWizard.TabPages.Add(Network);
             BNAUWizard.TabPages.Remove(OSPF);
-        }
-        private void testButton_Click(object sender, EventArgs e)
-        {
-           //if BNAU is unplugged put color red
-            if (BNAUPlugged == true)
-            {
-                BNAUInterfaceSignal.FillColor = Color.Green;
-            }
-            else if (BNAUPlugged == false)
-            {
-                BNAUInterfaceSignal.FillColor = Color.Red;
-            }
-
-            //change BNAU Ping button
-            if (pingBNAUResult == true)
-            {
-                BNAUPingSignal.FillColor = Color.Green;
-                intBNAUPingable = true;
-            }
-            else
-            {
-                BNAUPingSignal.FillColor = Color.Red;
-            }
-
-            //universal error messages:
-            //first check if connection is present
-            if (BNAUPlugged == false)
-            {
-                MainGUI error = new MainGUI();
-                error.errorDialog(false);
-                return;
-            }
-            else if (pingBNAUResult == false)
-            {
-                MainGUI error = new MainGUI();
-                error.errorDialog(true);
-            }
-        }        
+        }       
     } 
 }

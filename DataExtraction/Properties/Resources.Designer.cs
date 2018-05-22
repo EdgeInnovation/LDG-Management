@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataExtraction.Properties {
+namespace LDGMangementApplication.Properties {
     using System;
     
     

@@ -1,4 +1,4 @@
-﻿namespace DataExtraction
+﻿namespace LDGMangementApplication
 {
     partial class InternalConfig
     {
@@ -40,7 +40,6 @@
             this.BNAUPing = new System.Windows.Forms.Label();
             this.BNAUInterface = new System.Windows.Forms.Label();
             this.returnConfig = new System.Windows.Forms.Button();
-            this.testButton = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.BNAUPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.BNAUInterfaceSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
@@ -137,7 +136,6 @@
             this.networkTest.Controls.Add(this.BNAUPing);
             this.networkTest.Controls.Add(this.BNAUInterface);
             this.networkTest.Controls.Add(this.returnConfig);
-            this.networkTest.Controls.Add(this.testButton);
             this.networkTest.Controls.Add(this.shapeContainer1);
             this.networkTest.Location = new System.Drawing.Point(4, 22);
             this.networkTest.Name = "networkTest";
@@ -174,16 +172,6 @@
             this.returnConfig.Text = "Return to Set up";
             this.returnConfig.UseVisualStyleBackColor = true;
             this.returnConfig.Click += new System.EventHandler(this.returnConfig_Click);
-            // 
-            // testButton
-            // 
-            this.testButton.Location = new System.Drawing.Point(217, 243);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(105, 40);
-            this.testButton.TabIndex = 0;
-            this.testButton.Text = "Test Connection";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // shapeContainer1
             // 
@@ -301,7 +289,6 @@
         private System.Windows.Forms.TextBox ConfigBNAUSubnetBox;
         private System.Windows.Forms.Button ConfigureButton;
         private System.Windows.Forms.TabPage networkTest;
-        private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.TabPage OSPF;
         private System.Windows.Forms.Button returnConfig;
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;

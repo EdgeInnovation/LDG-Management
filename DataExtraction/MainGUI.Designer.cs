@@ -1,4 +1,4 @@
-﻿namespace DataExtraction
+﻿namespace LDGMangementApplication
 {
     partial class MainGUI
     {
@@ -49,6 +49,7 @@
             this.firewallPingControl = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.BNAUPingControl = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.pingTimer = new System.Windows.Forms.Timer(this.components);
+            this.timerCountLabel = new System.Windows.Forms.Label();
             this.TabControl.SuspendLayout();
             this.Configuration.SuspendLayout();
             this.Monitoring.SuspendLayout();
@@ -168,6 +169,7 @@
             // Monitoring
             // 
             this.Monitoring.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.Monitoring.Controls.Add(this.timerCountLabel);
             this.Monitoring.Controls.Add(this.label5);
             this.Monitoring.Controls.Add(this.MonitorBNAUSubnetBox);
             this.Monitoring.Controls.Add(this.label4);
@@ -247,8 +249,16 @@
             // 
             // pingTimer
             // 
-            this.pingTimer.Interval = 5000;
+            this.pingTimer.Interval = 7500;
             this.pingTimer.Tick += new System.EventHandler(this.pingTimer_Tick);
+            // 
+            // timerCountLabel
+            // 
+            this.timerCountLabel.AutoSize = true;
+            this.timerCountLabel.Location = new System.Drawing.Point(316, 196);
+            this.timerCountLabel.Name = "timerCountLabel";
+            this.timerCountLabel.Size = new System.Drawing.Size(0, 13);
+            this.timerCountLabel.TabIndex = 14;
             // 
             // MainGUI
             // 
@@ -288,6 +298,7 @@
         public System.Windows.Forms.TextBox usernameBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label timerCountLabel;
     }
 }
 

@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
-namespace DataExtraction
+namespace LDGMangementApplication
 {
     public partial class ServiceConfig : Form
     {
@@ -101,7 +101,7 @@ namespace DataExtraction
             //if no services are selected throw error
             if (!chatCheckBox.Checked && !mailCheckBox.Checked && !OSWCheckBox.Checked && !tracksCheckBox.Checked)
             {
-                MessageBox.Show("Please select a service to configure", "Error");
+                MessageBox.Show("Please select a service to configure", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             //Show the terminals for the tracks and chat listviews:
@@ -112,6 +112,14 @@ namespace DataExtraction
 
             //get the first dns from the bec file to compare against user selection (second in list)
             List<string> LDGList = extractList.GetLDGList();
+
+            //check path isnt null
+            string path = ExtractData.DMZBecFilePath;
+            if (path == null)
+            {
+                return;
+            }
+
             firstDNS = LDGList[2];
 
             chatListView.Scrollable = true;
@@ -540,7 +548,7 @@ namespace DataExtraction
             //Ping the chat internal 
             Ping_ pingIntChat = new Ping_();
             pingIntChat.Ping_From_FW(chatSelectedIP);
-            bool pingIntChatResult = Ping_.pingResult;
+            bool pingIntChatResult = Ping_.firewallPingResult;
 
             if (pingIntChatResult == true)
             {
@@ -554,7 +562,7 @@ namespace DataExtraction
             //Ping the ext router
             Ping_ pingExtChat = new Ping_();
             pingExtChat.Ping_From_FW(externalChatIP);
-            bool pingExtChatResult = Ping_.pingResult;
+            bool pingExtChatResult = Ping_.firewallPingResult;
 
             //change BNAU Ping button
             if (pingExtChatResult == true)

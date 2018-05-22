@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 
-namespace DataExtraction
+namespace LDGMangementApplication
 {
     class ExtractData
     {
@@ -17,7 +17,7 @@ namespace DataExtraction
         private List<string> LDGExtractedData = new List<string>();
         private List<string> terminalNames = new List<string>();
 
-        //methods to allow lists to be accessed from other classes
+        //methods to return lists from other classes
         public List<string> GetInternalList()
         {
             return internalExtractedData;
@@ -48,6 +48,10 @@ namespace DataExtraction
             else
             {
                 DMZBecFilePath = null;
+            }
+            if (DMZBecFilePath == null)
+            {
+                return;
             }
             //read the internal file
             using (System.IO.StreamReader sr = new System.IO.StreamReader(DMZBecFilePath))
@@ -85,7 +89,6 @@ namespace DataExtraction
             }
         }                                   
 
-        //LDG data
         public void Extract_Internal_Data()
         {
             //user chooses bec file for correct terminal
@@ -102,6 +105,10 @@ namespace DataExtraction
             else
             {
                 internalBecFilePath = null;
+            }
+            if (internalBecFilePath == null)
+            {
+                return;
             }
             //read the internal file
             using (System.IO.StreamReader sr = new System.IO.StreamReader(internalBecFilePath))
@@ -133,47 +140,3 @@ namespace DataExtraction
         }         
     }
 }
-
-/*
-//THE CODE BELOW WRITES THE EXTRACTED DATA TO A CONFIG FILE
-using (System.IO.StreamReader sr = new System.IO.StreamReader(becFilePath))
-                {
-                    line = sr.ReadLine();
-                    //Loop through each line that has data
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        //Split each line into an array (input) seperated by a space and extract each bit of necessary data.
-                        //Then stores each bit of data into a new array (output)
-                        string[] becFileData = line.Split(' ');
-                        if (becFileData[0] == "IPAddress")
-                        {
-                            IPAddress = becFileData[1];
-                            output[0] = "IPAddress=" + IPAddress;
-                            internalExtractedData.Add(IPAddress);//0
-                        }
-                        else if (becFileData[0] == "Subnet")
-                        {
-                            Subnet = becFileData[1];
-                            output[1] = "Subnet=" + Subnet;
-                            internalExtractedData.Add(Subnet);//1
-                        }
-                        //presuming chat is the primary dns
-                        else if (becFileData[0] == "FirstDns")
-                        {
-                            chatGW = becFileData[1];
-                            output[2] = "Chat GW=" + chatGW;
-                            internalExtractedData.Add(chatGW);//2
-                        }
-                    }
-
-                    internalConfigFilePath = @"C:\Program FIles (x86)\General Dynamics UK\LDG Management Application\InternalExtractedData.txt";
-                    //create config file if it doesn't already exist
-                    if (!File.Exists(internalConfigFilePath))
-                    {
-                        File.Create(internalConfigFilePath);
-                    }
-                    //Output each string to a single file
-                    System.IO.File.WriteAllLines(internalConfigFilePath, output);
-                    MessageBox.Show(@"Data Extracted. Find output file in C:\Program FIles (x86)\General Dynamics UK\LDG Management Application", "Job Complete");
-                    return;
-*/

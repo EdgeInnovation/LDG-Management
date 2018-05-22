@@ -74,6 +74,12 @@
     <Compile Include="DMZConfig.Designer.cs">
       <DependentUpon>DMZConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Router.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Router.Designer.cs">
+      <DependentUpon>Router.cs</DependentUpon>
+    </Compile>
     <Compile Include="ServiceConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     </Compile>
     <EmbeddedResource Include="DMZConfig.resx">
       <DependentUpon>DMZConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Router.resx">
+      <DependentUpon>Router.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ServiceConfig.resx">
       <DependentUpon>ServiceConfig.cs</DependentUpon>
