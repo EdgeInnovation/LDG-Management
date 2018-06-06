@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 
-namespace DataExtraction
+namespace LDGManagementApplication
 {
     public partial class MainGUI : Form
     {
@@ -145,6 +145,7 @@ namespace DataExtraction
         //timer that is set up in design time to ping
         public void pingTimer_Tick(object sender, EventArgs e)
         {
+            pingTimer.Stop();
             //get the BNAUIP from the subnet
             string BNAUSubnetIP = MonitorBNAUSubnetBox.Text;
             string BNAUIPAddress = BNAUSubnetIP + ".1";
@@ -193,6 +194,7 @@ namespace DataExtraction
                 MainGUI error = new MainGUI();
                 error.errorDialog(true);
             }
+            pingTimer.Start();
         }
     }
 }

@@ -6,22 +6,19 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
-namespace DataExtraction
+namespace LDGManagementApplication
 {
     public partial class ServiceConfig : Form
     {
         public ServiceConfig()
         {
             InitializeComponent();
-            ExternalWizard.TabPages.Remove(chatTab);
-            ExternalWizard.TabPages.Remove(chooseServicesTab);
-            ExternalWizard.TabPages.Remove(tracksTab);
-            ExternalWizard.TabPages.Remove(tracksNetworkTab);
-            ExternalWizard.TabPages.Remove(chatNetworkTab);
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(homeTab);
 
             //grab the bools from each other form to set the lights on the home page
             //INTERNAL
-            if (InternalConfig.intBNAUPingable == true)
+            if (InternalConfig.pingBNAUResult == true)
             {
                 BNAUPingSignal.FillColor = Color.Green;
             }
@@ -50,8 +47,8 @@ namespace DataExtraction
                 ExtRouterPingSignal.FillColor = Color.Red;
             }                     
         }
-        string username, password, tracksSelectedTerminalFull, tracksSelectedIP, loginError, externalTracksIP, consoleOutput;
-        bool pingIntTracksResult, pingExtTracksResult;
+        string firstDNS;
+        bool pingIntTracksResult, pingExtTracksResult, pingIntChatResult, pingExtChatResult, pingIntMailResult, pingExtMailResult, pingIntOSWResult, pingExtOSWResult;
         //
         // Home Tab
         //
@@ -59,14 +56,10 @@ namespace DataExtraction
         private void nextToChoose_Click(object sender, EventArgs e)
         {
             //only advance if all are green
-            if (InternalConfig.intBNAUPingable == true && DMZConfig.DMZConnected == true && ExternalConfig.extRouterPingable == true)
+            if (InternalConfig.pingBNAUResult == true && DMZConfig.DMZConnected == true && ExternalConfig.extRouterPingable == true)
             {
-                ExternalWizard.TabPages.Add(chooseServicesTab);
-                ExternalWizard.TabPages.Remove(chatTab);
-                ExternalWizard.TabPages.Remove(homeTab);
-                ExternalWizard.TabPages.Remove(tracksTab);
-                ExternalWizard.TabPages.Remove(tracksNetworkTab);
-                ExternalWizard.TabPages.Remove(chatNetworkTab);
+                servicesWizard.TabPages.Clear();
+                servicesWizard.TabPages.Add(chooseServicesTab);
             }
             else
             {
@@ -77,12 +70,8 @@ namespace DataExtraction
                 DialogResult dialogResult = MessageBox.Show("Internal, DMZ and External systems have not been successfully configured. Continue anyway?", "Configure all other systems first", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    ExternalWizard.TabPages.Add(chooseServicesTab);
-                    ExternalWizard.TabPages.Remove(chatTab);
-                    ExternalWizard.TabPages.Remove(homeTab);
-                    ExternalWizard.TabPages.Remove(tracksTab);
-                    ExternalWizard.TabPages.Remove(tracksNetworkTab);
-                    ExternalWizard.TabPages.Remove(chatNetworkTab);
+                    servicesWizard.TabPages.Clear();
+                    servicesWizard.TabPages.Add(chooseServicesTab);
                 }
                 else if (dialogResult == DialogResult.No)
                 {
@@ -101,7 +90,8 @@ namespace DataExtraction
             //if no services are selected throw error
             if (!chatCheckBox.Checked && !mailCheckBox.Checked && !OSWCheckBox.Checked && !tracksCheckBox.Checked)
             {
-                MessageBox.Show("Please select a service to configure", "Error");
+                MessageBox.Show("Please Select a Service to Configure", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             //Show the terminals for the tracks and chat listviews:
@@ -112,6 +102,14 @@ namespace DataExtraction
 
             //get the first dns from the bec file to compare against user selection (second in list)
             List<string> LDGList = extractList.GetLDGList();
+
+            //if list returned empty (user canceled dialog) then return
+            if (LDGList.Count == 0)
+            {
+                return;
+            }
+
+            //find primary DNS
             firstDNS = LDGList[2];
 
             chatListView.Scrollable = true;
@@ -124,72 +122,72 @@ namespace DataExtraction
             //create the headers
             ColumnHeader tracksHeader = new ColumnHeader();
             ColumnHeader chatHeader = new ColumnHeader();
+            ColumnHeader mailHeader = new ColumnHeader();
+            ColumnHeader OSWHeader = new ColumnHeader();
 
-            tracksHeader.Text = "Terminals";
-            tracksHeader.Name = "Terminals";
-            chatHeader.Text = "Terminals";
-            chatHeader.Name = "Terminals";
+            tracksHeader.Text = chatHeader.Text = mailHeader.Text = OSWHeader.Text = "Terminals";
+            tracksHeader.Name = chatHeader.Name = mailHeader.Name = OSWHeader.Name = "Terminals";
             chatListView.Columns.Add(chatHeader);
             chatHeader.Width = chatListView.Width;
             tracksListView.Columns.Add(tracksHeader);
             tracksHeader.Width = tracksListView.Width;
+            mailListView.Columns.Add(mailHeader);
+            chatHeader.Width = chatListView.Width;
+            OSWListView.Columns.Add(OSWHeader);
+            OSWHeader.Width = OSWListView.Width;
+
+            tracksListView.View = View.Details;
+            chatListView.View = View.Details;
+            mailListView.View = View.Details;
+            OSWListView.View = View.Details;
+
+            //resize the colomuns
+            tracksListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            chatListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            mailListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            OSWListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            tracksListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            chatListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            mailListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            OSWListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
             //Populates the listviews with the terminals for user to select
             foreach (string terminal in serviceRolesList)
             {
                 chatListView.Items.Add(terminal);
                 tracksListView.Items.Add(terminal);
+                mailListView.Items.Add(terminal);
+                OSWListView.Items.Add(terminal);
             }
-            
+
             //go to relative tabs based on selection of check boxes
             if (tracksCheckBox.Checked)
             {
                 //if tracks is selected go to tracks tab etc..
-                ExternalWizard.TabPages.Add(tracksTab);
-                ExternalWizard.TabPages.Remove(chooseServicesTab);
-                ExternalWizard.TabPages.Remove(homeTab);
-                ExternalWizard.TabPages.Remove(chatTab);
-                ExternalWizard.TabPages.Remove(tracksNetworkTab);
-                ExternalWizard.TabPages.Remove(chatNetworkTab);
-
+                servicesWizard.TabPages.Clear();
+                servicesWizard.TabPages.Add(tracksTab);
             }
             else if (chatCheckBox.Checked)
             {
-                ExternalWizard.TabPages.Add(chatTab);
-                ExternalWizard.TabPages.Remove(chooseServicesTab);
-                ExternalWizard.TabPages.Remove(homeTab);
-                ExternalWizard.TabPages.Remove(tracksTab);
-                ExternalWizard.TabPages.Remove(chatNetworkTab);
-                ExternalWizard.TabPages.Remove(tracksNetworkTab);
-            }
-            else if (OSWCheckBox.Checked)
-            {
-                ExternalWizard.TabPages.Remove(chatTab);
-                ExternalWizard.TabPages.Remove(chooseServicesTab);
-                ExternalWizard.TabPages.Remove(homeTab);
-                ExternalWizard.TabPages.Remove(tracksTab);
-                ExternalWizard.TabPages.Remove(chatNetworkTab);
-                ExternalWizard.TabPages.Remove(tracksNetworkTab);
+                servicesWizard.TabPages.Clear();
+                servicesWizard.TabPages.Add(chatTab);
             }
             else if (mailCheckBox.Checked)
             {
-                ExternalWizard.TabPages.Remove(chatTab);
-                ExternalWizard.TabPages.Remove(chooseServicesTab);
-                ExternalWizard.TabPages.Remove(homeTab);
-                ExternalWizard.TabPages.Remove(tracksTab);
-                ExternalWizard.TabPages.Remove(chatNetworkTab);
-                ExternalWizard.TabPages.Remove(tracksNetworkTab);
+                servicesWizard.TabPages.Clear();
+                servicesWizard.TabPages.Add(mailTab);
+            }
+            else if (OSWCheckBox.Checked)
+            {
+                servicesWizard.TabPages.Clear();
+                servicesWizard.TabPages.Add(OSWTab);
             }
         }
         
         private void backToHome_Click(object sender, EventArgs e)
         {
-            ExternalWizard.TabPages.Add(homeTab);
-            ExternalWizard.TabPages.Remove(chatTab);
-            ExternalWizard.TabPages.Remove(chooseServicesTab);
-            ExternalWizard.TabPages.Remove(tracksTab);
-            ExternalWizard.TabPages.Remove(tracksNetworkTab);
-            ExternalWizard.TabPages.Remove(chatNetworkTab);
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(homeTab);
         }
         
         //
@@ -198,19 +196,14 @@ namespace DataExtraction
 
         private void chooseFromTracks_Click(object sender, EventArgs e)
         {
-            ExternalWizard.TabPages.Add(chooseServicesTab);
-            ExternalWizard.TabPages.Remove(chatTab);
-            ExternalWizard.TabPages.Remove(homeTab);
-            ExternalWizard.TabPages.Remove(tracksTab);
-            ExternalWizard.TabPages.Remove(tracksNetworkTab);
-            ExternalWizard.TabPages.Remove(chatNetworkTab);
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(chooseServicesTab);
         }
 
-        //next page from tracks
         private void configureTracks_Click(object sender, EventArgs e)
         {            
             ListView.SelectedListViewItemCollection selectedItems = new ListView.SelectedListViewItemCollection(tracksListView);
-            externalTracksIP = externalTracksBox.Text;
+            string externalTracksIP = externalTracksBox.Text;
 
             //3 requirements before allowing to configure:
             //if no terminal is selected throw error
@@ -226,134 +219,25 @@ namespace DataExtraction
                 MessageBox.Show("Please Only Select One Terminal", "Too many terminals selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
             //if external box is empty dont allow configure
             else if (externalTracksIP == "")
             {
                 MessageBox.Show("Please enter the External Tracks Server IP Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
             //otherwise use the selected item
-            tracksSelectedTerminalFull = selectedItems[0].Text;
-
+            string tracksSelectedTerminalFull = selectedItems[0].Text;
             //get the ip from the fuill line
             string[] tracksSelectedIPArray = tracksSelectedTerminalFull.Split('"');
-            tracksSelectedIP = tracksSelectedIPArray[2];
+            string tracksSelectedIP = tracksSelectedIPArray[2];
             trackProgress.Value = 5;
-
-            //retrieve information from userinput
-            username = MainGUI.username;
-            password = MainGUI.password;
-            trackProgress.Value = 8;
-       
-            //start the command line process
-            ProcessStartInfo psi = new ProcessStartInfo(@"C:\Windows\System32\cmd");
-            psi.ErrorDialog = false;
-            psi.UseShellExecute = false;
-
-            //hide the command window
-            psi.CreateNoWindow = true;
-            psi.WindowStyle = ProcessWindowStyle.Hidden;
-
-            //redirect the input and output
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardInput = true;
-            psi.RedirectStandardOutput = true;
             
-            //start plink process
-            Process plinkProcess = Process.Start(psi);
-            StreamWriter inputWriter = plinkProcess.StandardInput;
-            StreamReader outputReader = plinkProcess.StandardOutput;
-            StreamReader errorReader = plinkProcess.StandardError;
-            
-            //command to log in to the firewall
-            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
-            Thread.Sleep(1000);
-
-            //give admin rights
-            inputWriter.WriteLine("srole");
-            trackProgress.Value = 20; 
-            tracksProgressLabel.Text = "Modifying Tracks Network Object...";
-            Thread.Sleep(1000);
-
-            //modify network object for internal tracks server
-            inputWriter.WriteLine("cf ipaddr modify name=\"DMZ BCIP Tracks Gateway\" ipaddr=" + tracksSelectedIP);
-            trackProgress.Value = 30;
-            Thread.Sleep(1000);
-            
-            //modify network object for external tracks server
-            inputWriter.WriteLine("cf ipaddr modify name=\"External 1 Tracks Server\" ipaddr=" + externalTracksIP);
-            trackProgress.Value = 40;
-            Thread.Sleep(1000);
-
-            //enable the tracks rules:
-            tracksProgressLabel.Text = "Configuring Tracks Policy Rules...";
-            inputWriter.WriteLine("cf policy modify name=\"Tracks to External 1\" disable=no");
-            trackProgress.Value = 50;
-            Thread.Sleep(1000);
-
-            inputWriter.WriteLine("cf policy modify name=\"Tracks from External 1\" disable=no");
-            trackProgress.Value = 60;
-            Thread.Sleep(1000);
-
-            //ping tracks server internal for 3 counts
-            inputWriter.WriteLine("ping -c 3 " + tracksSelectedIP);
-            Thread.Sleep(3000);
-            trackProgress.Value = 70;
-
-            //ping tracks server external for 3 counts
-            inputWriter.WriteLine("ping -c 3 " + externalTracksIP);
-            Thread.Sleep(3000);
-            trackProgress.Value = 80;
-
-            //exit
-            inputWriter.WriteLine("exit");
-            inputWriter.WriteLine("exit");
-            trackProgress.Value = 90;
-
-            //kill process;
-            try
-            {
-                //do not add any non-putty code in before killing the process, it will crash
-                plinkProcess.Kill();
-                
-                loginError = errorReader.ReadToEnd().ToString();
-                consoleOutput = outputReader.ReadToEnd().ToString();
-                //access denied will pop up if connected to the firewall and wrong username/pw info. FATAL ERROR is if not connected to firewall
-                if (loginError.Contains("Access denied") || loginError.Contains("FATAL ERROR"))
-                {
-                    //If Plink connection fails throw error and return
-                    MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    trackProgress.Value = 0;
-                    tracksProgressLabel.Text = "Error";
-                }
-                else
-                {
-                    //Confirmation 
-                    trackProgress.Value = 100;
-                    MessageBox.Show("Network Objects and Access Control Rules configured for Tracks", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    tracksProgressLabel.Text = "Job Complete";
-
-                    ExternalWizard.TabPages.Add(tracksNetworkTab);
-                    ExternalWizard.TabPages.Remove(chooseServicesTab);
-                    ExternalWizard.TabPages.Remove(chatTab);
-                    ExternalWizard.TabPages.Remove(homeTab);
-                    ExternalWizard.TabPages.Remove(tracksTab);
-                    ExternalWizard.TabPages.Remove(chatNetworkTab);
-
-                }
-            }
-            catch (Exception)
-            {
-                //error message
-                MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                trackProgress.Value = 0;
-                tracksProgressLabel.Text = "Error";
-            }
+            //call the putty tracks class
+            Tracks tracksConfig = new Tracks();
+            tracksConfig.Tracks_Config(tracksSelectedIP, externalTracksIP);
 
             //get the ping success result
-            if (consoleOutput.Contains("bytes from " + tracksSelectedIP))
+            if (Tracks.consoleOutput.Contains("bytes from " + tracksSelectedIP))
             {
                 pingIntTracksResult = true;
             }
@@ -363,7 +247,7 @@ namespace DataExtraction
             }
 
             //get the ping success result
-            if (consoleOutput.Contains("bytes from " + externalTracksIP))
+            if (Tracks.consoleOutput.Contains("bytes from " + externalTracksIP))
             {
                 pingExtTracksResult = true;
             }
@@ -371,8 +255,19 @@ namespace DataExtraction
             {
                 pingExtTracksResult = false;
             }
-        }
 
+            //go to next page if it succeeded
+            if (Tracks.configSuccess == true)
+            {
+                //Hide tabs and show next
+                servicesWizard.TabPages.Clear();
+                servicesWizard.TabPages.Add(tracksNetworkTab);
+            }
+            else
+            {
+                return;
+            }
+        }
 
         //
         // Tracks Net test Tab
@@ -381,12 +276,8 @@ namespace DataExtraction
         //back to tracks from tracks net test
         private void backFromTracksNet_Click(object sender, EventArgs e)
         {
-            ExternalWizard.TabPages.Remove(chooseServicesTab);
-            ExternalWizard.TabPages.Remove(chatTab);
-            ExternalWizard.TabPages.Remove(homeTab);
-            ExternalWizard.TabPages.Add(tracksTab);
-            ExternalWizard.TabPages.Remove(chatNetworkTab);
-            ExternalWizard.TabPages.Remove(tracksNetworkTab);
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(tracksTab);
         }
 
         private void tracksNetTestButton_Click(object sender, EventArgs e)
@@ -416,41 +307,64 @@ namespace DataExtraction
                 //error.errorDialog(true);
                 DialogResult errorDialog = MessageBox.Show("Ping failed. Please ensure you have selected the correct plan or the IP address is correct."
                     + System.Environment.NewLine + "Press Yes to Continue to the next Service Config or No to continue with Tracks Config", "Network Test Failed. Continue Anyway?", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                if (errorDialog == DialogResult.Yes && chatCheckBox.Checked)
+                if (errorDialog == DialogResult.Yes)
                 {
-                    //progress to chat tab
-                    ExternalWizard.TabPages.Remove(chooseServicesTab);
-                    ExternalWizard.TabPages.Add(chatTab);
-                    ExternalWizard.TabPages.Remove(homeTab);
-                    ExternalWizard.TabPages.Remove(tracksTab);
-                    ExternalWizard.TabPages.Remove(tracksNetworkTab);
-                    ExternalWizard.TabPages.Remove(chatNetworkTab);
+                    //go to next tab
+                    if (chatCheckBox.Checked)
+                    {
+                        servicesWizard.TabPages.Clear();
+                        servicesWizard.TabPages.Add(chatTab);
+                    }
+                    else if (OSWCheckBox.Checked)
+                    {
+                        servicesWizard.TabPages.Clear();
+                        servicesWizard.TabPages.Add(OSWTab);
+                    }
+                    else if (mailCheckBox.Checked)
+                    {
+                        servicesWizard.TabPages.Clear();
+                        servicesWizard.TabPages.Add(mailTab);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Close();
+                    }
                 }
                 //go to next tab other than chat when created
-                else if ((errorDialog == DialogResult.Yes && !chatCheckBox.Checked) || errorDialog == DialogResult.No)
+                else if (errorDialog == DialogResult.No)
                 {
                     return;
                 }
             }
 
             //if success move on
-            if (pingIntTracksResult == true && pingExtTracksResult == true && chatCheckBox.Checked)
+            if (pingIntTracksResult == true && pingExtTracksResult == true)
             {
-                //progress to chat tab
-                ExternalWizard.TabPages.Remove(chooseServicesTab);
-                ExternalWizard.TabPages.Add(chatTab);
-                ExternalWizard.TabPages.Remove(homeTab);
-                ExternalWizard.TabPages.Remove(tracksTab);
-                ExternalWizard.TabPages.Remove(tracksNetworkTab);
-                ExternalWizard.TabPages.Remove(chatNetworkTab);
-            }
-            //go to next tab other than chat when created
-            else if (pingIntTracksResult == true && pingExtTracksResult == true && !chatCheckBox.Checked)
-            {
-                return;
+                //go to next tab
+                if (chatCheckBox.Checked)
+                {
+                    servicesWizard.TabPages.Clear();
+                    servicesWizard.TabPages.Add(chatTab);
+                }
+                else if (OSWCheckBox.Checked)
+                {
+                    servicesWizard.TabPages.Clear();
+                    servicesWizard.TabPages.Add(OSWTab);
+                }
+                else if (mailCheckBox.Checked)
+                {
+                    servicesWizard.TabPages.Clear();
+                    servicesWizard.TabPages.Add(mailTab);
+                }
+                else
+                {
+                    MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
             }
         }
-
+        
         //
         // Chat Tab
         //
@@ -458,19 +372,13 @@ namespace DataExtraction
         //back to choose from chat
         private void chooseFromChat_Click(object sender, EventArgs e)
         {
-            ExternalWizard.TabPages.Add(chooseServicesTab);
-            ExternalWizard.TabPages.Remove(chatTab);
-            ExternalWizard.TabPages.Remove(homeTab);
-            ExternalWizard.TabPages.Remove(tracksTab);
-            ExternalWizard.TabPages.Remove(tracksNetworkTab);
-            ExternalWizard.TabPages.Remove(chatNetworkTab);
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(chooseServicesTab);
         }
-
-        string externalChatIP, chatSelectedTerminalFull, chatSelectedIP, firstDNS;
         private void nextFromChat_Click(object sender, EventArgs e)
         {
             ListView.SelectedListViewItemCollection chatSelectedItems = new ListView.SelectedListViewItemCollection(chatListView);
-            externalChatIP = externalChatBox.Text;
+            string externalChatIP = externalChatBox.Text;
 
             //3 requirements before allowing to configure:
             //if no terminal is selected throw error
@@ -495,27 +403,53 @@ namespace DataExtraction
             }
 
             //otherwise use the selected item
-            chatSelectedTerminalFull = chatSelectedItems[0].Text;
+            string chatSelectedTerminalFull = chatSelectedItems[0].Text;
 
             //get the ip from the full line
             string[] chatSelectedIPArray = chatSelectedTerminalFull.Split('"');
-            chatSelectedIP = chatSelectedIPArray[2];
+            string chatSelectedIP = chatSelectedIPArray[2];
             
             //if the first dns isnt the chat selected terminal throw an error
             if (firstDNS != chatSelectedIP)
             {
-                MessageBox.Show("The Chat Terminal selected does not match the Primary DNS for this Platform. Please re-select the Chat Terminal", "Internal Chat Gateway must match Primary DNS", 
+                MessageBox.Show("The Chat Terminal selected does not match the Primary DNS for this Platform. Please initialise the Chat Terminal as the Primary DNS: " + firstDNS, "Internal Chat Gateway must match Primary DNS", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            //call the putty chat class
+            Chat chatConfig = new Chat();
+            chatConfig.Chat_Config(chatSelectedIP, externalChatIP);
+
+            //get the ping success result
+            if (Chat.consoleOutput.Contains("bytes from " + chatSelectedIP))
+            {
+                pingIntChatResult = true;
+            }
             else
             {
-                ExternalWizard.TabPages.Remove(chooseServicesTab);
-                ExternalWizard.TabPages.Remove(chatTab);
-                ExternalWizard.TabPages.Remove(homeTab);
-                ExternalWizard.TabPages.Remove(tracksTab);
-                ExternalWizard.TabPages.Remove(tracksNetworkTab);
-                ExternalWizard.TabPages.Add(chatNetworkTab);
+                pingIntChatResult = false;
+            }
+
+            //get the ping success result
+            if (Chat.consoleOutput.Contains("bytes from " + externalChatIP))
+            {
+                pingExtChatResult = true;
+            }
+            else
+            {
+                pingExtChatResult = false;
+            }
+
+            //go to next page if it succeeded
+            if (Chat.configSuccess == true)
+            {
+                //Hide tabs and show next
+                servicesWizard.TabPages.Clear();
+                servicesWizard.TabPages.Add(chatNetworkTab);
+            }
+            else
+            {
+                return;
             }
         }
 
@@ -526,22 +460,13 @@ namespace DataExtraction
         //back to chat from chat net test
         private void backFromChatNet_Click(object sender, EventArgs e)
         {
-            ExternalWizard.TabPages.Remove(chooseServicesTab);
-            ExternalWizard.TabPages.Add(chatTab);
-            ExternalWizard.TabPages.Remove(homeTab);
-            ExternalWizard.TabPages.Remove(tracksTab);
-            ExternalWizard.TabPages.Remove(tracksNetworkTab);
-            ExternalWizard.TabPages.Remove(chatNetworkTab);
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(chatTab);
         }
 
         //chat net test button
         private void chatNetTestButton_Click(object sender, EventArgs e)
         {
-            //Ping the chat internal 
-            Ping_ pingIntChat = new Ping_();
-            pingIntChat.Ping_From_FW(chatSelectedIP);
-            bool pingIntChatResult = Ping_.pingResult;
-
             if (pingIntChatResult == true)
             {
                 IntChatPingSignal.FillColor = Color.Green;
@@ -550,12 +475,6 @@ namespace DataExtraction
             {
                 IntChatPingSignal.FillColor = Color.Red;
             }
-
-            //Ping the ext router
-            Ping_ pingExtChat = new Ping_();
-            pingExtChat.Ping_From_FW(externalChatIP);
-            bool pingExtChatResult = Ping_.pingResult;
-
             //change BNAU Ping button
             if (pingExtChatResult == true)
             {
@@ -569,9 +488,331 @@ namespace DataExtraction
             //universal error
             if (pingIntChatResult == false || pingExtChatResult == false)
             {
-                MainGUI error = new MainGUI();
-                error.errorDialog(true);
-            }        
+                DialogResult errorDialog = MessageBox.Show("Ping failed. Please ensure you have selected the correct plan or the IP address is correct."
+                    + System.Environment.NewLine + "Press Yes to Continue to the next Service Config or No to continue with Current Config", "Network Test Failed. Continue Anyway?", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                if (errorDialog == DialogResult.Yes)
+                {
+                    //go to next tab
+                    if (OSWCheckBox.Checked)
+                    {
+                        servicesWizard.TabPages.Clear();
+                        servicesWizard.TabPages.Add(OSWTab);
+                    }
+                    else if (mailCheckBox.Checked)
+                    {
+                        servicesWizard.TabPages.Clear();
+                        servicesWizard.TabPages.Add(mailTab);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Close();
+                    }
+                }
+                else if (errorDialog == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            //if success move on
+            if (pingIntChatResult == true && pingExtChatResult == true)
+            {
+                //go to next tab
+                if (OSWCheckBox.Checked)
+                {
+                    servicesWizard.TabPages.Clear();
+                    servicesWizard.TabPages.Add(OSWTab);
+                }
+                else if (mailCheckBox.Checked)
+                {
+                    servicesWizard.TabPages.Clear();
+                    servicesWizard.TabPages.Add(mailTab);
+                }
+                else
+                {
+                    MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
+            }
+        }
+
+        //
+        // Mail Tab
+        //
+
+        private void chooseFromMail_Click(object sender, EventArgs e)
+        {
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(chooseServicesTab);
+        }
+        private void configureMail_Click(object sender, EventArgs e)
+        {
+            ListView.SelectedListViewItemCollection mailSelectedItems = new ListView.SelectedListViewItemCollection(mailListView);
+            string externalMailIP = externalMailBox.Text;
+
+            //3 requirements before allowing to configure:
+            //if no terminal is selected throw error
+            if (mailSelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please Select a Terminal", "No terminal selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            //if more than one item is Selected throw error
+            else if (mailSelectedItems.Count > 1)
+            {
+                MessageBox.Show("Please Only Select One Terminal", "Too many terminals selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            //if external box is empty dont allow configure
+            else if (externalMailIP == "")
+            {
+                MessageBox.Show("Please enter the External Tracks Server IP Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //otherwise use the selected item
+            string mailSelectedTerminalFull = mailSelectedItems[0].Text;
+
+            //get the ip from the full line
+            string[] mailSelectedIPArray = mailSelectedTerminalFull.Split('"');
+            string mailSelectedIP = mailSelectedIPArray[2];
+
+            //call the putty mail class
+            Mail mailConfig = new Mail();
+            mailConfig.Mail_Config(mailSelectedIP, externalMailIP);
+
+            //get the ping success result
+            if (Mail.consoleOutput.Contains("bytes from " + mailSelectedIP))
+            {
+                pingIntMailResult = true;
+            }
+            else
+            {
+                pingIntMailResult = false;
+            }
+
+            //get the ping success result
+            if (Mail.consoleOutput.Contains("bytes from " + externalMailIP))
+            {
+                pingExtMailResult = true;
+            }
+            else
+            {
+                pingExtMailResult = false;
+            }
+
+            //go to next page if it succeeded
+            if (Mail.configSuccess == true)
+            {
+                //Hide tabs and show next
+                servicesWizard.TabPages.Clear();
+                servicesWizard.TabPages.Add(mailNetworkTab);
+            }
+            else
+            {
+                return;
+            }
+        }
+        //
+        // Mail Network Tab
+        //
+        private void backFromMailNet_Click(object sender, EventArgs e)
+        {
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(mailTab);
+        }
+        private void mailNetTestButton_Click(object sender, EventArgs e)
+        {
+            if (pingIntMailResult == true)
+            {
+                IntMailPingSignal.FillColor = Color.Green;
+            }
+            else
+            {
+                IntMailPingSignal.FillColor = Color.Red;
+            }
+            //change BNAU Ping button
+            if (pingExtMailResult == true)
+            {
+                ExtMailPingSignal.FillColor = Color.Green;
+            }
+            else
+            {
+                ExtMailPingSignal.FillColor = Color.Red;
+            }
+
+            //universal error
+            if (pingIntMailResult == false || pingExtMailResult == false)
+            {
+                DialogResult errorDialog = MessageBox.Show("Ping failed. Please ensure you have selected the correct plan or the IP address is correct."
+                    + System.Environment.NewLine + "Press Yes to Continue to the next Service Config or No to continue with Current Config", "Network Test Failed. Continue Anyway?", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                if (errorDialog == DialogResult.Yes)
+                {
+                    //go to next tab
+                    if (mailCheckBox.Checked)
+                    {
+                        servicesWizard.TabPages.Clear();
+                        servicesWizard.TabPages.Add(mailTab);
+                    }
+                    else//if no other button are checked
+                    {
+                        MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Close();
+                    }
+                }
+                else if (errorDialog == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            //if success move on
+            if (pingIntMailResult == true && pingExtMailResult == true)
+            {
+                //go to next tab
+                if (mailCheckBox.Checked)
+                {
+                    servicesWizard.TabPages.Clear();
+                    servicesWizard.TabPages.Add(mailTab);
+                }
+                else
+                {
+                    MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
+            }
+        }
+
+        //
+        // OSW Tab
+        //
+
+        private void chooseFromOSW_Click(object sender, EventArgs e)
+        {
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(chooseServicesTab);
+        }
+        private void configureOSW_Click(object sender, EventArgs e)
+        {
+            ListView.SelectedListViewItemCollection OSWSelectedItems = new ListView.SelectedListViewItemCollection(OSWListView);
+            string externalOSWIP = externalOSWBox.Text;
+
+            //3 requirements before allowing to configure:
+            //if no terminal is selected throw error
+            if (OSWSelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please Select a Terminal", "No terminal selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            //if more than one item is Selected throw error
+            else if (OSWSelectedItems.Count > 1)
+            {
+                MessageBox.Show("Please Only Select One Terminal", "Too many terminals selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            //if external box is empty dont allow configure
+            else if (externalOSWIP == "")
+            {
+                MessageBox.Show("Please enter the External Tracks Server IP Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //otherwise use the selected item
+            string OSWSelectedTerminalFull = OSWSelectedItems[0].Text;
+
+            //get the ip from the full line
+            string[] OSWSelectedIPArray = OSWSelectedTerminalFull.Split('"');
+            string OSWSelectedIP = OSWSelectedIPArray[2];
+
+            //call the putty mail class
+            OSW OSWConfig = new OSW();
+            OSWConfig.OSW_Config(OSWSelectedIP, externalOSWIP);
+
+            //get the ping success result
+            if (OSW.consoleOutput.Contains("bytes from " + OSWSelectedIP))
+            {
+                pingIntOSWResult = true;
+            }
+            else
+            {
+                pingIntOSWResult = false;
+            }
+
+            //get the ping success result
+            if (OSW.consoleOutput.Contains("bytes from " + externalOSWIP))
+            {
+                pingExtOSWResult = true;
+            }
+            else
+            {
+                pingExtOSWResult = false;
+            }
+
+            //go to next page if it succeeded
+            if (OSW.configSuccess == true)
+            {
+                //Hide tabs and show next
+                servicesWizard.TabPages.Clear();
+                servicesWizard.TabPages.Add(OSWNetworkTab);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        //
+        // OSW Network Tab
+        //
+        private void backFromOSWNet_Click(object sender, EventArgs e)
+        {
+            servicesWizard.TabPages.Clear();
+            servicesWizard.TabPages.Add(OSWTab);
+        }
+        private void OSWNetTestButton_Click(object sender, EventArgs e)
+        {
+            if (pingIntOSWResult == true)
+            {
+                IntOSWPingSignal.FillColor = Color.Green;
+            }
+            else
+            {
+                IntOSWPingSignal.FillColor = Color.Red;
+            }
+            //change BNAU Ping button
+            if (pingExtOSWResult == true)
+            {
+                ExtOSWPingSignal.FillColor = Color.Green;
+            }
+            else
+            {
+                ExtOSWPingSignal.FillColor = Color.Red;
+            }
+
+            //universal error
+            if (pingIntOSWResult == false || pingExtOSWResult == false)
+            {
+                DialogResult errorDialog = MessageBox.Show("Ping failed. Please ensure you have selected the correct plan or the IP address is correct."
+                    + System.Environment.NewLine + "Press Yes to Continue to the next Service Config or No to continue with Current Config", "Network Test Failed. Continue Anyway?", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                if (errorDialog == DialogResult.Yes)
+                {
+                    MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
+                //go to next tab other than chat when created
+                else if (errorDialog == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            //if success finish service config
+            if (pingIntOSWResult == true && pingExtOSWResult == true)
+            {
+                MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Close();
+            }
         }
     }
 }

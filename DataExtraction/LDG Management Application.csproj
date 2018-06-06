@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3846E43D-749E-4B8E-B58E-B5745A13D1CF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>DataExtraction</RootNamespace>
-    <AssemblyName>DataExtraction</AssemblyName>
+    <RootNamespace>LDGManagementApplication</RootNamespace>
+    <AssemblyName>LDGManagementApplication</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -74,6 +74,7 @@
     <Compile Include="DMZConfig.Designer.cs">
       <DependentUpon>DMZConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Putty.cs" />
     <Compile Include="ServiceConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +103,7 @@
     <Compile Include="ExternalConfig.Designer.cs">
       <DependentUpon>ExternalConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="WriteLog.cs" />
     <EmbeddedResource Include="DMZConfig.resx">
       <DependentUpon>DMZConfig.cs</DependentUpon>
     </EmbeddedResource>

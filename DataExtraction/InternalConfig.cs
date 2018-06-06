@@ -6,21 +6,21 @@ using System.Diagnostics;
 using System.Threading;
 using System.IO;
 
-namespace DataExtraction
+namespace LDGManagementApplication
 {
     public partial class InternalConfig : Form
     {
         public InternalConfig()
         {
             InitializeComponent();
-            BNAUWizard.TabPages.Remove(networkTest);
-            BNAUWizard.TabPages.Remove(OSPF);
+            BNAUWizard.TabPages.Clear();
+            BNAUWizard.TabPages.Add(Network);
         }
 
-        public static string BNAUSubnetIP;
-        public static bool intBNAUPingable;
-        string username, password, errorLogOutput, logPath, firewallIPAddr, internalIPAddr, consoleOutput, errorOutput;
-        bool BNAUPlugged, configSuccess, pingBNAUResult;
+        public static string BNAUSubnetIP, firewallIPAddr;
+        public static bool pingBNAUResult;
+        string  internalIPAddr;
+        bool BNAUPlugged;
 
         //
         //Internal Config
@@ -46,101 +46,14 @@ namespace DataExtraction
 
             progressIntNetwork.Value = 10;
 
-            //retrieve information from userinput
-            username = MainGUI.username;
-            password = MainGUI.password;
-            progressIntNetwork.Value = 5;
+            //call the putty internal class
+            Internal internalConfig = new Internal();
+            internalConfig.Internal_Config(internalIPAddr, firewallIPAddr);
 
-            //start the command line process
-            ProcessStartInfo psi = new ProcessStartInfo(@"C:\Windows\System32\cmd");
-            psi.ErrorDialog = false;
-            psi.UseShellExecute = false;
-
-            //hide the command window
-            psi.CreateNoWindow = true;
-            psi.WindowStyle = ProcessWindowStyle.Hidden;
-
-            //redirect the input and output
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardInput = true;
-            psi.RedirectStandardOutput = true;
-
-            //start plink process
-            Process plinkProcess = Process.Start(psi);
-            StreamWriter inputWriter = plinkProcess.StandardInput;
-            StreamReader outputReader = plinkProcess.StandardOutput;
-            StreamReader errorReader = plinkProcess.StandardError;
-
-            //command to log in to the firewall
-            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
-            Thread.Sleep(2000);
-
-            //give admin rights
-            inputWriter.WriteLine("srole");
-            Thread.Sleep(200);
-
-            //Modify the network interfaces
-            inputWriter.WriteLine("cf interface modify name=\"Internal BCIP\" addresses=" + firewallIPAddr + "/24");
-            progressIntNetwork.Value = 30;
-            Thread.Sleep(2000);
-
-            //modify network objects for BNAU and firewall
-            inputWriter.WriteLine("cf ipaddr modify name=\"Internal BCIP BNAU\" ipaddr=" + internalIPAddr);
-            Thread.Sleep(3000);
-            inputWriter.WriteLine("cf ipaddr modify name=\"Internal BCIP Firewall\" ipaddr=" + firewallIPAddr);
-            Thread.Sleep(3000);
-            progressIntNetwork.Value = 50;        
-           
-            //NOTE: if user selects same plan as DMZ it will throw an error and not work, but it will look like it did
-
-            //ping BNAU for 3 counts
-            inputWriter.WriteLine("ping -c 2 " + internalIPAddr);
-            Thread.Sleep(3000);
-
-            //check if interface is up, search for "status: active" 
-            inputWriter.WriteLine("ifconfig 1-6");
-            Thread.Sleep(1000);
-
-            progressIntNetwork.Value = 90;
-
-            //exit
-            inputWriter.WriteLine("exit");
-            inputWriter.WriteLine("exit");
-
-            //kill process;
-            try
-            {
-                //do not add any non-putty code in before killing the process, it will crash
-                plinkProcess.Kill();
-                consoleOutput = outputReader.ReadToEnd().ToString();
-                errorOutput = errorReader.ReadToEnd().ToString();
-                errorLogOutput = DateTime.Now.ToString() + System.Environment.NewLine + " Error Output:  " + System.Environment.NewLine + errorOutput;
-
-                //access denied will pop up if connected to the firewall and wrong username/pw info. FATAL ERROR is if not connected to firewall
-                if (errorOutput.Contains("Access denied") || errorOutput.Contains("FATAL ERROR"))
-                {
-                    //If Plink connection fails throw error and return
-                    MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    progressIntNetwork.Value = 0;
-                }
-                else
-                {
-                    //Confirmation 
-                    progressIntNetwork.Value = 100;
-                    MessageBox.Show("Interface and Network Objects configured for Internal System", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    configSuccess = true;
-                }
-            }
-            catch (Exception)
-            {
-                //error message
-                MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                progressIntNetwork.Value = 0;
-                return;
-            }
+            progressIntNetwork.Value = 80;
 
             //get the ping success result
-            if (consoleOutput.Contains("bytes from " + internalIPAddr))
+            if (Internal.consoleOutput.Contains("bytes from " + internalIPAddr))
             {
                 pingBNAUResult = true;
             }
@@ -150,7 +63,7 @@ namespace DataExtraction
             }
 
             //determine whether cable is connected from ifconfig status
-            if (consoleOutput.Contains("status: active"))
+            if (Internal.consoleOutput.Contains("status: active"))
             {
                 BNAUPlugged = true;
             }
@@ -158,49 +71,23 @@ namespace DataExtraction
             {
                 BNAUPlugged = false;
             }
-
-            //write error output to add to log file
-            string lineBreak = "\n" + "------------------------------------------------------------";
-
-            //Log the output to a text file:
-            logPath = @"C:\Program Files\General Dynamics UK\LDG Management Application\LMA_InternalConfig_Log.txt";
-            
-            try
-            {
-                //if file doesn't exist create it
-                if (!File.Exists(logPath))
-                {
-                    File.Create(logPath).Dispose();
-                    using (StreamWriter sw = File.CreateText(logPath))
-                    {
-                        sw.Write(errorLogOutput + System.Environment.NewLine + lineBreak);
-                    }
-                }
-                //append to existing file
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(logPath))
-                    {
-                        sw.Write(System.Environment.NewLine + errorLogOutput + System.Environment.NewLine + lineBreak);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Access to " + logPath + " denied. Log File not created.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            progressIntNetwork.Value = 85;
+            //write log file
+            WriteLog writeLog = new InternalLog();
+            writeLog.WriteLogFile();
+            progressIntNetwork.Value = 90;
 
             //go to next page if it succeeded
-            if (configSuccess == true)
+            if (Internal.configSuccess == true)
             {
+                progressIntNetwork.Value = 100;
                 //Hide current tab and show next
-                BNAUWizard.TabPages.Remove(networkTest);
-                BNAUWizard.TabPages.Remove(Network);
-                
+                BNAUWizard.TabPages.Clear();
                 BNAUWizard.TabPages.Add(OSPF);
             }
             else
             {
+                progressIntNetwork.Value = 0;
                 return;
             }
         }
@@ -211,146 +98,34 @@ namespace DataExtraction
 
         private void OSPFConfig_Click(object sender, EventArgs e)
         {
-            //retrieve information from userinput
-            username = MainGUI.username;
-            password = MainGUI.password;
-            progressIntOSPF.Value = 5;
+            Internal internalOSPF = new Internal();
+            internalOSPF.OSPF_Config(internalIPAddr, firewallIPAddr);
 
-            //Set up another connection with Putty to configure OSPF//
-            //start the command line process
-            ProcessStartInfo psi = new ProcessStartInfo(@"C:\Windows\System32\cmd");
-            psi.ErrorDialog = false;
-            psi.UseShellExecute = false;
-
-            //hide the command window
-            psi.CreateNoWindow = true;
-            psi.WindowStyle = ProcessWindowStyle.Hidden;
-
-            //redirect the input and output
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardInput = true;
-            psi.RedirectStandardOutput = true;
-
-            //start plink process
-            Process plinkOSPFProcess = Process.Start(psi);
-            StreamWriter inputOSPFWriter = plinkOSPFProcess.StandardInput;
-            StreamReader outputOSPFReader = plinkOSPFProcess.StandardOutput;
-            StreamReader errorOSPFReader = plinkOSPFProcess.StandardError;
-
-            //this is the command to log in to the firewall
-            inputOSPFWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
-            Thread.Sleep(2000);
-
-            //If Plink connection fails throw error and return
-            if (plinkOSPFProcess.HasExited)
+            //go to next page if it succeeded
+            if (Internal.OSPFSuccess == true)
             {
-                MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //Could try ping to firewall
-                return;
-            }
-
-            //give admin rights
-            inputOSPFWriter.WriteLine("srole");
-            Thread.Sleep(500);
-            progressIntOSPF.Value = 10;
-
-            //Telnet into the firewall OSPF Routing Server
-            inputOSPFWriter.WriteLine("telnet localhost ospfd");
-            Thread.Sleep(1000);
-            progressIntOSPF.Value = 20;
-
-            //Password is zebra
-            inputOSPFWriter.WriteLine("zebra");
-            Thread.Sleep(1000);
-            progressIntOSPF.Value = 30;
-
-            //Enable the full command set
-            inputOSPFWriter.WriteLine("en");
-            Thread.Sleep(1000);
-            progressIntOSPF.Value = 40;
-
-            //Enter Configuration mode
-            inputOSPFWriter.WriteLine("conf t");
-            Thread.Sleep(1000);
-            progressIntOSPF.Value = 50;
-
-            //Enable routing server
-            inputOSPFWriter.WriteLine("router ospf");
-            Thread.Sleep(1000);
-            progressIntOSPF.Value = 60;
-
-            //Enable routing server
-            inputOSPFWriter.WriteLine("router ospf");
-            Thread.Sleep(1000);
-            progressIntOSPF.Value = 70;
-
-            //remove default IPs, check if correct
-            inputOSPFWriter.WriteLine("no network 1.1.1.1/24 area 0");
-            Thread.Sleep(500);
-            inputOSPFWriter.WriteLine("no network 2.2.2.2/24 area 0");
-            Thread.Sleep(500);
-
-            //Edit the router-id to be the firewallIP
-            inputOSPFWriter.WriteLine("router-id " + firewallIPAddr);
-            Thread.Sleep(1000);
-            progressIntOSPF.Value = 80;
-
-            //Edit the 1st network to be the internal BCIP IP
-            inputOSPFWriter.WriteLine("network  " + internalIPAddr + "/24 area 0");
-            Thread.Sleep(1000);
-            progressIntOSPF.Value = 90;
-
-            //Save the OSPF config file
-            inputOSPFWriter.WriteLine("write");
-            Thread.Sleep(1000);
-
-            //exit srole then putty
-            inputOSPFWriter.WriteLine("exit");
-            inputOSPFWriter.WriteLine("exit");
-
-            // area 0 shorthand for 0.0.0.0?
-
-            //kill process;
-            try
-            {
-                //do not add any non-putty code in before killing the process, it will crash
-                plinkOSPFProcess.Kill();
-                progressIntOSPF.Value = 100;
-                MessageBox.Show("OSPF Routing configured for Internal interface", "Firewall Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                //Show next tab
-                
-                BNAUWizard.TabPages.Remove(OSPF);
+                //Hide current tab and show next
+                BNAUWizard.TabPages.Clear();
                 BNAUWizard.TabPages.Add(networkTest);
-                BNAUWizard.TabPages.Remove(Network);
             }
-            catch (Exception)
+            else
             {
-                //error message
-                MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                progressIntOSPF.Value = 0;
                 return;
             }
-
         }
+
         //return to network config page from OSPF page
         private void returnNetworkTest_Click(object sender, EventArgs e)
         {
-            //Hide current tab and show next
-            BNAUWizard.TabPages.Remove(networkTest);
-            
+            BNAUWizard.TabPages.Clear();
             BNAUWizard.TabPages.Add(Network);
-            BNAUWizard.TabPages.Remove(OSPF);
         }
 
         //return to config tab from test tab
         private void returnConfig_Click(object sender, EventArgs e)
         {
-            //Hide current tab and show next
-            BNAUWizard.TabPages.Remove(networkTest);
-
-            BNAUWizard.TabPages.Add(Network);
-            BNAUWizard.TabPages.Remove(OSPF);
+            BNAUWizard.TabPages.Clear();
+            BNAUWizard.TabPages.Remove(Network);
         }
         private void testButton_Click(object sender, EventArgs e)
         {
@@ -368,7 +143,6 @@ namespace DataExtraction
             if (pingBNAUResult == true)
             {
                 BNAUPingSignal.FillColor = Color.Green;
-                intBNAUPingable = true;
             }
             else
             {
@@ -389,5 +163,5 @@ namespace DataExtraction
                 error.errorDialog(true);
             }
         }        
-    } 
+    }
 }

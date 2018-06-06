@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace DataExtraction
+namespace LDGManagementApplication
 {
     public partial class ExternalConfig : Form
     {
@@ -14,7 +14,7 @@ namespace DataExtraction
             InitializeComponent();
             externalWizard.TabPages.Remove(testNetwork);
         }
-        string extFWIP, extRouterIP, username, password, extFWMask, extRouterMask, consoleOutput;
+        string extFWIP, extRouterIP,  extFWMask, extRouterMask;
         public static bool  extRouterPingable, configSuccess;
         bool extPlugged, pingRouterResult;
 
@@ -32,7 +32,7 @@ namespace DataExtraction
             extRouterIP = externalRouterBox.Text;
             extFWMask = extFirewallMaskBox.Text;
             extRouterMask = extRouterMaskBox.Text;
-
+            progressExtNetwork.Value = 3;
             string[] extFWIPArray = extFWIP.Split('.');
             string[] extRouterIPArray = extRouterIP.Split('.');
 
@@ -58,93 +58,12 @@ namespace DataExtraction
                 MessageBox.Show("Please enter both IP addresses", "Error inputting values", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            //retrieve information from userinput
-            username = MainGUI.username;
-            password = MainGUI.password;
-            progressExtNetwork.Value = 5;
-
-            //start the command line process
-            ProcessStartInfo psi = new ProcessStartInfo(@"C:\Windows\System32\cmd");
-            psi.ErrorDialog = false;
-            psi.UseShellExecute = false;
-
-            //hide the command window
-            psi.CreateNoWindow = true;
-            psi.WindowStyle = ProcessWindowStyle.Hidden;
-
-            //redirect the input and output
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardInput = true;
-            psi.RedirectStandardOutput = true;
-
-            //start plink process
-            Process plinkProcess = Process.Start(psi);
-            StreamWriter inputWriter = plinkProcess.StandardInput;
-            StreamReader outputReader = plinkProcess.StandardOutput;
-            StreamReader errorReader = plinkProcess.StandardError;
-
-            //command to log in to the firewall
-            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
-            Thread.Sleep(2000);
-
-            //give admin rights
-            inputWriter.WriteLine("srole");
-            Thread.Sleep(200);
-            progressExtNetwork.Value = 20;
-
-            //Modify the network interface
-            inputWriter.WriteLine("cf interface modify name=\"External System 1\" addresses=" + extFWIP + "/" + extFWMask);
-            progressExtNetwork.Value = 50;
-            Thread.Sleep(1000);
-
-            //ping router for 3 counts
-            inputWriter.WriteLine("ping -c 2 " + extRouterIP);
-            Thread.Sleep(3000);
-
-            //check if interface is up, search for "status: active" 
-            inputWriter.WriteLine("ifconfig 2-0");
-            Thread.Sleep(1000);
-
-            progressExtNetwork.Value = 90;
-            //exit
-            inputWriter.WriteLine("exit");
-            inputWriter.WriteLine("exit");
-
-            //kill process;
-            try
-            {
-                //do not add any non-putty code in before killing the process, it will crash
-                plinkProcess.Kill();
-                string loginError = errorReader.ReadToEnd().ToString();
-                consoleOutput = outputReader.ReadToEnd().ToString();
-
-                //access denied will pop up if connected to the firewall and wrong username/pw info. FATAL ERROR is if not connected to firewall
-                if (loginError.Contains("Access denied") || loginError.Contains("FATAL ERROR"))
-                {
-                    //If Plink connection fails throw error and return
-                    MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    progressExtNetwork.Value = 0;
-                }
-                else
-                {
-                    //Confirmation 
-                    progressExtNetwork.Value = 100;
-                    MessageBox.Show("Interface configured for External 1 System", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    configSuccess = true;
-                    externalWizard.TabPages.Remove(inputInfo);
-                    externalWizard.TabPages.Add(testNetwork);
-                }
-            }
-            catch (Exception)
-            {
-                //error message
-                MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                progressExtNetwork.Value = 0;
-            }
+            progressExtNetwork.Value = 10;
+            External externalConfig = new External();
+            externalConfig.External_Config(extRouterIP, extFWIP, extFWMask);
 
             //get the ping success result
-            if (consoleOutput.Contains("bytes from " + extRouterIP))
+            if (External.consoleOutput.Contains("bytes from " + extRouterIP))
             {
                 pingRouterResult = true;
             }
@@ -154,7 +73,7 @@ namespace DataExtraction
             }
 
             //determine whether cable is connected from ifconfig status
-            if (consoleOutput.Contains("status: active"))
+            if (Internal.consoleOutput.Contains("status: active"))
             {
                 extPlugged = true;
             }
@@ -162,13 +81,32 @@ namespace DataExtraction
             {
                 extPlugged = false;
             }
+            progressExtNetwork.Value = 15;
+            //write log file
+            WriteLog writeLog = new ExternalLog();
+            writeLog.WriteLogFile();
+            progressExtNetwork.Value = 80;
+
+            //go to next page if it succeeded
+            if (External.configSuccess == true)
+            {
+                progressExtNetwork.Value = 100;
+                //Hide current tab and show next
+                externalWizard.TabPages.Clear();
+                externalWizard.TabPages.Add(testNetwork);
+            }
+            else
+            {
+                progressExtNetwork.Value = 0;
+                return;
+            }
         }
 
         //back to start page from net test 
         private void backToStart_Click(object sender, EventArgs e)
         {
+            externalWizard.TabPages.Clear();
             externalWizard.TabPages.Add(inputInfo);
-            externalWizard.TabPages.Remove(testNetwork);
         }
 
         private void testButton_Click(object sender, EventArgs e)

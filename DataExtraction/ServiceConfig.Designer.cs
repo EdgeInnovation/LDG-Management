@@ -1,4 +1,4 @@
-﻿namespace DataExtraction
+﻿namespace LDGManagementApplication
 {
     partial class ServiceConfig
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ExternalWizard = new System.Windows.Forms.TabControl();
+            this.servicesWizard = new System.Windows.Forms.TabControl();
             this.chooseServicesTab = new System.Windows.Forms.TabPage();
             this.backToHome = new System.Windows.Forms.Button();
             this.nextFromChoose = new System.Windows.Forms.Button();
@@ -81,7 +81,37 @@
             this.shapeContainer3 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.IntChatPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.ExtChatPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
-            this.ExternalWizard.SuspendLayout();
+            this.mailTab = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.externalMailBox = new System.Windows.Forms.TextBox();
+            this.chooseFromMail = new System.Windows.Forms.Button();
+            this.configureMail = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.mailListView = new System.Windows.Forms.ListView();
+            this.mailNetworkTab = new System.Windows.Forms.TabPage();
+            this.backFromMailNet = new System.Windows.Forms.Button();
+            this.mailNetTestButton = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.shapeContainer4 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.IntMailPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.ExtMailPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.OSWTab = new System.Windows.Forms.TabPage();
+            this.label12 = new System.Windows.Forms.Label();
+            this.externalOSWBox = new System.Windows.Forms.TextBox();
+            this.chooseFromOSW = new System.Windows.Forms.Button();
+            this.configureOSW = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.OSWListView = new System.Windows.Forms.ListView();
+            this.OSWNetworkTab = new System.Windows.Forms.TabPage();
+            this.backFromOSWNet = new System.Windows.Forms.Button();
+            this.OSWNetTestButton = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.shapeContainer5 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.IntOSWPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.ExtOSWPingSignal = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.servicesWizard.SuspendLayout();
             this.chooseServicesTab.SuspendLayout();
             this.chatTab.SuspendLayout();
             this.homeTab.SuspendLayout();
@@ -89,21 +119,29 @@
             this.tracksStatusStrip.SuspendLayout();
             this.tracksNetworkTab.SuspendLayout();
             this.chatNetworkTab.SuspendLayout();
+            this.mailTab.SuspendLayout();
+            this.mailNetworkTab.SuspendLayout();
+            this.OSWTab.SuspendLayout();
+            this.OSWNetworkTab.SuspendLayout();
             this.SuspendLayout();
             // 
-            // ExternalWizard
+            // servicesWizard
             // 
-            this.ExternalWizard.Controls.Add(this.chooseServicesTab);
-            this.ExternalWizard.Controls.Add(this.chatTab);
-            this.ExternalWizard.Controls.Add(this.homeTab);
-            this.ExternalWizard.Controls.Add(this.tracksTab);
-            this.ExternalWizard.Controls.Add(this.tracksNetworkTab);
-            this.ExternalWizard.Controls.Add(this.chatNetworkTab);
-            this.ExternalWizard.Location = new System.Drawing.Point(12, 12);
-            this.ExternalWizard.Name = "ExternalWizard";
-            this.ExternalWizard.SelectedIndex = 0;
-            this.ExternalWizard.Size = new System.Drawing.Size(335, 314);
-            this.ExternalWizard.TabIndex = 0;
+            this.servicesWizard.Controls.Add(this.chooseServicesTab);
+            this.servicesWizard.Controls.Add(this.chatTab);
+            this.servicesWizard.Controls.Add(this.homeTab);
+            this.servicesWizard.Controls.Add(this.tracksTab);
+            this.servicesWizard.Controls.Add(this.tracksNetworkTab);
+            this.servicesWizard.Controls.Add(this.chatNetworkTab);
+            this.servicesWizard.Controls.Add(this.mailTab);
+            this.servicesWizard.Controls.Add(this.mailNetworkTab);
+            this.servicesWizard.Controls.Add(this.OSWTab);
+            this.servicesWizard.Controls.Add(this.OSWNetworkTab);
+            this.servicesWizard.Location = new System.Drawing.Point(12, 12);
+            this.servicesWizard.Name = "servicesWizard";
+            this.servicesWizard.SelectedIndex = 0;
+            this.servicesWizard.Size = new System.Drawing.Size(335, 314);
+            this.servicesWizard.TabIndex = 0;
             // 
             // chooseServicesTab
             // 
@@ -155,7 +193,7 @@
             // OSWCheckBox
             // 
             this.OSWCheckBox.AutoSize = true;
-            this.OSWCheckBox.Location = new System.Drawing.Point(69, 135);
+            this.OSWCheckBox.Location = new System.Drawing.Point(69, 158);
             this.OSWCheckBox.Name = "OSWCheckBox";
             this.OSWCheckBox.Size = new System.Drawing.Size(52, 17);
             this.OSWCheckBox.TabIndex = 3;
@@ -165,7 +203,7 @@
             // mailCheckBox
             // 
             this.mailCheckBox.AutoSize = true;
-            this.mailCheckBox.Location = new System.Drawing.Point(69, 158);
+            this.mailCheckBox.Location = new System.Drawing.Point(69, 135);
             this.mailCheckBox.Name = "mailCheckBox";
             this.mailCheckBox.Size = new System.Drawing.Size(45, 17);
             this.mailCheckBox.TabIndex = 2;
@@ -623,15 +661,319 @@
             this.ExtChatPingSignal.Name = "ExtChatPingSignal";
             this.ExtChatPingSignal.Size = new System.Drawing.Size(24, 22);
             // 
+            // mailTab
+            // 
+            this.mailTab.Controls.Add(this.label11);
+            this.mailTab.Controls.Add(this.externalMailBox);
+            this.mailTab.Controls.Add(this.chooseFromMail);
+            this.mailTab.Controls.Add(this.configureMail);
+            this.mailTab.Controls.Add(this.label2);
+            this.mailTab.Controls.Add(this.mailListView);
+            this.mailTab.Location = new System.Drawing.Point(4, 22);
+            this.mailTab.Name = "mailTab";
+            this.mailTab.Padding = new System.Windows.Forms.Padding(3);
+            this.mailTab.Size = new System.Drawing.Size(327, 288);
+            this.mailTab.TabIndex = 6;
+            this.mailTab.Text = "Mail";
+            this.mailTab.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(32, 176);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(126, 13);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "External 1 Mail Server IP:";
+            // 
+            // externalMailBox
+            // 
+            this.externalMailBox.Location = new System.Drawing.Point(173, 173);
+            this.externalMailBox.Name = "externalMailBox";
+            this.externalMailBox.Size = new System.Drawing.Size(100, 20);
+            this.externalMailBox.TabIndex = 21;
+            // 
+            // chooseFromMail
+            // 
+            this.chooseFromMail.Location = new System.Drawing.Point(6, 259);
+            this.chooseFromMail.Name = "chooseFromMail";
+            this.chooseFromMail.Size = new System.Drawing.Size(75, 23);
+            this.chooseFromMail.TabIndex = 19;
+            this.chooseFromMail.Text = "Back";
+            this.chooseFromMail.UseVisualStyleBackColor = true;
+            this.chooseFromMail.Click += new System.EventHandler(this.chooseFromMail_Click);
+            // 
+            // configureMail
+            // 
+            this.configureMail.Location = new System.Drawing.Point(246, 259);
+            this.configureMail.Name = "configureMail";
+            this.configureMail.Size = new System.Drawing.Size(75, 23);
+            this.configureMail.TabIndex = 18;
+            this.configureMail.Text = "Configure";
+            this.configureMail.UseVisualStyleBackColor = true;
+            this.configureMail.Click += new System.EventHandler(this.configureMail_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 7);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(195, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Select the Internal Mail Server Terminal:";
+            // 
+            // mailListView
+            // 
+            this.mailListView.Location = new System.Drawing.Point(6, 24);
+            this.mailListView.Name = "mailListView";
+            this.mailListView.Size = new System.Drawing.Size(315, 104);
+            this.mailListView.TabIndex = 13;
+            this.mailListView.UseCompatibleStateImageBehavior = false;
+            // 
+            // mailNetworkTab
+            // 
+            this.mailNetworkTab.Controls.Add(this.backFromMailNet);
+            this.mailNetworkTab.Controls.Add(this.mailNetTestButton);
+            this.mailNetworkTab.Controls.Add(this.label14);
+            this.mailNetworkTab.Controls.Add(this.label15);
+            this.mailNetworkTab.Controls.Add(this.shapeContainer4);
+            this.mailNetworkTab.Location = new System.Drawing.Point(4, 22);
+            this.mailNetworkTab.Name = "mailNetworkTab";
+            this.mailNetworkTab.Padding = new System.Windows.Forms.Padding(3);
+            this.mailNetworkTab.Size = new System.Drawing.Size(327, 288);
+            this.mailNetworkTab.TabIndex = 7;
+            this.mailNetworkTab.Text = "Mail Network Test";
+            this.mailNetworkTab.UseVisualStyleBackColor = true;
+            // 
+            // backFromMailNet
+            // 
+            this.backFromMailNet.Location = new System.Drawing.Point(5, 260);
+            this.backFromMailNet.Name = "backFromMailNet";
+            this.backFromMailNet.Size = new System.Drawing.Size(75, 23);
+            this.backFromMailNet.TabIndex = 16;
+            this.backFromMailNet.Text = "Back";
+            this.backFromMailNet.UseVisualStyleBackColor = true;
+            this.backFromMailNet.Click += new System.EventHandler(this.backFromMailNet_Click);
+            // 
+            // mailNetTestButton
+            // 
+            this.mailNetTestButton.Location = new System.Drawing.Point(245, 260);
+            this.mailNetTestButton.Name = "mailNetTestButton";
+            this.mailNetTestButton.Size = new System.Drawing.Size(75, 23);
+            this.mailNetTestButton.TabIndex = 15;
+            this.mailNetTestButton.Text = "Test";
+            this.mailNetTestButton.UseVisualStyleBackColor = true;
+            this.mailNetTestButton.Click += new System.EventHandler(this.mailNetTestButton_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(102, 88);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(151, 13);
+            this.label14.TabIndex = 14;
+            this.label14.Text = "Internal Mail Terminal Pingable";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(102, 126);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(145, 13);
+            this.label15.TabIndex = 13;
+            this.label15.Text = "External Mail Server Pingable";
+            // 
+            // shapeContainer4
+            // 
+            this.shapeContainer4.Location = new System.Drawing.Point(3, 3);
+            this.shapeContainer4.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer4.Name = "shapeContainer4";
+            this.shapeContainer4.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.IntMailPingSignal,
+            this.ExtMailPingSignal});
+            this.shapeContainer4.Size = new System.Drawing.Size(321, 282);
+            this.shapeContainer4.TabIndex = 17;
+            this.shapeContainer4.TabStop = false;
+            // 
+            // IntMailPingSignal
+            // 
+            this.IntMailPingSignal.BackColor = System.Drawing.Color.DarkGray;
+            this.IntMailPingSignal.FillColor = System.Drawing.SystemColors.ControlDark;
+            this.IntMailPingSignal.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.IntMailPingSignal.Location = new System.Drawing.Point(63, 77);
+            this.IntMailPingSignal.Name = "IntMailPingSignal";
+            this.IntMailPingSignal.Size = new System.Drawing.Size(24, 22);
+            // 
+            // ExtMailPingSignal
+            // 
+            this.ExtMailPingSignal.BackColor = System.Drawing.Color.DarkGray;
+            this.ExtMailPingSignal.FillColor = System.Drawing.SystemColors.ButtonShadow;
+            this.ExtMailPingSignal.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.ExtMailPingSignal.Location = new System.Drawing.Point(62, 116);
+            this.ExtMailPingSignal.Name = "ExtMailPingSignal";
+            this.ExtMailPingSignal.Size = new System.Drawing.Size(24, 22);
+            // 
+            // OSWTab
+            // 
+            this.OSWTab.Controls.Add(this.label12);
+            this.OSWTab.Controls.Add(this.externalOSWBox);
+            this.OSWTab.Controls.Add(this.chooseFromOSW);
+            this.OSWTab.Controls.Add(this.configureOSW);
+            this.OSWTab.Controls.Add(this.label13);
+            this.OSWTab.Controls.Add(this.OSWListView);
+            this.OSWTab.Location = new System.Drawing.Point(4, 22);
+            this.OSWTab.Name = "OSWTab";
+            this.OSWTab.Padding = new System.Windows.Forms.Padding(3);
+            this.OSWTab.Size = new System.Drawing.Size(327, 288);
+            this.OSWTab.TabIndex = 8;
+            this.OSWTab.Text = "OSW";
+            this.OSWTab.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(32, 176);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(126, 13);
+            this.label12.TabIndex = 28;
+            this.label12.Text = "External 1 Mail Server IP:";
+            // 
+            // externalOSWBox
+            // 
+            this.externalOSWBox.Location = new System.Drawing.Point(173, 173);
+            this.externalOSWBox.Name = "externalOSWBox";
+            this.externalOSWBox.Size = new System.Drawing.Size(100, 20);
+            this.externalOSWBox.TabIndex = 27;
+            // 
+            // chooseFromOSW
+            // 
+            this.chooseFromOSW.Location = new System.Drawing.Point(6, 259);
+            this.chooseFromOSW.Name = "chooseFromOSW";
+            this.chooseFromOSW.Size = new System.Drawing.Size(75, 23);
+            this.chooseFromOSW.TabIndex = 26;
+            this.chooseFromOSW.Text = "Back";
+            this.chooseFromOSW.UseVisualStyleBackColor = true;
+            this.chooseFromOSW.Click += new System.EventHandler(this.chooseFromOSW_Click);
+            // 
+            // configureOSW
+            // 
+            this.configureOSW.Location = new System.Drawing.Point(246, 259);
+            this.configureOSW.Name = "configureOSW";
+            this.configureOSW.Size = new System.Drawing.Size(75, 23);
+            this.configureOSW.TabIndex = 25;
+            this.configureOSW.Text = "Configure";
+            this.configureOSW.UseVisualStyleBackColor = true;
+            this.configureOSW.Click += new System.EventHandler(this.configureOSW_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 7);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(202, 13);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "Select the Internal OSW Server Terminal:";
+            // 
+            // OSWListView
+            // 
+            this.OSWListView.Location = new System.Drawing.Point(6, 24);
+            this.OSWListView.Name = "OSWListView";
+            this.OSWListView.Size = new System.Drawing.Size(315, 104);
+            this.OSWListView.TabIndex = 23;
+            this.OSWListView.UseCompatibleStateImageBehavior = false;
+            // 
+            // OSWNetworkTab
+            // 
+            this.OSWNetworkTab.Controls.Add(this.backFromOSWNet);
+            this.OSWNetworkTab.Controls.Add(this.OSWNetTestButton);
+            this.OSWNetworkTab.Controls.Add(this.label16);
+            this.OSWNetworkTab.Controls.Add(this.label17);
+            this.OSWNetworkTab.Controls.Add(this.shapeContainer5);
+            this.OSWNetworkTab.Location = new System.Drawing.Point(4, 22);
+            this.OSWNetworkTab.Name = "OSWNetworkTab";
+            this.OSWNetworkTab.Padding = new System.Windows.Forms.Padding(3);
+            this.OSWNetworkTab.Size = new System.Drawing.Size(327, 288);
+            this.OSWNetworkTab.TabIndex = 9;
+            this.OSWNetworkTab.Text = "OSW Network Test";
+            this.OSWNetworkTab.UseVisualStyleBackColor = true;
+            // 
+            // backFromOSWNet
+            // 
+            this.backFromOSWNet.Location = new System.Drawing.Point(7, 260);
+            this.backFromOSWNet.Name = "backFromOSWNet";
+            this.backFromOSWNet.Size = new System.Drawing.Size(75, 23);
+            this.backFromOSWNet.TabIndex = 16;
+            this.backFromOSWNet.Text = "Back";
+            this.backFromOSWNet.UseVisualStyleBackColor = true;
+            this.backFromOSWNet.Click += new System.EventHandler(this.backFromOSWNet_Click);
+            // 
+            // OSWNetTestButton
+            // 
+            this.OSWNetTestButton.Location = new System.Drawing.Point(247, 260);
+            this.OSWNetTestButton.Name = "OSWNetTestButton";
+            this.OSWNetTestButton.Size = new System.Drawing.Size(75, 23);
+            this.OSWNetTestButton.TabIndex = 15;
+            this.OSWNetTestButton.Text = "Test";
+            this.OSWNetTestButton.UseVisualStyleBackColor = true;
+            this.OSWNetTestButton.Click += new System.EventHandler(this.OSWNetTestButton_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(104, 88);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(158, 13);
+            this.label16.TabIndex = 14;
+            this.label16.Text = "Internal OSW Terminal Pingable";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(104, 126);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(152, 13);
+            this.label17.TabIndex = 13;
+            this.label17.Text = "External OSW Server Pingable";
+            // 
+            // shapeContainer5
+            // 
+            this.shapeContainer5.Location = new System.Drawing.Point(3, 3);
+            this.shapeContainer5.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer5.Name = "shapeContainer5";
+            this.shapeContainer5.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.IntOSWPingSignal,
+            this.ExtOSWPingSignal});
+            this.shapeContainer5.Size = new System.Drawing.Size(321, 282);
+            this.shapeContainer5.TabIndex = 17;
+            this.shapeContainer5.TabStop = false;
+            // 
+            // IntOSWPingSignal
+            // 
+            this.IntOSWPingSignal.BackColor = System.Drawing.Color.DarkGray;
+            this.IntOSWPingSignal.FillColor = System.Drawing.SystemColors.ControlDark;
+            this.IntOSWPingSignal.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.IntOSWPingSignal.Location = new System.Drawing.Point(64, 80);
+            this.IntOSWPingSignal.Name = "IntOSWPingSignal";
+            this.IntOSWPingSignal.Size = new System.Drawing.Size(24, 22);
+            // 
+            // ExtOSWPingSignal
+            // 
+            this.ExtOSWPingSignal.BackColor = System.Drawing.Color.DarkGray;
+            this.ExtOSWPingSignal.FillColor = System.Drawing.SystemColors.ButtonShadow;
+            this.ExtOSWPingSignal.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.ExtOSWPingSignal.Location = new System.Drawing.Point(63, 119);
+            this.ExtOSWPingSignal.Name = "ExtOSWPingSignal";
+            this.ExtOSWPingSignal.Size = new System.Drawing.Size(24, 22);
+            // 
             // ServiceConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(359, 338);
-            this.Controls.Add(this.ExternalWizard);
+            this.Controls.Add(this.servicesWizard);
             this.Name = "ServiceConfig";
             this.Text = "ServiceConfig";
-            this.ExternalWizard.ResumeLayout(false);
+            this.servicesWizard.ResumeLayout(false);
             this.chooseServicesTab.ResumeLayout(false);
             this.chooseServicesTab.PerformLayout();
             this.chatTab.ResumeLayout(false);
@@ -646,13 +988,21 @@
             this.tracksNetworkTab.PerformLayout();
             this.chatNetworkTab.ResumeLayout(false);
             this.chatNetworkTab.PerformLayout();
+            this.mailTab.ResumeLayout(false);
+            this.mailTab.PerformLayout();
+            this.mailNetworkTab.ResumeLayout(false);
+            this.mailNetworkTab.PerformLayout();
+            this.OSWTab.ResumeLayout(false);
+            this.OSWTab.PerformLayout();
+            this.OSWNetworkTab.ResumeLayout(false);
+            this.OSWNetworkTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl ExternalWizard;
+        private System.Windows.Forms.TabControl servicesWizard;
         private System.Windows.Forms.TabPage chooseServicesTab;
         private System.Windows.Forms.TabPage chatTab;
         private System.Windows.Forms.Button nextFromChoose;
@@ -705,5 +1055,35 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button backFromChatNet;
         private System.Windows.Forms.Button chatNetTestButton;
+        private System.Windows.Forms.TabPage mailTab;
+        private System.Windows.Forms.TabPage mailNetworkTab;
+        private System.Windows.Forms.TabPage OSWTab;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox externalMailBox;
+        private System.Windows.Forms.Button chooseFromMail;
+        private System.Windows.Forms.Button configureMail;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ListView mailListView;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox externalOSWBox;
+        private System.Windows.Forms.Button chooseFromOSW;
+        private System.Windows.Forms.Button configureOSW;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ListView OSWListView;
+        private System.Windows.Forms.TabPage OSWNetworkTab;
+        private System.Windows.Forms.Button backFromMailNet;
+        private System.Windows.Forms.Button mailNetTestButton;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button backFromOSWNet;
+        private System.Windows.Forms.Button OSWNetTestButton;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer4;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape IntMailPingSignal;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape ExtMailPingSignal;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer5;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape IntOSWPingSignal;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape ExtOSWPingSignal;
     }
 }

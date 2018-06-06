@@ -1,4 +1,4 @@
-﻿namespace DataExtraction
+﻿namespace LDGManagementApplication
 {
     partial class MainGUI
     {

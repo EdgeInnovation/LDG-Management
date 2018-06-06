@@ -1,4 +1,4 @@
-﻿namespace DataExtraction
+﻿namespace LDGManagementApplication
 {
     partial class ExternalConfig
     {
@@ -268,13 +268,13 @@
             this.ExtRouterPingSignal.Name = "ExtRouterPingSignal";
             this.ExtRouterPingSignal.Size = new System.Drawing.Size(24, 22);
             // 
-            // ExternalConfig
+            // serviceWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(359, 337);
             this.Controls.Add(this.externalWizard);
-            this.Name = "ExternalConfig";
+            this.Name = "serviceWizard";
             this.Text = "External 1 Config";
             this.externalWizard.ResumeLayout(false);
             this.inputInfo.ResumeLayout(false);
