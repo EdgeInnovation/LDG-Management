@@ -15,22 +15,11 @@ C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtractio
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.exe
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\DataExtraction.pdb
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\DataExtraction\DataExtraction\obj\Debug\LDG Management Application.csprojResolveAssemblyReference.cache
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Debug\DataExtraction.exe.config
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Debug\DataExtraction.exe
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Debug\DataExtraction.pdb
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.DMZConfig.resources
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.ServiceConfig.resources
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.MainGUI.resources
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.InternalConfig.resources
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.Properties.Resources.resources
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.ExternalConfig.resources
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDG Management Application.csproj.GenerateResource.cache
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDG Management Application.csproj.CoreCompileInputs.cache
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDG Management Application.csproj.CopyComplete
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.exe
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.pdb
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\bin\Debug\DataExtraction.exe.config
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\bin\Debug\DataExtraction.exe
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application With External system interface#\DataExtraction\bin\Debug\DataExtraction.pdb
@@ -65,7 +54,6 @@ F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Debug\LDG M
 F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Debug\LDG Management Application.csproj.CopyComplete
 F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.exe
 F:\IRAD\LDG Management\LDG Management Application\DataExtraction\obj\Debug\DataExtraction.pdb
-C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDG Management Application.csprojResolveAssemblyReference.cache
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application Attempt in using putty class\DataExtraction\bin\Debug\LDGManagementApplication.exe.config
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application Attempt in using putty class\DataExtraction\bin\Debug\LDGManagementApplication.exe
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application Attempt in using putty class\DataExtraction\bin\Debug\LDGManagementApplication.pdb
@@ -82,3 +70,14 @@ C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application A
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application Attempt in using putty class\DataExtraction\obj\Debug\LDG Management Application.csproj.CopyComplete
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application Attempt in using putty class\DataExtraction\obj\Debug\LDGManagementApplication.exe
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application Attempt in using putty class\DataExtraction\obj\Debug\LDGManagementApplication.pdb
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Debug\LDGManagementApplication.exe.config
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Debug\LDGManagementApplication.exe
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\bin\Debug\LDGManagementApplication.pdb
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDGManagementApplication.DMZConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDGManagementApplication.ServiceConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDGManagementApplication.MainGUI.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDGManagementApplication.InternalConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDGManagementApplication.Properties.Resources.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDGManagementApplication.ExternalConfig.resources
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDGManagementApplication.exe
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Debug\LDGManagementApplication.pdb

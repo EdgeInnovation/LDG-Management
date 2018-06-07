@@ -27,7 +27,8 @@ namespace LDGManagementApplication
         //
         private void ConfigureButton_Click(object sender, EventArgs e)
         {
-            //call the extract data class, saying that this isn't the LDG plana and get the list 
+            progressIntNetwork.Value = 5;
+            //call the extract data class, saying that this isn't the LDG plan and get the list 
             ExtractData extractInternalData = new ExtractData();
             extractInternalData.Extract_Internal_Data();
             List<string> internalExtractedData = extractInternalData.GetInternalList();
@@ -44,8 +45,8 @@ namespace LDGManagementApplication
             firewallIPAddr = BNAUSubnetIP + ".17";
             ConfigBNAUSubnetBox.Text = BNAUSubnetIP;
 
-            progressIntNetwork.Value = 10;
-
+            progressIntNetwork.Value = 15;
+            
             //call the putty internal class
             Internal internalConfig = new Internal();
             internalConfig.Internal_Config(internalIPAddr, firewallIPAddr);
@@ -98,18 +99,22 @@ namespace LDGManagementApplication
 
         private void OSPFConfig_Click(object sender, EventArgs e)
         {
+            progressIntOSPF.Value = 5;
             Internal internalOSPF = new Internal();
             internalOSPF.OSPF_Config(internalIPAddr, firewallIPAddr);
+            progressIntOSPF.Value = 65;
 
             //go to next page if it succeeded
             if (Internal.OSPFSuccess == true)
             {
+                progressIntOSPF.Value = 100;
                 //Hide current tab and show next
                 BNAUWizard.TabPages.Clear();
                 BNAUWizard.TabPages.Add(networkTest);
             }
             else
             {
+                progressIntOSPF.Value = 0;
                 return;
             }
         }

@@ -107,9 +107,9 @@
             // 
             // ConfigureButton
             // 
-            this.ConfigureButton.Location = new System.Drawing.Point(244, 227);
+            this.ConfigureButton.Location = new System.Drawing.Point(244, 238);
             this.ConfigureButton.Name = "ConfigureButton";
-            this.ConfigureButton.Size = new System.Drawing.Size(78, 34);
+            this.ConfigureButton.Size = new System.Drawing.Size(78, 23);
             this.ConfigureButton.TabIndex = 8;
             this.ConfigureButton.Text = "Configure";
             this.ConfigureButton.UseVisualStyleBackColor = true;
@@ -167,9 +167,9 @@
             // 
             // returnConfig
             // 
-            this.returnConfig.Location = new System.Drawing.Point(6, 244);
+            this.returnConfig.Location = new System.Drawing.Point(6, 256);
             this.returnConfig.Name = "returnConfig";
-            this.returnConfig.Size = new System.Drawing.Size(93, 39);
+            this.returnConfig.Size = new System.Drawing.Size(87, 27);
             this.returnConfig.TabIndex = 1;
             this.returnConfig.Text = "Return to Set up";
             this.returnConfig.UseVisualStyleBackColor = true;
@@ -177,9 +177,9 @@
             // 
             // testButton
             // 
-            this.testButton.Location = new System.Drawing.Point(217, 243);
+            this.testButton.Location = new System.Drawing.Point(227, 256);
             this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(105, 40);
+            this.testButton.Size = new System.Drawing.Size(95, 27);
             this.testButton.TabIndex = 0;
             this.testButton.Text = "Test Connection";
             this.testButton.UseVisualStyleBackColor = true;

@@ -122,9 +122,9 @@
             // 
             // ConfigureButton
             // 
-            this.ConfigureButton.Location = new System.Drawing.Point(244, 227);
+            this.ConfigureButton.Location = new System.Drawing.Point(244, 235);
             this.ConfigureButton.Name = "ConfigureButton";
-            this.ConfigureButton.Size = new System.Drawing.Size(78, 34);
+            this.ConfigureButton.Size = new System.Drawing.Size(78, 26);
             this.ConfigureButton.TabIndex = 19;
             this.ConfigureButton.Text = "Configure";
             this.ConfigureButton.UseVisualStyleBackColor = true;
@@ -201,9 +201,9 @@
             // 
             // returnOSPF
             // 
-            this.returnOSPF.Location = new System.Drawing.Point(6, 243);
+            this.returnOSPF.Location = new System.Drawing.Point(6, 255);
             this.returnOSPF.Name = "returnOSPF";
-            this.returnOSPF.Size = new System.Drawing.Size(93, 39);
+            this.returnOSPF.Size = new System.Drawing.Size(93, 27);
             this.returnOSPF.TabIndex = 10;
             this.returnOSPF.Text = "Return to Set up";
             this.returnOSPF.UseVisualStyleBackColor = true;
@@ -211,9 +211,9 @@
             // 
             // testButton
             // 
-            this.testButton.Location = new System.Drawing.Point(217, 243);
+            this.testButton.Location = new System.Drawing.Point(223, 255);
             this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(105, 40);
+            this.testButton.Size = new System.Drawing.Size(99, 28);
             this.testButton.TabIndex = 9;
             this.testButton.Text = "Test Connection";
             this.testButton.UseVisualStyleBackColor = true;

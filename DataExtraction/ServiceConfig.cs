@@ -201,7 +201,8 @@ namespace LDGManagementApplication
         }
 
         private void configureTracks_Click(object sender, EventArgs e)
-        {            
+        {
+            trackProgress.Value = 5;
             ListView.SelectedListViewItemCollection selectedItems = new ListView.SelectedListViewItemCollection(tracksListView);
             string externalTracksIP = externalTracksBox.Text;
 
@@ -230,11 +231,12 @@ namespace LDGManagementApplication
             //get the ip from the fuill line
             string[] tracksSelectedIPArray = tracksSelectedTerminalFull.Split('"');
             string tracksSelectedIP = tracksSelectedIPArray[2];
-            trackProgress.Value = 5;
+            trackProgress.Value = 15;
             
             //call the putty tracks class
             Tracks tracksConfig = new Tracks();
             tracksConfig.Tracks_Config(tracksSelectedIP, externalTracksIP);
+            trackProgress.Value = 75;
 
             //get the ping success result
             if (Tracks.consoleOutput.Contains("bytes from " + tracksSelectedIP))
@@ -259,12 +261,14 @@ namespace LDGManagementApplication
             //go to next page if it succeeded
             if (Tracks.configSuccess == true)
             {
+                trackProgress.Value = 100;
                 //Hide tabs and show next
                 servicesWizard.TabPages.Clear();
                 servicesWizard.TabPages.Add(tracksNetworkTab);
             }
             else
             {
+                trackProgress.Value = 0;
                 return;
             }
         }
@@ -315,15 +319,15 @@ namespace LDGManagementApplication
                         servicesWizard.TabPages.Clear();
                         servicesWizard.TabPages.Add(chatTab);
                     }
-                    else if (OSWCheckBox.Checked)
-                    {
-                        servicesWizard.TabPages.Clear();
-                        servicesWizard.TabPages.Add(OSWTab);
-                    }
                     else if (mailCheckBox.Checked)
                     {
                         servicesWizard.TabPages.Clear();
                         servicesWizard.TabPages.Add(mailTab);
+                    }
+                    else if (OSWCheckBox.Checked)
+                    {
+                        servicesWizard.TabPages.Clear();
+                        servicesWizard.TabPages.Add(OSWTab);
                     }
                     else
                     {
@@ -347,15 +351,15 @@ namespace LDGManagementApplication
                     servicesWizard.TabPages.Clear();
                     servicesWizard.TabPages.Add(chatTab);
                 }
-                else if (OSWCheckBox.Checked)
-                {
-                    servicesWizard.TabPages.Clear();
-                    servicesWizard.TabPages.Add(OSWTab);
-                }
                 else if (mailCheckBox.Checked)
                 {
                     servicesWizard.TabPages.Clear();
                     servicesWizard.TabPages.Add(mailTab);
+                }
+                else if (OSWCheckBox.Checked)
+                {
+                    servicesWizard.TabPages.Clear();
+                    servicesWizard.TabPages.Add(OSWTab);
                 }
                 else
                 {
@@ -493,15 +497,15 @@ namespace LDGManagementApplication
                 if (errorDialog == DialogResult.Yes)
                 {
                     //go to next tab
-                    if (OSWCheckBox.Checked)
-                    {
-                        servicesWizard.TabPages.Clear();
-                        servicesWizard.TabPages.Add(OSWTab);
-                    }
-                    else if (mailCheckBox.Checked)
+                    if (mailCheckBox.Checked)
                     {
                         servicesWizard.TabPages.Clear();
                         servicesWizard.TabPages.Add(mailTab);
+                    }
+                    else if (OSWCheckBox.Checked)
+                    {
+                        servicesWizard.TabPages.Clear();
+                        servicesWizard.TabPages.Add(OSWTab);
                     }
                     else
                     {
@@ -519,15 +523,15 @@ namespace LDGManagementApplication
             if (pingIntChatResult == true && pingExtChatResult == true)
             {
                 //go to next tab
-                if (OSWCheckBox.Checked)
-                {
-                    servicesWizard.TabPages.Clear();
-                    servicesWizard.TabPages.Add(OSWTab);
-                }
-                else if (mailCheckBox.Checked)
+                if (mailCheckBox.Checked)
                 {
                     servicesWizard.TabPages.Clear();
                     servicesWizard.TabPages.Add(mailTab);
+                }
+                else if (OSWCheckBox.Checked)
+                {
+                    servicesWizard.TabPages.Clear();
+                    servicesWizard.TabPages.Add(OSWTab);
                 }
                 else
                 {
@@ -650,10 +654,10 @@ namespace LDGManagementApplication
                 if (errorDialog == DialogResult.Yes)
                 {
                     //go to next tab
-                    if (mailCheckBox.Checked)
+                    if (OSWCheckBox.Checked)
                     {
                         servicesWizard.TabPages.Clear();
-                        servicesWizard.TabPages.Add(mailTab);
+                        servicesWizard.TabPages.Add(OSWTab);
                     }
                     else//if no other button are checked
                     {
@@ -671,10 +675,10 @@ namespace LDGManagementApplication
             if (pingIntMailResult == true && pingExtMailResult == true)
             {
                 //go to next tab
-                if (mailCheckBox.Checked)
+                if (OSWCheckBox.Checked)
                 {
                     servicesWizard.TabPages.Clear();
-                    servicesWizard.TabPages.Add(mailTab);
+                    servicesWizard.TabPages.Add(OSWTab);
                 }
                 else
                 {
@@ -797,7 +801,7 @@ namespace LDGManagementApplication
                     + System.Environment.NewLine + "Press Yes to Continue to the next Service Config or No to continue with Current Config", "Network Test Failed. Continue Anyway?", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
                 if (errorDialog == DialogResult.Yes)
                 {
-                    MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Service Configuration Complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Close();
                 }
                 //go to next tab other than chat when created
@@ -810,7 +814,7 @@ namespace LDGManagementApplication
             //if success finish service config
             if (pingIntOSWResult == true && pingExtOSWResult == true)
             {
-                MessageBox.Show("Service configuration complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Service Configuration Complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Close();
             }
         }

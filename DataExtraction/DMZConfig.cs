@@ -23,7 +23,7 @@ namespace LDGManagementApplication
 
         private void ConfigureButton_Click(object sender, EventArgs e)
         {
-            progressDMZNetwork.Value = 3;
+            progressDMZNetwork.Value = 5;
             //call the extract data class, saying that this is the LDG plan and get the list 
             ExtractData extractDMZData = new ExtractData();
             extractDMZData.Extract_LDG_Data();
@@ -62,7 +62,7 @@ namespace LDGManagementApplication
                     //copy all files and replace any withsame name
                     foreach (string newPath in Directory.GetFiles(planSourcePath, "*.*", SearchOption.AllDirectories))
                     {
-;                        File.Copy(newPath, newPath.Replace(planSourcePath, sharedFolderPath), true);
+                        File.Copy(newPath, newPath.Replace(planSourcePath, sharedFolderPath), true);
                     }
                     MessageBox.Show("Plan successfully copied to shared disk: " + Environment.NewLine + sharedFolderPath, "Plan Copied to Shared Disk", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -129,17 +129,21 @@ namespace LDGManagementApplication
         }
         private void OSPFConfig_Click(object sender, EventArgs e)
         {
+            progressDMZOSPF.Value = 5;
             DMZ OSPF_DMZ = new DMZ();
             OSPF_DMZ.OSPF_Config(DMZchatGW);
+            progressDMZOSPF.Value = 65;
 
             //go to next page if it succeeded
             if (DMZ.OSPFSuccess == true)
             {
+                progressDMZOSPF.Value = 100;
                 DMZWizard.TabPages.Clear();
                 DMZWizard.TabPages.Add(networkTest);
             }
             else
             {
+                progressDMZOSPF.Value = 0;
                 return;
             }
         }

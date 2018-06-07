@@ -28,6 +28,7 @@ namespace LDGManagementApplication
         //next to net start from start
         private void nextButton_Click(object sender, EventArgs e)
         {
+            progressExtNetwork.Value = 5;
             extFWIP = externalFWBox.Text;
             extRouterIP = externalRouterBox.Text;
             extFWMask = extFirewallMaskBox.Text;
@@ -58,7 +59,7 @@ namespace LDGManagementApplication
                 MessageBox.Show("Please enter both IP addresses", "Error inputting values", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            progressExtNetwork.Value = 10;
+            progressExtNetwork.Value = 15;
             External externalConfig = new External();
             externalConfig.External_Config(extRouterIP, extFWIP, extFWMask);
 

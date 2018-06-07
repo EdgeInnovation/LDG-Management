@@ -44,7 +44,7 @@ namespace LDGManagementApplication
 
             //this is the command to log in to the firewall
             inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
-            Thread.Sleep(2000);
+            Thread.Sleep(1500);
 
             //If Plink connection fails throw error and return
             if (plinkProcess.HasExited)
@@ -65,7 +65,7 @@ namespace LDGManagementApplication
             Thread.Sleep(1000);
 
             //ping BNAU for 3 counts
-            inputWriter.WriteLine("ping -c 2" + IPAddr);
+            inputWriter.WriteLine("ping -c 2 " + IPAddr);
             Thread.Sleep(1000);
 
             //check if interface is up, search for "status: active" 
@@ -102,7 +102,7 @@ namespace LDGManagementApplication
                 }
             }
             catch (Exception)
-            {
+            {               
                 //error message
                 MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 configSuccess = false;
@@ -161,19 +161,15 @@ namespace LDGManagementApplication
 
             //Password is zebra
             inputOSPFWriter.WriteLine("zebra");
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
             //Enable the full command set
             inputOSPFWriter.WriteLine("en");
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
             //Enter Configuration mode
             inputOSPFWriter.WriteLine("conf t");
-            Thread.Sleep(1000);
-
-            //Enable routing server
-            inputOSPFWriter.WriteLine("router ospf");
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
             //Enable routing server
             inputOSPFWriter.WriteLine("router ospf");
@@ -231,7 +227,7 @@ namespace LDGManagementApplication
             //define the internal commands
             string internalInterfaceCommand = ("cf interface modify name=\"Internal BCIP\" addresses=" + firewallIPAddr + "/24");
             string internalObjectsCommand = ("cf ipaddr modify name=\"Internal BCIP BNAU\" ipaddr=" + internalIPAddr +
-                "&" + "cf ipaddr modify name=\"Internal BCIP Firewall\" ipaddr=" + firewallIPAddr);
+                " & " + "cf ipaddr modify name=\"Internal BCIP Firewall\" ipaddr=" + firewallIPAddr);
             string interfaceStatusCommand = "ifconfig 1-6";
 
             //call putty passing in the internal commands
@@ -307,8 +303,8 @@ namespace LDGManagementApplication
         {
             //frig it so that the interface command is actually tracks rules set up
             string tracksRulesCommand = ("cf policy modify name=\"Tracks to External 1\" disable=no & cf policy modify name =\"Tracks from External 1\" disable=no");
-            string tracksObjectsCommand = ("cf ipaddr modify name =\"DMZ BCIP Tracks Gateway\" ipaddr=" + tracksSelectedIP +
-                "& cf ipaddr modify name=\"External 1 Tracks Server\" ipaddr=" + externalTracksIP);
+            string tracksObjectsCommand = ("cf ipaddr modify name=\"DMZ BCIP Tracks Gateway\" ipaddr=" + tracksSelectedIP +
+                " & cf ipaddr modify name=\"External 1 Tracks Server\" ipaddr=" + externalTracksIP);
 
             //dont have an interface for tracks, instead we want to ping the external server
             string interfaceStatusCommand = "ping -c 2 " + externalTracksIP;
@@ -325,8 +321,8 @@ namespace LDGManagementApplication
         {
             //frig it so that the interface command is actually tracks rules set up
             string mailRulesCommand = ("cf policy modify name=\"Email to External 1\" disable=no & cf policy modify name =\"Email from External 1\" disable=no");
-            string mailObjectsCommand = ("cf ipaddr modify name =\"DMZ BCIP Email Gateway\" ipaddr=" + mailSelectedIP +
-                "& cf ipaddr modify name=\"External 1 Email Server\" ipaddr=" + externalMailIP);
+            string mailObjectsCommand = ("cf ipaddr modify name=\"DMZ BCIP Email Gateway - External\" ipaddr=" + mailSelectedIP +
+                " & cf ipaddr modify name=\"External 1 Email Server\" ipaddr=" + externalMailIP);
 
             //dont have an interface for tracks, instead we want to ping the external server
             string interfaceStatusCommand = "ping -c 2 " + externalMailIP;
@@ -343,8 +339,7 @@ namespace LDGManagementApplication
         {
             //frig it so that the interface command is actually tracks rules set up
             string mailRulesCommand = ("cf policy modify name=\"Chat to External 1\" disable=no & cf policy modify name =\"Chat from External 1\" disable=no");
-            string mailObjectsCommand = ("cf ipaddr modify name =\"DMZ BCIP Chat Gateway\" ipaddr=" + mailSelectedIP +
-                "& cf ipaddr modify name=\"External 1 Chat Server\" ipaddr=" + externalMailIP);
+            string mailObjectsCommand = ("cf ipaddr modify name=\"External 1 Chat Server\" ipaddr=" + externalMailIP);
 
             //dont have an interface for tracks, instead we want to ping the external server
             string interfaceStatusCommand = "ping -c 2 " + externalMailIP;
@@ -361,8 +356,8 @@ namespace LDGManagementApplication
         {
             //frig it so that the interface command is actually tracks rules set up
             string mailRulesCommand = ("cf policy modify name=\"OSW WMS External 1\" disable=no");
-            string mailObjectsCommand = ("cf ipaddr modify name =\"DMZ BCIP OSW Gateway\" ipaddr=" + mailSelectedIP +
-                "& cf ipaddr modify name=\"External 1 Sharepoint Server\" ipaddr=" + externalMailIP);
+            string mailObjectsCommand = ("cf ipaddr modify name=\"DMZ BCIP OSW Gateway\" ipaddr=" + mailSelectedIP +
+                " & cf ipaddr modify name=\"External 1 Sharepoint Server\" ipaddr=" + externalMailIP);
             //and sharepoint URL??
 
             //dont have an interface for tracks, instead we want to ping the external server
