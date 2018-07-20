@@ -170,7 +170,7 @@
             this.OSPFConfig.Location = new System.Drawing.Point(229, 222);
             this.OSPFConfig.Name = "OSPFConfig";
             this.OSPFConfig.Size = new System.Drawing.Size(93, 39);
-            this.OSPFConfig.TabIndex = 5;
+            this.OSPFConfig.TabIndex = 0;
             this.OSPFConfig.Text = "Configure OSPF";
             this.OSPFConfig.UseVisualStyleBackColor = true;
             this.OSPFConfig.Click += new System.EventHandler(this.OSPFConfig_Click);
@@ -180,7 +180,7 @@
             this.returnNetworkConfig.Location = new System.Drawing.Point(6, 222);
             this.returnNetworkConfig.Name = "returnNetworkConfig";
             this.returnNetworkConfig.Size = new System.Drawing.Size(93, 39);
-            this.returnNetworkConfig.TabIndex = 4;
+            this.returnNetworkConfig.TabIndex = 1;
             this.returnNetworkConfig.Text = "Return to Network Config";
             this.returnNetworkConfig.UseVisualStyleBackColor = true;
             this.returnNetworkConfig.Click += new System.EventHandler(this.returnNetworkConfig_Click);

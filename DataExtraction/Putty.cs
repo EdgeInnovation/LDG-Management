@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Threading;
 using System.IO;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace LDGManagementApplication
 {
@@ -42,8 +44,11 @@ namespace LDGManagementApplication
             StreamReader outputReader = plinkProcess.StandardOutput;
             StreamReader errorReader = plinkProcess.StandardError;
 
+            //get the connection ip from the config file
+            string connectionIP = ConfigurationManager.AppSettings.Get("ConnectionIP");
+
             //this is the command to log in to the firewall
-            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
+            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" " + connectionIP + " -l " + username + " -pw " + password);
             Thread.Sleep(1500);
 
             //If Plink connection fails throw error and return
@@ -107,16 +112,16 @@ namespace LDGManagementApplication
                 MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 configSuccess = false;
                 return;
-            }          
+            }
         }
 
+        //Set up another connection with Putty to configure OSPF//
         public void Configure_OSPF(string networkIDCommand, string networkCommand)
         {
             //retrieve information from userinput
             string username = MainGUI.username;
             string password = MainGUI.password;
-
-            //Set up another connection with Putty to configure OSPF//
+                        
             //start the command line process
             ProcessStartInfo psi = new ProcessStartInfo(@"C:\Windows\System32\cmd")
             {
@@ -139,8 +144,11 @@ namespace LDGManagementApplication
             StreamReader outputOSPFReader = plinkOSPFProcess.StandardOutput;
             StreamReader errorOSPFReader = plinkOSPFProcess.StandardError;
 
+            //get the connection ip from the config file
+            string connectionIP = ConfigurationManager.AppSettings.Get("ConnectionIP");
+
             //this is the command to log in to the firewall
-            inputOSPFWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
+            inputOSPFWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" " + connectionIP + " -l " + username + " -pw " + password);
             Thread.Sleep(2000);
 
             //If Plink connection fails throw error and return
@@ -175,7 +183,7 @@ namespace LDGManagementApplication
             inputOSPFWriter.WriteLine("router ospf");
             Thread.Sleep(1000);
 
-            //remove default IPs, check if correct
+            //remove default IPs
             inputOSPFWriter.WriteLine("no network 1.1.1.1/24 area 0");
             Thread.Sleep(500);
             inputOSPFWriter.WriteLine("no network 2.2.2.2/24 area 0");
@@ -185,7 +193,7 @@ namespace LDGManagementApplication
             inputOSPFWriter.WriteLine(networkIDCommand);
             Thread.Sleep(1000);
 
-            //Edit the 1st network to be the internal BCIP IP
+            //Edit the netowrk IPs
             inputOSPFWriter.WriteLine(networkCommand);
             Thread.Sleep(1000);
 
@@ -253,12 +261,19 @@ namespace LDGManagementApplication
             string[] chatGWArray = DMZchatGW.Split('.');
             string chatGWSubnet = chatGWArray[0] + "." + chatGWArray[1] + "." + chatGWArray[2];
 
-            //produce every other IP
-            string DMZIPAddr = chatGWSubnet + ".0";
-            string DMZBQSIP = chatGWSubnet + ".1";
-            string DMZFirewallExt = chatGWSubnet + ".17";
-            string DMZFirewallMIP = chatGWSubnet + ".100";
-            string DMZFirewallExtWMS = chatGWSubnet + ".18";
+            //retrieve fourth octets of IP's from config file
+            string DMZIP_FO = ConfigurationManager.AppSettings.Get("DMZIP");
+            string DMZBQSIP_FO = ConfigurationManager.AppSettings.Get("BNAUIP");
+            string DMZFirewallExt_FO = ConfigurationManager.AppSettings.Get("FirewallIP");
+            string DMZFirewallMIP_FO = ConfigurationManager.AppSettings.Get("DMZFirewallMIP");
+            string DMZFirewallExtWMS_FO = ConfigurationManager.AppSettings.Get("DMZFirewallExtWMS");
+
+            //produce every other IP from the subnet and the fourth octets
+            string DMZIPAddr = chatGWSubnet + DMZIP_FO;
+            string DMZBQSIP = chatGWSubnet + DMZBQSIP_FO;
+            string DMZFirewallExt = chatGWSubnet + DMZFirewallExt_FO;
+            string DMZFirewallMIP = chatGWSubnet + DMZFirewallMIP_FO;
+            string DMZFirewallExtWMS = chatGWSubnet + DMZFirewallExtWMS_FO;
 
             //sub commands for netowrk objects
             string DMZNetObjChatGW = ("cf ipaddr modify name=\"DMZ BCIP Chat Gateway\" ipaddr=" + DMZchatGW);

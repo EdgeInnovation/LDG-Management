@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Threading;
 using System.IO;
+using System.Configuration;
 
 namespace LDGManagementApplication
 {
@@ -28,7 +29,8 @@ namespace LDGManagementApplication
         private void ConfigureButton_Click(object sender, EventArgs e)
         {
             progressIntNetwork.Value = 5;
-            //call the extract data class, saying that this isn't the LDG plan and get the list 
+
+            //call the extract data class,and get the list 
             ExtractData extractInternalData = new ExtractData();
             extractInternalData.Extract_Internal_Data();
             List<string> internalExtractedData = extractInternalData.GetInternalList();
@@ -38,11 +40,14 @@ namespace LDGManagementApplication
                 return;
             }
 
+            //get the fourth octet of the firewall IP from config file
+            string firewallIP_FO = ConfigurationManager.AppSettings.Get("FirewallIP");
+
             //produce the subnet IP & the firewall IP from the internal IP
             internalIPAddr = internalExtractedData[0];
             string[] internalIPArray = internalIPAddr.Split('.');
             BNAUSubnetIP = internalIPArray[0] + "." + internalIPArray[1] + "." + internalIPArray[2];
-            firewallIPAddr = BNAUSubnetIP + ".17";
+            firewallIPAddr = BNAUSubnetIP + firewallIP_FO;
             ConfigBNAUSubnetBox.Text = BNAUSubnetIP;
 
             progressIntNetwork.Value = 15;

@@ -169,9 +169,9 @@
             // 
             this.returnConfig.Location = new System.Drawing.Point(6, 256);
             this.returnConfig.Name = "returnConfig";
-            this.returnConfig.Size = new System.Drawing.Size(87, 27);
+            this.returnConfig.Size = new System.Drawing.Size(97, 27);
             this.returnConfig.TabIndex = 1;
-            this.returnConfig.Text = "Return to Set up";
+            this.returnConfig.Text = "Return to Set Up";
             this.returnConfig.UseVisualStyleBackColor = true;
             this.returnConfig.Click += new System.EventHandler(this.returnConfig_Click);
             // 
@@ -255,7 +255,7 @@
             this.OSPFConfig.Location = new System.Drawing.Point(229, 222);
             this.OSPFConfig.Name = "OSPFConfig";
             this.OSPFConfig.Size = new System.Drawing.Size(93, 39);
-            this.OSPFConfig.TabIndex = 3;
+            this.OSPFConfig.TabIndex = 0;
             this.OSPFConfig.Text = "Configure OSPF";
             this.OSPFConfig.UseVisualStyleBackColor = true;
             this.OSPFConfig.Click += new System.EventHandler(this.OSPFConfig_Click);
@@ -265,7 +265,7 @@
             this.returnNetworkTest.Location = new System.Drawing.Point(6, 222);
             this.returnNetworkTest.Name = "returnNetworkTest";
             this.returnNetworkTest.Size = new System.Drawing.Size(93, 39);
-            this.returnNetworkTest.TabIndex = 2;
+            this.returnNetworkTest.TabIndex = 1;
             this.returnNetworkTest.Text = "Return to Network Config";
             this.returnNetworkTest.UseVisualStyleBackColor = true;
             this.returnNetworkTest.Click += new System.EventHandler(this.returnNetworkTest_Click);

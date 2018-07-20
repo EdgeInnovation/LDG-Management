@@ -97,3 +97,4 @@ C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\D
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\LDGManagementApplication.ExternalConfig.resources
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\LDGManagementApplication.exe
 C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\LDGManagementApplication.pdb
+C:\Users\Mike\Documents\Visual Studio 2017\Projects\LDG Management Application\DataExtraction\obj\Release\LDG Management Application.csprojResolveAssemblyReference.cache

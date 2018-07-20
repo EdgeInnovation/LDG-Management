@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using System.Configuration;
 
 namespace LDGManagementApplication
 {
@@ -35,7 +36,7 @@ namespace LDGManagementApplication
         }
        
         //
-        //DATA EXTRACTION
+        //main gui
         //
 
         private void BNAUConfigButton_Click(object sender, EventArgs e)
@@ -88,7 +89,6 @@ namespace LDGManagementApplication
                 ExternalConfig externalForm = new ExternalConfig();
                 externalForm.Show();
             }
-
         }
 
         private void serviceConfigButton_Click(object sender, EventArgs e)
@@ -120,6 +120,7 @@ namespace LDGManagementApplication
                 }
             }
         }
+
         //
         //MONITORING TAB
         //
@@ -146,15 +147,20 @@ namespace LDGManagementApplication
         public void pingTimer_Tick(object sender, EventArgs e)
         {
             pingTimer.Stop();
+
+            //get the fourth octet of the firewall ip from the config file
+            string firewallIP_FO = ConfigurationManager.AppSettings.Get("FirewallIP");
+            string BNAUIP_FO = ConfigurationManager.AppSettings.Get("BNAUIP");
+
             //get the BNAUIP from the subnet
             string BNAUSubnetIP = MonitorBNAUSubnetBox.Text;
-            string BNAUIPAddress = BNAUSubnetIP + ".1";
-            string BNAUFWAddress = BNAUSubnetIP + ".17";
+            string BNAUIPAddress = BNAUSubnetIP + BNAUIP_FO;
+            string BNAUFWAddress = BNAUSubnetIP + firewallIP_FO;
 
             if (BNAUSubnetIP == "")
             {
                 pingTimer.Stop();
-                MessageBox.Show("Please enter the BNAU subnet IP Address to Monitor", "Error");                
+                MessageBox.Show("Please enter the BNAU subnet IP Address or begin Internal Config to Monitor", "Please Enter IP", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);                
                 return;
             }
             //call the ping class, passing in the BNAU IP and then get result
@@ -185,8 +191,6 @@ namespace LDGManagementApplication
                 firewallPingControl.FillColor = Color.Red;
             }
 
-            //for demo just stop the timer to stop it lagging
-            pingTimer.Stop();
 
             //standard error:
             if (pingBNAUResult == false || pingFWResult == false)

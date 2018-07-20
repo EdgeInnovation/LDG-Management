@@ -165,7 +165,7 @@
             this.backToHome.Location = new System.Drawing.Point(6, 259);
             this.backToHome.Name = "backToHome";
             this.backToHome.Size = new System.Drawing.Size(75, 23);
-            this.backToHome.TabIndex = 8;
+            this.backToHome.TabIndex = 5;
             this.backToHome.Text = "Back";
             this.backToHome.UseVisualStyleBackColor = true;
             this.backToHome.Click += new System.EventHandler(this.backToHome_Click);
@@ -175,7 +175,7 @@
             this.nextFromChoose.Location = new System.Drawing.Point(246, 259);
             this.nextFromChoose.Name = "nextFromChoose";
             this.nextFromChoose.Size = new System.Drawing.Size(75, 23);
-            this.nextFromChoose.TabIndex = 5;
+            this.nextFromChoose.TabIndex = 4;
             this.nextFromChoose.Text = "Next";
             this.nextFromChoose.UseVisualStyleBackColor = true;
             this.nextFromChoose.Click += new System.EventHandler(this.nextFromChoose_Click);
@@ -186,7 +186,7 @@
             this.tracksCheckBox.Location = new System.Drawing.Point(69, 89);
             this.tracksCheckBox.Name = "tracksCheckBox";
             this.tracksCheckBox.Size = new System.Drawing.Size(59, 17);
-            this.tracksCheckBox.TabIndex = 4;
+            this.tracksCheckBox.TabIndex = 0;
             this.tracksCheckBox.Text = "Tracks";
             this.tracksCheckBox.UseVisualStyleBackColor = true;
             // 
@@ -276,14 +276,14 @@
             this.externalChatBox.Location = new System.Drawing.Point(164, 183);
             this.externalChatBox.Name = "externalChatBox";
             this.externalChatBox.Size = new System.Drawing.Size(100, 20);
-            this.externalChatBox.TabIndex = 8;
+            this.externalChatBox.TabIndex = 0;
             // 
             // chooseFromChat
             // 
             this.chooseFromChat.Location = new System.Drawing.Point(6, 259);
             this.chooseFromChat.Name = "chooseFromChat";
             this.chooseFromChat.Size = new System.Drawing.Size(75, 23);
-            this.chooseFromChat.TabIndex = 7;
+            this.chooseFromChat.TabIndex = 2;
             this.chooseFromChat.Text = "Back";
             this.chooseFromChat.UseVisualStyleBackColor = true;
             this.chooseFromChat.Click += new System.EventHandler(this.chooseFromChat_Click);
@@ -293,7 +293,7 @@
             this.nextFromChat.Location = new System.Drawing.Point(246, 259);
             this.nextFromChat.Name = "nextFromChat";
             this.nextFromChat.Size = new System.Drawing.Size(75, 23);
-            this.nextFromChat.TabIndex = 6;
+            this.nextFromChat.TabIndex = 1;
             this.nextFromChat.Text = "Next";
             this.nextFromChat.UseVisualStyleBackColor = true;
             this.nextFromChat.Click += new System.EventHandler(this.nextFromChat_Click);
@@ -421,7 +421,7 @@
             this.externalTracksBox.Location = new System.Drawing.Point(173, 173);
             this.externalTracksBox.Name = "externalTracksBox";
             this.externalTracksBox.Size = new System.Drawing.Size(100, 20);
-            this.externalTracksBox.TabIndex = 16;
+            this.externalTracksBox.TabIndex = 0;
             // 
             // tracksStatusStrip
             // 
@@ -480,7 +480,7 @@
             this.chooseFromTracks.Location = new System.Drawing.Point(10, 237);
             this.chooseFromTracks.Name = "chooseFromTracks";
             this.chooseFromTracks.Size = new System.Drawing.Size(75, 23);
-            this.chooseFromTracks.TabIndex = 10;
+            this.chooseFromTracks.TabIndex = 2;
             this.chooseFromTracks.Text = "Back";
             this.chooseFromTracks.UseVisualStyleBackColor = true;
             this.chooseFromTracks.Click += new System.EventHandler(this.chooseFromTracks_Click);
@@ -490,7 +490,7 @@
             this.configureTracks.Location = new System.Drawing.Point(246, 237);
             this.configureTracks.Name = "configureTracks";
             this.configureTracks.Size = new System.Drawing.Size(75, 23);
-            this.configureTracks.TabIndex = 9;
+            this.configureTracks.TabIndex = 1;
             this.configureTracks.Text = "Configure";
             this.configureTracks.UseVisualStyleBackColor = true;
             this.configureTracks.Click += new System.EventHandler(this.configureTracks_Click);
@@ -515,7 +515,7 @@
             this.backFromTracksNet.Location = new System.Drawing.Point(6, 259);
             this.backFromTracksNet.Name = "backFromTracksNet";
             this.backFromTracksNet.Size = new System.Drawing.Size(75, 23);
-            this.backFromTracksNet.TabIndex = 12;
+            this.backFromTracksNet.TabIndex = 1;
             this.backFromTracksNet.Text = "Back";
             this.backFromTracksNet.UseVisualStyleBackColor = true;
             this.backFromTracksNet.Click += new System.EventHandler(this.backFromTracksNet_Click);
@@ -525,7 +525,7 @@
             this.tracksNetTestButton.Location = new System.Drawing.Point(246, 259);
             this.tracksNetTestButton.Name = "tracksNetTestButton";
             this.tracksNetTestButton.Size = new System.Drawing.Size(75, 23);
-            this.tracksNetTestButton.TabIndex = 11;
+            this.tracksNetTestButton.TabIndex = 0;
             this.tracksNetTestButton.Text = "Test";
             this.tracksNetTestButton.UseVisualStyleBackColor = true;
             this.tracksNetTestButton.Click += new System.EventHandler(this.tracksNetTestButton_Click);
@@ -598,7 +598,7 @@
             this.backFromChatNet.Location = new System.Drawing.Point(6, 259);
             this.backFromChatNet.Name = "backFromChatNet";
             this.backFromChatNet.Size = new System.Drawing.Size(75, 23);
-            this.backFromChatNet.TabIndex = 14;
+            this.backFromChatNet.TabIndex = 1;
             this.backFromChatNet.Text = "Back";
             this.backFromChatNet.UseVisualStyleBackColor = true;
             this.backFromChatNet.Click += new System.EventHandler(this.backFromChatNet_Click);
@@ -608,7 +608,7 @@
             this.chatNetTestButton.Location = new System.Drawing.Point(246, 259);
             this.chatNetTestButton.Name = "chatNetTestButton";
             this.chatNetTestButton.Size = new System.Drawing.Size(75, 23);
-            this.chatNetTestButton.TabIndex = 13;
+            this.chatNetTestButton.TabIndex = 0;
             this.chatNetTestButton.Text = "Test";
             this.chatNetTestButton.UseVisualStyleBackColor = true;
             this.chatNetTestButton.Click += new System.EventHandler(this.chatNetTestButton_Click);
@@ -691,14 +691,14 @@
             this.externalMailBox.Location = new System.Drawing.Point(173, 173);
             this.externalMailBox.Name = "externalMailBox";
             this.externalMailBox.Size = new System.Drawing.Size(100, 20);
-            this.externalMailBox.TabIndex = 21;
+            this.externalMailBox.TabIndex = 0;
             // 
             // chooseFromMail
             // 
             this.chooseFromMail.Location = new System.Drawing.Point(6, 259);
             this.chooseFromMail.Name = "chooseFromMail";
             this.chooseFromMail.Size = new System.Drawing.Size(75, 23);
-            this.chooseFromMail.TabIndex = 19;
+            this.chooseFromMail.TabIndex = 2;
             this.chooseFromMail.Text = "Back";
             this.chooseFromMail.UseVisualStyleBackColor = true;
             this.chooseFromMail.Click += new System.EventHandler(this.chooseFromMail_Click);
@@ -708,7 +708,7 @@
             this.configureMail.Location = new System.Drawing.Point(246, 259);
             this.configureMail.Name = "configureMail";
             this.configureMail.Size = new System.Drawing.Size(75, 23);
-            this.configureMail.TabIndex = 18;
+            this.configureMail.TabIndex = 1;
             this.configureMail.Text = "Configure";
             this.configureMail.UseVisualStyleBackColor = true;
             this.configureMail.Click += new System.EventHandler(this.configureMail_Click);
@@ -750,7 +750,7 @@
             this.backFromMailNet.Location = new System.Drawing.Point(5, 260);
             this.backFromMailNet.Name = "backFromMailNet";
             this.backFromMailNet.Size = new System.Drawing.Size(75, 23);
-            this.backFromMailNet.TabIndex = 16;
+            this.backFromMailNet.TabIndex = 1;
             this.backFromMailNet.Text = "Back";
             this.backFromMailNet.UseVisualStyleBackColor = true;
             this.backFromMailNet.Click += new System.EventHandler(this.backFromMailNet_Click);
@@ -760,7 +760,7 @@
             this.mailNetTestButton.Location = new System.Drawing.Point(245, 260);
             this.mailNetTestButton.Name = "mailNetTestButton";
             this.mailNetTestButton.Size = new System.Drawing.Size(75, 23);
-            this.mailNetTestButton.TabIndex = 15;
+            this.mailNetTestButton.TabIndex = 0;
             this.mailNetTestButton.Text = "Test";
             this.mailNetTestButton.UseVisualStyleBackColor = true;
             this.mailNetTestButton.Click += new System.EventHandler(this.mailNetTestButton_Click);
@@ -843,14 +843,14 @@
             this.externalOSWBox.Location = new System.Drawing.Point(173, 173);
             this.externalOSWBox.Name = "externalOSWBox";
             this.externalOSWBox.Size = new System.Drawing.Size(100, 20);
-            this.externalOSWBox.TabIndex = 27;
+            this.externalOSWBox.TabIndex = 0;
             // 
             // chooseFromOSW
             // 
             this.chooseFromOSW.Location = new System.Drawing.Point(6, 259);
             this.chooseFromOSW.Name = "chooseFromOSW";
             this.chooseFromOSW.Size = new System.Drawing.Size(75, 23);
-            this.chooseFromOSW.TabIndex = 26;
+            this.chooseFromOSW.TabIndex = 2;
             this.chooseFromOSW.Text = "Back";
             this.chooseFromOSW.UseVisualStyleBackColor = true;
             this.chooseFromOSW.Click += new System.EventHandler(this.chooseFromOSW_Click);
@@ -860,7 +860,7 @@
             this.configureOSW.Location = new System.Drawing.Point(246, 259);
             this.configureOSW.Name = "configureOSW";
             this.configureOSW.Size = new System.Drawing.Size(75, 23);
-            this.configureOSW.TabIndex = 25;
+            this.configureOSW.TabIndex = 1;
             this.configureOSW.Text = "Configure";
             this.configureOSW.UseVisualStyleBackColor = true;
             this.configureOSW.Click += new System.EventHandler(this.configureOSW_Click);
@@ -902,7 +902,7 @@
             this.backFromOSWNet.Location = new System.Drawing.Point(7, 260);
             this.backFromOSWNet.Name = "backFromOSWNet";
             this.backFromOSWNet.Size = new System.Drawing.Size(75, 23);
-            this.backFromOSWNet.TabIndex = 16;
+            this.backFromOSWNet.TabIndex = 1;
             this.backFromOSWNet.Text = "Back";
             this.backFromOSWNet.UseVisualStyleBackColor = true;
             this.backFromOSWNet.Click += new System.EventHandler(this.backFromOSWNet_Click);
@@ -912,7 +912,7 @@
             this.OSWNetTestButton.Location = new System.Drawing.Point(247, 260);
             this.OSWNetTestButton.Name = "OSWNetTestButton";
             this.OSWNetTestButton.Size = new System.Drawing.Size(75, 23);
-            this.OSWNetTestButton.TabIndex = 15;
+            this.OSWNetTestButton.TabIndex = 0;
             this.OSWNetTestButton.Text = "Test";
             this.OSWNetTestButton.UseVisualStyleBackColor = true;
             this.OSWNetTestButton.Click += new System.EventHandler(this.OSWNetTestButton_Click);

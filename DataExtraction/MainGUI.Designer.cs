@@ -62,7 +62,7 @@
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.Size = new System.Drawing.Size(365, 241);
-            this.TabControl.TabIndex = 2;
+            this.TabControl.TabIndex = 0;
             // 
             // Configuration
             // 
@@ -98,14 +98,14 @@
             this.passwordBox.Name = "passwordBox";
             this.passwordBox.PasswordChar = '*';
             this.passwordBox.Size = new System.Drawing.Size(97, 20);
-            this.passwordBox.TabIndex = 17;
+            this.passwordBox.TabIndex = 1;
             // 
             // usernameBox
             // 
             this.usernameBox.Location = new System.Drawing.Point(154, 70);
             this.usernameBox.Name = "usernameBox";
             this.usernameBox.Size = new System.Drawing.Size(97, 20);
-            this.usernameBox.TabIndex = 16;
+            this.usernameBox.TabIndex = 0;
             // 
             // label1
             // 
@@ -130,7 +130,7 @@
             this.externalButton.Location = new System.Drawing.Point(182, 160);
             this.externalButton.Name = "externalButton";
             this.externalButton.Size = new System.Drawing.Size(81, 45);
-            this.externalButton.TabIndex = 13;
+            this.externalButton.TabIndex = 4;
             this.externalButton.Text = "External 1 Configuration";
             this.externalButton.UseVisualStyleBackColor = true;
             this.externalButton.Click += new System.EventHandler(this.externalButton_Click);
@@ -140,7 +140,7 @@
             this.DMZConfigButton.Location = new System.Drawing.Point(95, 160);
             this.DMZConfigButton.Name = "DMZConfigButton";
             this.DMZConfigButton.Size = new System.Drawing.Size(81, 45);
-            this.DMZConfigButton.TabIndex = 12;
+            this.DMZConfigButton.TabIndex = 3;
             this.DMZConfigButton.Text = "DMZ Configuration";
             this.DMZConfigButton.UseVisualStyleBackColor = true;
             this.DMZConfigButton.Click += new System.EventHandler(this.DMZConfigButton_Click);
@@ -150,7 +150,7 @@
             this.serviceConfigButton.Location = new System.Drawing.Point(269, 160);
             this.serviceConfigButton.Name = "serviceConfigButton";
             this.serviceConfigButton.Size = new System.Drawing.Size(81, 45);
-            this.serviceConfigButton.TabIndex = 11;
+            this.serviceConfigButton.TabIndex = 5;
             this.serviceConfigButton.Text = "Service Configuration";
             this.serviceConfigButton.UseVisualStyleBackColor = true;
             this.serviceConfigButton.Click += new System.EventHandler(this.serviceConfigButton_Click);
@@ -160,7 +160,7 @@
             this.BNAUConfigButton.Location = new System.Drawing.Point(8, 160);
             this.BNAUConfigButton.Name = "BNAUConfigButton";
             this.BNAUConfigButton.Size = new System.Drawing.Size(81, 45);
-            this.BNAUConfigButton.TabIndex = 9;
+            this.BNAUConfigButton.TabIndex = 2;
             this.BNAUConfigButton.Text = "Internal Configuration";
             this.BNAUConfigButton.UseVisualStyleBackColor = true;
             this.BNAUConfigButton.Click += new System.EventHandler(this.BNAUConfigButton_Click);

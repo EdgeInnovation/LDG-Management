@@ -112,14 +112,7 @@ namespace LDGManagementApplication
             //find primary DNS
             firstDNS = LDGList[2];
 
-            chatListView.Scrollable = true;
-            chatListView.View = View.Details;
-            chatListView.HeaderStyle = ColumnHeaderStyle.None;
-            tracksListView.Scrollable = true;
-            tracksListView.View = View.Details;
-            tracksListView.HeaderStyle = ColumnHeaderStyle.None;
-
-            //create the headers
+            //create and manage the headers
             ColumnHeader tracksHeader = new ColumnHeader();
             ColumnHeader chatHeader = new ColumnHeader();
             ColumnHeader mailHeader = new ColumnHeader();
@@ -127,12 +120,16 @@ namespace LDGManagementApplication
 
             tracksHeader.Text = chatHeader.Text = mailHeader.Text = OSWHeader.Text = "Terminals";
             tracksHeader.Name = chatHeader.Name = mailHeader.Name = OSWHeader.Name = "Terminals";
-            chatListView.Columns.Add(chatHeader);
-            chatHeader.Width = chatListView.Width;
+
             tracksListView.Columns.Add(tracksHeader);
             tracksHeader.Width = tracksListView.Width;
-            mailListView.Columns.Add(mailHeader);
+
+            chatListView.Columns.Add(chatHeader);
             chatHeader.Width = chatListView.Width;
+
+            mailListView.Columns.Add(mailHeader);
+            mailHeader.Width = mailListView.Width;
+
             OSWListView.Columns.Add(OSWHeader);
             OSWHeader.Width = OSWListView.Width;
 
@@ -815,6 +812,7 @@ namespace LDGManagementApplication
             if (pingIntOSWResult == true && pingExtOSWResult == true)
             {
                 MessageBox.Show("Service Configuration Complete", "Configuration Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //close the form
                 Close();
             }
         }

@@ -92,7 +92,7 @@
             this.extRouterMaskBox.MaxLength = 2;
             this.extRouterMaskBox.Name = "extRouterMaskBox";
             this.extRouterMaskBox.Size = new System.Drawing.Size(19, 20);
-            this.extRouterMaskBox.TabIndex = 9;
+            this.extRouterMaskBox.TabIndex = 3;
             // 
             // extFirewallMaskBox
             // 
@@ -100,7 +100,7 @@
             this.extFirewallMaskBox.MaxLength = 2;
             this.extFirewallMaskBox.Name = "extFirewallMaskBox";
             this.extFirewallMaskBox.Size = new System.Drawing.Size(19, 20);
-            this.extFirewallMaskBox.TabIndex = 8;
+            this.extFirewallMaskBox.TabIndex = 1;
             this.extFirewallMaskBox.TextChanged += new System.EventHandler(this.UpdateMaskBox);
             // 
             // label5
@@ -157,14 +157,14 @@
             this.externalRouterBox.Location = new System.Drawing.Point(150, 121);
             this.externalRouterBox.Name = "externalRouterBox";
             this.externalRouterBox.Size = new System.Drawing.Size(100, 20);
-            this.externalRouterBox.TabIndex = 3;
+            this.externalRouterBox.TabIndex = 2;
             // 
             // nextButton
             // 
             this.nextButton.Location = new System.Drawing.Point(233, 235);
             this.nextButton.Name = "nextButton";
             this.nextButton.Size = new System.Drawing.Size(88, 24);
-            this.nextButton.TabIndex = 2;
+            this.nextButton.TabIndex = 4;
             this.nextButton.Text = "Configure";
             this.nextButton.UseVisualStyleBackColor = true;
             this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
@@ -223,7 +223,7 @@
             this.testButton.Location = new System.Drawing.Point(233, 250);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(88, 31);
-            this.testButton.TabIndex = 1;
+            this.testButton.TabIndex = 0;
             this.testButton.Text = "Test";
             this.testButton.UseVisualStyleBackColor = true;
             this.testButton.Click += new System.EventHandler(this.testButton_Click);
@@ -233,7 +233,7 @@
             this.backToStart.Location = new System.Drawing.Point(6, 250);
             this.backToStart.Name = "backToStart";
             this.backToStart.Size = new System.Drawing.Size(88, 31);
-            this.backToStart.TabIndex = 0;
+            this.backToStart.TabIndex = 1;
             this.backToStart.Text = "Back";
             this.backToStart.UseVisualStyleBackColor = true;
             this.backToStart.Click += new System.EventHandler(this.backToStart_Click);
@@ -268,13 +268,13 @@
             this.ExtRouterPingSignal.Name = "ExtRouterPingSignal";
             this.ExtRouterPingSignal.Size = new System.Drawing.Size(24, 22);
             // 
-            // serviceWizard
+            // ExternalConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(359, 337);
             this.Controls.Add(this.externalWizard);
-            this.Name = "serviceWizard";
+            this.Name = "ExternalConfig";
             this.Text = "External 1 Config";
             this.externalWizard.ResumeLayout(false);
             this.inputInfo.ResumeLayout(false);

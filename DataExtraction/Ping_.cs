@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Threading;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace LDGManagementApplication
 {
@@ -38,8 +39,11 @@ namespace LDGManagementApplication
             StreamReader outputReader = plinkProcess.StandardOutput;
             StreamReader errorReader = plinkProcess.StandardError;
 
-            //command to log in to the firewall
-            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" -ssh 192.168.150.1 -l " + username + " -pw " + password);
+            //get the connection ip from the config file
+            string connectionIP = ConfigurationManager.AppSettings.Get("ConnectionIP");
+
+            //this is the command to log in to the firewall
+            inputWriter.WriteLine(@" ""C:\Program Files (x86)\PuTTY\plink.exe"" " + connectionIP + " -l " + username + " -pw " + password);
             Thread.Sleep(1000);
 
             //give admin rights
@@ -78,7 +82,6 @@ namespace LDGManagementApplication
             {
                 pingResult = false;
             }
-
         }
     }
 }
