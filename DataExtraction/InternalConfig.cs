@@ -33,6 +33,7 @@ namespace LDGManagementApplication
             //call the extract data class,and get the list 
             ExtractData extractInternalData = new ExtractData();
             extractInternalData.Extract_Internal_Data();
+
             List<string> internalExtractedData = extractInternalData.GetInternalList();
             string path = ExtractData.internalBecFilePath;
             if (path == null)
@@ -78,6 +79,7 @@ namespace LDGManagementApplication
                 BNAUPlugged = false;
             }
             progressIntNetwork.Value = 85;
+
             //write log file
             WriteLog writeLog = new InternalLog();
             writeLog.WriteLogFile();

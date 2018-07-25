@@ -16,6 +16,58 @@ namespace LDGManagementApplication
         public static bool configSuccess, OSPFSuccess;
         public static string consoleOutput, errorLogOutput, errorOutput;
 
+        public virtual string interfaceCommand
+        {//placeholder to be overwritteen
+            get
+            {
+                string interfaceCommand = "general";
+                return interfaceCommand;
+            }
+        }
+
+        public virtual string netObjCommand
+        {//placeholder to be overwritteen
+            get
+            {
+                string netObjCommand = "general";
+                return netObjCommand;
+            }
+        }
+
+        public virtual string interfaceStatusCommand
+        {//placeholder to be overwritteen
+            get
+            {
+                string interfaceStatusCommand = "general";
+                return interfaceStatusCommand;
+            }
+        }
+        public virtual string IPAddr
+        {//placeholder to be overwritteen
+            get
+            {
+                string IPAddr = "general";
+                return IPAddr;
+            }
+        }
+
+        public virtual string networkIDCommand
+        {//placeholder to be overwritteen
+            get
+            {
+                string networkIDCommand = "general";
+                return networkIDCommand;
+            }
+        }
+
+        public virtual string networkCommand
+        {//placeholder to be overwritteen
+            get
+            {
+                string networkCommand = "general";
+                return networkCommand;
+            }
+        }
         public void Configure(string interfaceCommand, string netObjCommand, string IPAddr, string interfaceStatusCommand)
         {
             //retrieve information from userinput
@@ -69,7 +121,7 @@ namespace LDGManagementApplication
             inputWriter.WriteLine(netObjCommand);
             Thread.Sleep(1000);
 
-            //ping BNAU for 3 counts
+            //ping BNAU for 2 counts
             inputWriter.WriteLine("ping -c 2 " + IPAddr);
             Thread.Sleep(1000);
 
@@ -230,6 +282,14 @@ namespace LDGManagementApplication
 
     class Internal : Putty
     {
+        //public override string interfaceCommand
+        //{
+        //    //get
+        //    //{
+        //    //    string interfaceCommand = ("cf interface modify name=\"Internal BCIP\" addresses=" + firewallIPAddr + "/24");
+        //    //    return interfaceCommand;
+        //    //}
+        //}
         public void Internal_Config(string internalIPAddr, string firewallIPAddr)
         {
             //define the internal commands
