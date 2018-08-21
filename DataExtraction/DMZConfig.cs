@@ -82,13 +82,13 @@ namespace LDGManagementApplication
             DMZchatGW = externalExtractedData[2];
 
             //call the configure via putty class
-            DMZ DMZ_Config = new DMZ();
-            DMZ_Config.DMZ_Config(DMZchatGW);
+            Putty DMZ_Config = new DMZPutty(DMZchatGW);
+            DMZ_Config.Configure();
 
             progressDMZNetwork.Value = 80;
 
             //determine whether cable is connected from ifconfig status
-            if (DMZ.consoleOutput.Contains("status: active"))
+            if (DMZPutty.consoleOutput.Contains("status: active"))
             {
                 DMZPlugged = true;
             }
@@ -105,7 +105,7 @@ namespace LDGManagementApplication
             progressDMZNetwork.Value = 90;
 
             //go to next page if it succeeded
-            if (DMZ.configSuccess == true)
+            if (Putty.configSuccess == true)
             {
                 progressDMZNetwork.Value = 100;
                 DMZWizard.TabPages.Clear();
@@ -130,12 +130,12 @@ namespace LDGManagementApplication
         private void OSPFConfig_Click(object sender, EventArgs e)
         {
             progressDMZOSPF.Value = 5;
-            DMZ OSPF_DMZ = new DMZ();
-            OSPF_DMZ.OSPF_Config(DMZchatGW);
+            Putty OSPF_DMZ = new DMZPutty(DMZchatGW);
+            OSPF_DMZ.Configure_OSPF();
             progressDMZOSPF.Value = 65;
 
             //go to next page if it succeeded
-            if (DMZ.OSPFSuccess == true)
+            if (Putty.OSPFSuccess == true)
             {
                 progressDMZOSPF.Value = 100;
                 DMZWizard.TabPages.Clear();

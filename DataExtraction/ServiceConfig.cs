@@ -231,12 +231,12 @@ namespace LDGManagementApplication
             trackProgress.Value = 15;
             
             //call the putty tracks class
-            Tracks tracksConfig = new Tracks();
-            tracksConfig.Tracks_Config(tracksSelectedIP, externalTracksIP);
+            Putty tracksConfig = new TracksPutty(tracksSelectedIP, externalTracksIP);
+            tracksConfig.Configure();
             trackProgress.Value = 75;
 
             //get the ping success result
-            if (Tracks.consoleOutput.Contains("bytes from " + tracksSelectedIP))
+            if (Putty.consoleOutput.Contains("bytes from " + tracksSelectedIP))
             {
                 pingIntTracksResult = true;
             }
@@ -246,7 +246,7 @@ namespace LDGManagementApplication
             }
 
             //get the ping success result
-            if (Tracks.consoleOutput.Contains("bytes from " + externalTracksIP))
+            if (Putty.consoleOutput.Contains("bytes from " + externalTracksIP))
             {
                 pingExtTracksResult = true;
             }
@@ -256,7 +256,7 @@ namespace LDGManagementApplication
             }
 
             //go to next page if it succeeded
-            if (Tracks.configSuccess == true)
+            if (Putty.configSuccess == true)
             {
                 trackProgress.Value = 100;
                 //Hide tabs and show next
@@ -418,11 +418,11 @@ namespace LDGManagementApplication
                 return;
             }
             //call the putty chat class
-            Chat chatConfig = new Chat();
-            chatConfig.Chat_Config(chatSelectedIP, externalChatIP);
+            Putty chatConfig = new ChatPutty(chatSelectedIP, externalChatIP);
+            chatConfig.Configure();
 
             //get the ping success result
-            if (Chat.consoleOutput.Contains("bytes from " + chatSelectedIP))
+            if (ChatPutty.consoleOutput.Contains("bytes from " + chatSelectedIP))
             {
                 pingIntChatResult = true;
             }
@@ -432,7 +432,7 @@ namespace LDGManagementApplication
             }
 
             //get the ping success result
-            if (Chat.consoleOutput.Contains("bytes from " + externalChatIP))
+            if (Putty.consoleOutput.Contains("bytes from " + externalChatIP))
             {
                 pingExtChatResult = true;
             }
@@ -442,7 +442,7 @@ namespace LDGManagementApplication
             }
 
             //go to next page if it succeeded
-            if (Chat.configSuccess == true)
+            if (Putty.configSuccess == true)
             {
                 //Hide tabs and show next
                 servicesWizard.TabPages.Clear();
@@ -580,11 +580,11 @@ namespace LDGManagementApplication
             string mailSelectedIP = mailSelectedIPArray[2];
 
             //call the putty mail class
-            Mail mailConfig = new Mail();
-            mailConfig.Mail_Config(mailSelectedIP, externalMailIP);
+            Putty mailConfig = new MailPutty(mailSelectedIP, externalMailIP);
+            mailConfig.Configure();
 
             //get the ping success result
-            if (Mail.consoleOutput.Contains("bytes from " + mailSelectedIP))
+            if (MailPutty.consoleOutput.Contains("bytes from " + mailSelectedIP))
             {
                 pingIntMailResult = true;
             }
@@ -594,7 +594,7 @@ namespace LDGManagementApplication
             }
 
             //get the ping success result
-            if (Mail.consoleOutput.Contains("bytes from " + externalMailIP))
+            if (Putty.consoleOutput.Contains("bytes from " + externalMailIP))
             {
                 pingExtMailResult = true;
             }
@@ -604,7 +604,7 @@ namespace LDGManagementApplication
             }
 
             //go to next page if it succeeded
-            if (Mail.configSuccess == true)
+            if (Putty.configSuccess == true)
             {
                 //Hide tabs and show next
                 servicesWizard.TabPages.Clear();
@@ -727,11 +727,11 @@ namespace LDGManagementApplication
             string OSWSelectedIP = OSWSelectedIPArray[2];
 
             //call the putty mail class
-            OSW OSWConfig = new OSW();
-            OSWConfig.OSW_Config(OSWSelectedIP, externalOSWIP);
+            Putty OSWConfig = new OSWPutty(OSWSelectedIP, externalOSWIP);
+            OSWConfig.Configure();
 
             //get the ping success result
-            if (OSW.consoleOutput.Contains("bytes from " + OSWSelectedIP))
+            if (Putty.consoleOutput.Contains("bytes from " + OSWSelectedIP))
             {
                 pingIntOSWResult = true;
             }
@@ -741,7 +741,7 @@ namespace LDGManagementApplication
             }
 
             //get the ping success result
-            if (OSW.consoleOutput.Contains("bytes from " + externalOSWIP))
+            if (Putty.consoleOutput.Contains("bytes from " + externalOSWIP))
             {
                 pingExtOSWResult = true;
             }
@@ -751,7 +751,7 @@ namespace LDGManagementApplication
             }
 
             //go to next page if it succeeded
-            if (OSW.configSuccess == true)
+            if (Putty.configSuccess == true)
             {
                 //Hide tabs and show next
                 servicesWizard.TabPages.Clear();

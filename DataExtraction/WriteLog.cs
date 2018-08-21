@@ -10,21 +10,14 @@ namespace LDGManagementApplication
 {
     abstract class WriteLog
     {
-        public virtual string LogPath
-        {//placeholder to be overwritteen
-            get
-            {
-                string logPath = "general";
-                return logPath;
-            }
+        public abstract string LogPath
+        {
+            get;
         }
-        public virtual string ErrorOutput
-        {//placeholder to be overwritteen
-            get
-            {
-                string errorOutput = "general";
-                return errorOutput;
-            }
+
+        public abstract string ErrorOutput
+        {
+            get;
         }
         public void WriteLogFile ()
         {
@@ -74,7 +67,7 @@ namespace LDGManagementApplication
         {
             get
             {
-                string errorOutput = Internal.errorLogOutput;
+                string errorOutput = InternalPutty.errorLogOutput;
                 return errorOutput;
             }
         }
@@ -93,7 +86,7 @@ namespace LDGManagementApplication
         {
             get
             {
-                string errorOutput = DMZ.errorLogOutput;
+                string errorOutput = DMZPutty.errorLogOutput;
                 return errorOutput;
             }
         }
@@ -112,7 +105,7 @@ namespace LDGManagementApplication
         {
             get
             {
-                string errorOutput = External.errorLogOutput;
+                string errorOutput = ExternalPutty.errorLogOutput;
                 return errorOutput;
             }
         }

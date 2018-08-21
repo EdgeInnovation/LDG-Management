@@ -69,12 +69,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChatPutty.cs" />
     <Compile Include="DMZConfig.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DMZConfig.Designer.cs">
       <DependentUpon>DMZConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="DMZPutty.cs" />
+    <Compile Include="ExternalPutty.cs" />
+    <Compile Include="InternalPutty.cs" />
+    <Compile Include="MailPutty.cs" />
+    <Compile Include="OSWPutty.cs" />
     <Compile Include="Putty.cs" />
     <Compile Include="ServiceConfig.cs">
       <SubType>Form</SubType>
@@ -104,6 +110,7 @@
     <Compile Include="ExternalConfig.Designer.cs">
       <DependentUpon>ExternalConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="TracksPutty.cs" />
     <Compile Include="WriteLog.cs" />
     <EmbeddedResource Include="DMZConfig.resx">
       <DependentUpon>DMZConfig.cs</DependentUpon>
