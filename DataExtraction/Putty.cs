@@ -12,9 +12,9 @@ using System.Collections.Specialized;
 namespace LDGManagementApplication
 {
     //this is the abstract class that forms the basis for all putty interactions with the firewall. 
-    //what strings that will passed into Putty depending on which dervied class is called, each have override strings
+    //what strings that will passed into Putty depend on which dervied class is called
      public abstract class Putty
-    {
+     {
         public static bool configSuccess, OSPFSuccess;
         public static string consoleOutput, errorLogOutput, errorOutput, firewallIPAddr, internalIPAddr, chatGW, extRouterIP, extFWIP, extFWMask, selectedIP, externalIP;
         public abstract string interfaceCommand
@@ -242,5 +242,5 @@ namespace LDGManagementApplication
                 return;
             }
         }
-    }
+     }
 }

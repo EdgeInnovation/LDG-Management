@@ -130,7 +130,6 @@ namespace LDGManagementApplication
             BNAUWizard.TabPages.Clear();
             BNAUWizard.TabPages.Add(Network);
         }
-
         //return to config tab from test tab
         private void returnConfig_Click(object sender, EventArgs e)
         {
