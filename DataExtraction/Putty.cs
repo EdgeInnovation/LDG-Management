@@ -11,12 +11,26 @@ using System.Collections.Specialized;
 
 namespace LDGManagementApplication
 {
-    class Putty
-    {
+    //this is the abstract class that forms the basis for all putty interactions with the firewall. 
+    //what strings that will passed into Putty depend on which dervied class is called
+     public abstract class Putty
+     {
         public static bool configSuccess, OSPFSuccess;
-        public static string consoleOutput, errorLogOutput, errorOutput;
+        public static string consoleOutput, errorLogOutput, errorOutput, firewallIPAddr, internalIPAddr, chatGW, extRouterIP, extFWIP, extFWMask, selectedIP, externalIP;
+        public abstract string interfaceCommand
+        {
+            get;
+        }
+        public abstract string netObjCommand
+        {
+            get;
+        }
+        public abstract string interfaceStatusCommand
+        {
+            get;
+        }
 
-        public void Configure(string interfaceCommand, string netObjCommand, string IPAddr, string interfaceStatusCommand)
+        public void Configure()
         {
             //retrieve information from userinput
             string username = MainGUI.username;
@@ -70,7 +84,7 @@ namespace LDGManagementApplication
             Thread.Sleep(1000);
 
             //ping BNAU for 3 counts
-            inputWriter.WriteLine("ping -c 2 " + IPAddr);
+            inputWriter.WriteLine("ping -c 2 " + internalIPAddr);
             Thread.Sleep(1000);
 
             //check if interface is up, search for "status: active" 
@@ -107,21 +121,23 @@ namespace LDGManagementApplication
                 }
             }
             catch (Exception)
-            {               
+            {
                 //error message
                 MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 configSuccess = false;
                 return;
             }
         }
-
         //Set up another connection with Putty to configure OSPF//
-        public void Configure_OSPF(string networkIDCommand, string networkCommand)
+        public void Configure_OSPF()
         {
+            string networkIDCommand = ("router-id " + firewallIPAddr);
+            string networkCommand = ("network  " + internalIPAddr + "/24 area 0");
+
             //retrieve information from userinput
             string username = MainGUI.username;
             string password = MainGUI.password;
-                        
+
             //start the command line process
             ProcessStartInfo psi = new ProcessStartInfo(@"C:\Windows\System32\cmd")
             {
@@ -224,163 +240,7 @@ namespace LDGManagementApplication
                 MessageBox.Show("Connection to Firewall has exited. Please check logon credentials and connection to Firewall.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 OSPFSuccess = false;
                 return;
-            }        
+            }
         }
-    }
-
-    class Internal : Putty
-    {
-        public void Internal_Config(string internalIPAddr, string firewallIPAddr)
-        {
-            //define the internal commands
-            string internalInterfaceCommand = ("cf interface modify name=\"Internal BCIP\" addresses=" + firewallIPAddr + "/24");
-            string internalObjectsCommand = ("cf ipaddr modify name=\"Internal BCIP BNAU\" ipaddr=" + internalIPAddr +
-                " & " + "cf ipaddr modify name=\"Internal BCIP Firewall\" ipaddr=" + firewallIPAddr);
-            string interfaceStatusCommand = "ifconfig 1-6";
-
-            //call putty passing in the internal commands
-            Putty configureInternalFW = new Putty();
-            configureInternalFW.Configure(internalInterfaceCommand, internalObjectsCommand, internalIPAddr, interfaceStatusCommand);
-        }
-
-        public void OSPF_Config(string internalIPAddr, string firewallIPAddr)
-        {
-            string networkIDCommand = ("router-id " + firewallIPAddr);
-            string networkCommand = ("network  " + internalIPAddr + "/24 area 0");
-
-            Putty configureInternalOSPF = new Putty();
-            configureInternalOSPF.Configure_OSPF(networkIDCommand, networkCommand);
-        }                     
-    }
-
-    class DMZ : Putty
-    {
-        public void DMZ_Config(string DMZchatGW)
-        {
-            //produce the other IPs
-            string[] chatGWArray = DMZchatGW.Split('.');
-            string chatGWSubnet = chatGWArray[0] + "." + chatGWArray[1] + "." + chatGWArray[2];
-
-            //retrieve fourth octets of IP's from config file
-            string DMZIP_FO = ConfigurationManager.AppSettings.Get("DMZIP");
-            string DMZBQSIP_FO = ConfigurationManager.AppSettings.Get("BNAUIP");
-            string DMZFirewallExt_FO = ConfigurationManager.AppSettings.Get("FirewallIP");
-            string DMZFirewallMIP_FO = ConfigurationManager.AppSettings.Get("DMZFirewallMIP");
-            string DMZFirewallExtWMS_FO = ConfigurationManager.AppSettings.Get("DMZFirewallExtWMS");
-
-            //produce every other IP from the subnet and the fourth octets
-            string DMZIPAddr = chatGWSubnet + DMZIP_FO;
-            string DMZBQSIP = chatGWSubnet + DMZBQSIP_FO;
-            string DMZFirewallExt = chatGWSubnet + DMZFirewallExt_FO;
-            string DMZFirewallMIP = chatGWSubnet + DMZFirewallMIP_FO;
-            string DMZFirewallExtWMS = chatGWSubnet + DMZFirewallExtWMS_FO;
-
-            //sub commands for netowrk objects
-            string DMZNetObjChatGW = ("cf ipaddr modify name=\"DMZ BCIP Chat Gateway\" ipaddr=" + DMZchatGW);
-            string DMZNetObjFWBqs = ("cf ipaddr modify name=\"DMZ BCIP Firewall BQS\" ipaddr=" + DMZBQSIP);
-            string DMZNetObjFWExt1 = ("cf ipaddr modify name=\"DMZ BCIP Firewall External 1\" ipaddr=" + DMZFirewallExt);
-            string DMZNetObjFWMip = ("cf ipaddr modify name=\"DMZ BCIP Firewall MIP\" ipaddr=" + DMZFirewallMIP);
-
-            //define the DMZ commands
-            string DMZInterfaceCommand = ("cf interface modify name=\"DMZ BCIP\" addresses=" + DMZBQSIP + "/24," + DMZFirewallExt + "/24," + DMZFirewallExtWMS + "/24," + DMZFirewallMIP + "/24");
-            string DMZObjectsCommand = (DMZNetObjChatGW + " & " + DMZNetObjFWBqs + " & " + DMZNetObjFWExt1 + " & " + DMZNetObjFWMip);
-            string interfaceStatusCommand = "ifconfig 1-1";
-
-            Putty runPutty = new Putty();
-            runPutty.Configure(DMZInterfaceCommand, DMZObjectsCommand, DMZIPAddr, interfaceStatusCommand);
-        }
-        public void OSPF_Config(string DMZIPAddr)
-        {
-            string networkIDCommand = ("");//dont want to change network id
-            string networkCommand = ("network  " + DMZIPAddr + "/24 area 0");
-
-            Putty configureInternalOSPF = new Putty();
-            configureInternalOSPF.Configure_OSPF(networkIDCommand, networkCommand);
-        }
-    }
-
-    class External : Putty
-    {
-        public void External_Config(string extRouterIP, string extFWIP, string extFWMask)
-        {
-            string externalInterfaceCommand = ("cf interface modify name=\"External System 1\" addresses=" + extFWIP + "/" + extFWMask);
-            string externalObjectsCommand = "";
-            string externalStatusCommand = ("ifconfig 2-0");
-
-            Putty runPutty = new Putty();
-            runPutty.Configure(externalInterfaceCommand, externalObjectsCommand, extRouterIP, externalStatusCommand);
-        }
-    }
-
-    class Tracks : Putty
-    {
-        public void Tracks_Config(string tracksSelectedIP, string externalTracksIP)
-        {
-            //frig it so that the interface command is actually tracks rules set up
-            string tracksRulesCommand = ("cf policy modify name=\"Tracks to External 1\" disable=no & cf policy modify name =\"Tracks from External 1\" disable=no");
-            string tracksObjectsCommand = ("cf ipaddr modify name=\"DMZ BCIP Tracks Gateway\" ipaddr=" + tracksSelectedIP +
-                " & cf ipaddr modify name=\"External 1 Tracks Server\" ipaddr=" + externalTracksIP);
-
-            //dont have an interface for tracks, instead we want to ping the external server
-            string interfaceStatusCommand = "ping -c 2 " + externalTracksIP;
-
-            //call putty passing in the internal commands
-            Putty configureInternalFW = new Putty();
-            configureInternalFW.Configure(tracksRulesCommand, tracksObjectsCommand, tracksSelectedIP, interfaceStatusCommand);
-        }
-    }
-
-    class Mail : Putty
-    {
-        public void Mail_Config(string mailSelectedIP, string externalMailIP)
-        {
-            //frig it so that the interface command is actually tracks rules set up
-            string mailRulesCommand = ("cf policy modify name=\"Email to External 1\" disable=no & cf policy modify name =\"Email from External 1\" disable=no");
-            string mailObjectsCommand = ("cf ipaddr modify name=\"DMZ BCIP Email Gateway - External\" ipaddr=" + mailSelectedIP +
-                " & cf ipaddr modify name=\"External 1 Email Server\" ipaddr=" + externalMailIP);
-
-            //dont have an interface for tracks, instead we want to ping the external server
-            string interfaceStatusCommand = "ping -c 2 " + externalMailIP;
-
-            //call putty passing in the internal commands
-            Putty configureInternalFW = new Putty();
-            configureInternalFW.Configure(mailRulesCommand, mailObjectsCommand, mailSelectedIP, interfaceStatusCommand);
-        }
-    }
-
-    class Chat : Putty
-    {
-        public void Chat_Config(string mailSelectedIP, string externalMailIP)
-        {
-            //frig it so that the interface command is actually tracks rules set up
-            string mailRulesCommand = ("cf policy modify name=\"Chat to External 1\" disable=no & cf policy modify name =\"Chat from External 1\" disable=no");
-            string mailObjectsCommand = ("cf ipaddr modify name=\"External 1 Chat Server\" ipaddr=" + externalMailIP);
-
-            //dont have an interface for tracks, instead we want to ping the external server
-            string interfaceStatusCommand = "ping -c 2 " + externalMailIP;
-
-            //call putty passing in the internal commands
-            Putty configureInternalFW = new Putty();
-            configureInternalFW.Configure(mailRulesCommand, mailObjectsCommand, mailSelectedIP, interfaceStatusCommand);
-        }
-    }
-
-    class OSW : Putty
-    {
-        public void OSW_Config(string mailSelectedIP, string externalMailIP)
-        {
-            //frig it so that the interface command is actually tracks rules set up
-            string mailRulesCommand = ("cf policy modify name=\"OSW WMS External 1\" disable=no");
-            string mailObjectsCommand = ("cf ipaddr modify name=\"DMZ BCIP OSW Gateway\" ipaddr=" + mailSelectedIP +
-                " & cf ipaddr modify name=\"External 1 Sharepoint Server\" ipaddr=" + externalMailIP);
-            //and sharepoint URL??
-
-            //dont have an interface for tracks, instead we want to ping the external server
-            string interfaceStatusCommand = "ping -c 2 " + externalMailIP;
-
-            //call putty passing in the internal commands
-            Putty configureInternalFW = new Putty();
-            configureInternalFW.Configure(mailRulesCommand, mailObjectsCommand, mailSelectedIP, interfaceStatusCommand);
-        }
-    }
+     }
 }

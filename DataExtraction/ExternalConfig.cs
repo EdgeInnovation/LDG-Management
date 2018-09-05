@@ -60,11 +60,11 @@ namespace LDGManagementApplication
                 return;
             }
             progressExtNetwork.Value = 15;
-            External externalConfig = new External();
-            externalConfig.External_Config(extRouterIP, extFWIP, extFWMask);
+            Putty externalConfig = new ExternalPutty(extRouterIP, extFWIP, extFWMask);
+            externalConfig.Configure();
 
             //get the ping success result
-            if (External.consoleOutput.Contains("bytes from " + extRouterIP))
+            if (Putty.consoleOutput.Contains("bytes from " + extRouterIP))
             {
                 pingRouterResult = true;
             }
@@ -74,7 +74,7 @@ namespace LDGManagementApplication
             }
 
             //determine whether cable is connected from ifconfig status
-            if (Internal.consoleOutput.Contains("status: active"))
+            if (Putty.consoleOutput.Contains("status: active"))
             {
                 extPlugged = true;
             }
@@ -89,7 +89,7 @@ namespace LDGManagementApplication
             progressExtNetwork.Value = 80;
 
             //go to next page if it succeeded
-            if (External.configSuccess == true)
+            if (Putty.configSuccess == true)
             {
                 progressExtNetwork.Value = 100;
                 //Hide current tab and show next

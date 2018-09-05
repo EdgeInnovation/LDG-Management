@@ -53,13 +53,13 @@ namespace LDGManagementApplication
             progressIntNetwork.Value = 15;
             
             //call the putty internal class
-            Internal internalConfig = new Internal();
-            internalConfig.Internal_Config(internalIPAddr, firewallIPAddr);
+            Putty internalConfig = new InternalPutty(internalIPAddr, firewallIPAddr);
+            internalConfig.Configure();
 
             progressIntNetwork.Value = 80;
 
             //get the ping success result
-            if (Internal.consoleOutput.Contains("bytes from " + internalIPAddr))
+            if (Putty.consoleOutput.Contains("bytes from " + internalIPAddr))
             {
                 pingBNAUResult = true;
             }
@@ -69,7 +69,7 @@ namespace LDGManagementApplication
             }
 
             //determine whether cable is connected from ifconfig status
-            if (Internal.consoleOutput.Contains("status: active"))
+            if (Putty.consoleOutput.Contains("status: active"))
             {
                 BNAUPlugged = true;
             }
@@ -84,7 +84,7 @@ namespace LDGManagementApplication
             progressIntNetwork.Value = 90;
 
             //go to next page if it succeeded
-            if (Internal.configSuccess == true)
+            if (Putty.configSuccess == true)
             {
                 progressIntNetwork.Value = 100;
                 //Hide current tab and show next
@@ -105,12 +105,12 @@ namespace LDGManagementApplication
         private void OSPFConfig_Click(object sender, EventArgs e)
         {
             progressIntOSPF.Value = 5;
-            Internal internalOSPF = new Internal();
-            internalOSPF.OSPF_Config(internalIPAddr, firewallIPAddr);
+            Putty internalOSPF = new InternalPutty(internalIPAddr, firewallIPAddr);
+            internalOSPF.Configure_OSPF();
             progressIntOSPF.Value = 65;
 
             //go to next page if it succeeded
-            if (Internal.OSPFSuccess == true)
+            if (Putty.OSPFSuccess == true)
             {
                 progressIntOSPF.Value = 100;
                 //Hide current tab and show next
@@ -130,7 +130,6 @@ namespace LDGManagementApplication
             BNAUWizard.TabPages.Clear();
             BNAUWizard.TabPages.Add(Network);
         }
-
         //return to config tab from test tab
         private void returnConfig_Click(object sender, EventArgs e)
         {
